@@ -1,0 +1,6 @@
+{
+  "name": "Hilal KURTOĞLU - Öğretmen ve Öğrenci Portalı",
+  "description": "5. Sınıf Bilişim Teknolojileri ve Yazılım dersi materyalleri, yıllık plan, haftalık ders içerikleri, ders notları ve Bilişim Kahramanı eğitici oyunu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
