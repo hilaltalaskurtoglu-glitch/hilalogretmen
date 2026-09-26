@@ -33,7 +33,7 @@ export const AboutView: React.FC = () => {
             </p>
             <p className="text-xs md:text-sm text-slate-600 flex items-center justify-center sm:justify-start gap-1.5 pt-1">
               <School className="w-4 h-4 text-[#EC4899]" />
-              <span>Ahi Evran Ortaokulu &bull; Bilişim Teknolojileri ve Yazılım Zümresi</span>
+              <span>Ahi Evran Ortaokulu &bull; Bilişim Teknolojileri ve Yazılım Dersi</span>
             </p>
           </div>
         </div>

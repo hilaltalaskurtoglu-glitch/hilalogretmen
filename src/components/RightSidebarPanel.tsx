@@ -349,7 +349,7 @@ export const RightSidebarPanel: React.FC<RightSidebarPanelProps> = ({ smartboard
               Hilal KURTOĞLU
             </div>
             <div className="text-[11px] text-slate-500 font-semibold leading-tight">
-              BTY Öğretmeni &bull; Ahi Evran OO
+              Bilgisayar ve Öğretim Teknolojileri Öğretmeni &bull; Ahi Evran OO
             </div>
           </div>
         </div>

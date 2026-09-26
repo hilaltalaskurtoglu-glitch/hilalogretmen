@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
           </div>
           <div className="text-left">
             <div className="text-xs font-black text-slate-800 leading-tight">Hilal KURTOĞLU</div>
-            <div className="text-[10px] font-semibold text-purple-700">BTY Öğretmeni &bull; 5. Sınıf</div>
+            <div className="text-[10px] font-semibold text-purple-700">Bilgisayar ve Öğretim Teknolojileri Öğretmeni &bull; 5. Sınıf</div>
           </div>
         </div>
       </div>

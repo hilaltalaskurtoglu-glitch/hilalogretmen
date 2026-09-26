@@ -8,6 +8,9 @@ import { CurriculumView } from './components/CurriculumView';
 import { WeekDetailView } from './components/WeekDetailView';
 import { LectureNotesView } from './components/LectureNotesView';
 import { AboutView } from './components/AboutView';
+import { AnnouncementsView } from './components/AnnouncementsView';
+import { HomeworkView } from './components/HomeworkView';
+import { GamesView } from './components/GamesView';
 import { BilisimKahramaniGame } from './components/BilisimKahramaniGame';
 import { MaterialDetailModal } from './components/MaterialDetailModal';
 import { AddMaterialModal } from './components/AddMaterialModal';
@@ -17,6 +20,7 @@ import { loadStoredMaterials, saveStoredMaterials } from './data/materialsData';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('anasayfa');
+  const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [materials, setMaterials] = useState<Material[]>(() => loadStoredMaterials());
   const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -47,6 +51,15 @@ export default function App() {
 
   const handleSelectTab = (tab: string) => {
     setActiveTab(tab);
+    if (tab !== 'oyunlar') {
+      setSelectedGameId(null);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectGame = (gameId: string) => {
+    setSelectedGameId(gameId);
+    setActiveTab('oyunlar');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -107,6 +120,7 @@ export default function App() {
         <Sidebar
           onSelectWeek={handleSelectWeek}
           onSelectTab={handleSelectTab}
+          onSelectGame={handleSelectGame}
           activeTab={activeTab}
           selectedWeekKey={selectedWeekKey}
           isOpenMobile={isSidebarOpenMobile}
@@ -130,6 +144,7 @@ export default function App() {
               }}
               onSelectWeek={handleSelectWeek}
               onDeleteMaterial={handleDeleteMaterial}
+              onSelectGame={handleSelectGame}
             />
           )}
 
@@ -149,25 +164,12 @@ export default function App() {
             />
           )}
 
-          {/* TAB 3: OYUN BÖLÜMÜ (DOĞRUDAN BİLİŞİM KAHRAMANI OYUN ALANI) */}
+          {/* TAB 3: OYUN BÖLÜMÜ (DİJİTAL KİMLİK KAŞİFİ & BİLİŞİM KAHRAMANI OYUNLARI - TAM EKRAN VE LİSTE) */}
           {activeTab === 'oyunlar' && (
-            <div className="space-y-4">
-              <div className="bg-white/90 backdrop-blur-xs border-2 border-pink-200/80 rounded-3xl p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs font-black uppercase tracking-wider text-purple-700 bg-gradient-to-r from-pink-100 to-blue-100 px-3 py-1 rounded-full w-fit border border-pink-200">
-                    Ortadaki Eğitsel Oyun Bölümü
-                  </div>
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 mt-1.5 flex items-center gap-2">
-                    <span>🎮 Bilişim Kahramanı Eğitici Oyunu</span>
-                  </h2>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                    5. Sınıf Bilişim Teknolojileri ve Yazılım dersi için Hilal KURTOĞLU tarafından hazırlanmış akıllı tahta ve tablet oyunu.
-                  </p>
-                </div>
-              </div>
-
-              <BilisimKahramaniGame onBackToHome={() => handleSelectTab('anasayfa')} />
-            </div>
+            <GamesView 
+              onBackToHome={() => handleSelectTab('anasayfa')}
+              initialGameId={selectedGameId}
+            />
           )}
 
           {/* TAB 4: YILLIK PLAN (2026-2027 MEB & AHİ EVRAN ORTAOKULU BTY PLANI) */}
@@ -192,12 +194,22 @@ export default function App() {
 
           {/* TAB 6: DERS NOTLARI (5. SINIF TÜM ÜNİTE ÇALIŞMA ÖZETLERİ) */}
           {activeTab === 'ders-notlari' && (
-            <LectureNotesView />
+            <LectureNotesView onSelectTab={handleSelectTab} />
           )}
 
           {/* TAB 7: HAKKINDA (ÖĞRETMEN VE MİSYON BİLGİSİ) */}
           {activeTab === 'hakkinda' && (
             <AboutView />
+          )}
+
+          {/* TAB 8: DUYURULAR (EBA VELİ ŞİFRE KILAVUZU & VİDEOLAR) */}
+          {activeTab === 'duyurular' && (
+            <AnnouncementsView />
+          )}
+
+          {/* TAB 9: ÖDEV (DİJİTAL VATANDAŞLIĞIN 9 BOYUTU AFİŞ ÖDEVİ) */}
+          {activeTab === 'odev' && (
+            <HomeworkView onSelectTab={handleSelectTab} />
           )}
 
         </main>

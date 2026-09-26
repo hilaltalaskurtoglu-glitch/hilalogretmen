@@ -57,12 +57,16 @@ export interface LectureNote {
   unit: string;
   title: string;
   summary: string;
-  keyPoints: string[];
+  keyPoints?: string[];
   sections?: {
     heading: string;
-    items: { label: string; text: string }[];
+    icon?: string;
+    badge?: string;
+    items?: { label: string; text: string }[];
+    points?: string[];
   }[];
   benefits?: string[];
+  homework?: string;
   tip?: string;
   term: '1. Dönem' | '2. Dönem';
   recommendedWeek: string;

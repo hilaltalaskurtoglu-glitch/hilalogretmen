@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlusCircle, Monitor, BookOpen, Gamepad2, Layers, Info, Menu, Sparkles, GraduationCap, Users } from 'lucide-react';
+import { PlusCircle, Monitor, BookOpen, Gamepad2, Layers, Info, Menu, Sparkles, GraduationCap, Users, Megaphone, ClipboardList } from 'lucide-react';
 
 interface HeaderBannerProps {
   activeTab: string;
@@ -95,7 +95,7 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({
                     Hilal KURTOĞLU
                   </span>
                   <span className="text-[#EC4899]">&bull;</span>
-                  <span className="text-slate-500 font-normal hidden sm:inline">Bilişim Teknolojileri ve Yazılım Öğretmeni</span>
+                  <span className="text-slate-500 font-normal hidden sm:inline">Bilgisayar ve Öğretim Teknolojileri Öğretmeni</span>
                 </div>
               </div>
             </div>
@@ -176,6 +176,32 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({
             }`}
           >
             <span>📝 Ders Notları</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('odev')}
+            className={`px-3.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm transition whitespace-nowrap flex items-center gap-1.5 ${
+              activeTab === 'odev'
+                ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white shadow-xs'
+                : 'text-slate-700 hover:text-amber-600 hover:bg-amber-50/70'
+            }`}
+          >
+            <ClipboardList className="w-4 h-4 text-amber-500" />
+            <span>📋 ÖDEV</span>
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse ml-0.5"></span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('duyurular')}
+            className={`px-3.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm transition whitespace-nowrap flex items-center gap-1.5 ${
+              activeTab === 'duyurular'
+                ? 'bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] text-white shadow-xs'
+                : 'text-slate-700 hover:text-purple-700 hover:bg-pink-50/70'
+            }`}
+          >
+            <Megaphone className="w-4 h-4 text-[#EC4899]" />
+            <span>📢 Duyurular</span>
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse ml-0.5"></span>
           </button>
 
           <button

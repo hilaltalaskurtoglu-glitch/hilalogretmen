@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { LECTURE_NOTES } from '../data/lectureNotesData';
-import { FileText, Printer, Search, Sparkles, BookOpen, CheckCircle2, Lightbulb } from 'lucide-react';
+import { FileText, Printer, Search, Sparkles, BookOpen, CheckCircle2, Lightbulb, ClipboardCheck, ArrowRight } from 'lucide-react';
 
-export const LectureNotesView: React.FC = () => {
+interface LectureNotesViewProps {
+  onSelectTab?: (tab: string) => void;
+}
+
+export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [termFilter, setTermFilter] = useState<'all' | '1. Dönem' | '2. Dönem'>('all');
 
@@ -14,7 +18,12 @@ export const LectureNotesView: React.FC = () => {
         note.title.toLowerCase().includes(q) ||
         note.unit.toLowerCase().includes(q) ||
         note.summary.toLowerCase().includes(q) ||
-        note.keyPoints.some(k => k.toLowerCase().includes(q));
+        (note.keyPoints && note.keyPoints.some(k => k.toLowerCase().includes(q))) ||
+        (note.sections && note.sections.some(s =>
+          s.heading.toLowerCase().includes(q) ||
+          (s.items && s.items.some(i => i.label.toLowerCase().includes(q) || i.text.toLowerCase().includes(q))) ||
+          (s.points && s.points.some(p => p.toLowerCase().includes(q)))
+        ));
       if (!match) return false;
     }
     return true;
@@ -123,47 +132,77 @@ export const LectureNotesView: React.FC = () => {
             </p>
 
             {/* Key Points */}
-            <div className="space-y-2.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
-                <span>📌</span>
-                <span>Önemli Bilgiler &amp; Temel Kavramlar:</span>
-              </h4>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {note.keyPoints.map((point, idx) => (
-                  <li
-                    key={idx}
-                    className="bg-white p-3 rounded-2xl border border-pink-100 text-xs md:text-sm text-slate-700 leading-relaxed flex items-start gap-2.5 shadow-2xs"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-[#EC4899] shrink-0 mt-0.5" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {note.keyPoints && note.keyPoints.length > 0 && (
+              <div className="space-y-2.5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                  <span>📌</span>
+                  <span>Önemli Bilgiler &amp; Temel Kavramlar:</span>
+                </h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {note.keyPoints.map((point, idx) => (
+                    <li
+                      key={idx}
+                      className="bg-white p-3 rounded-2xl border border-pink-100 text-xs md:text-sm text-slate-700 leading-relaxed flex items-start gap-2.5 shadow-2xs"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-[#EC4899] shrink-0 mt-0.5" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-            {/* Custom Structured Sections (e.g. BİT'in Kullanım Alanları) */}
+            {/* Custom Structured Sections (BİT Kullanım Alanları, Beden / Göz / Ruh Sağlığı) */}
             {note.sections && note.sections.map((sec, secIdx) => (
               <div key={secIdx} className="space-y-2.5 pt-2">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
-                  <span>🌐</span>
-                  <span>{sec.heading}:</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2.5">
-                  {sec.items.map((item, itemIdx) => (
-                    <div
-                      key={itemIdx}
-                      className="bg-gradient-to-br from-pink-50/40 via-white to-blue-50/40 p-3 rounded-2xl border border-pink-200/80 shadow-2xs flex flex-col justify-start"
-                    >
-                      <span className="font-extrabold text-xs sm:text-sm text-purple-950 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-[#EC4899]"></span>
-                        {item.label}:
-                      </span>
-                      <span className="text-xs text-slate-600 mt-1 leading-relaxed">
-                        {item.text}
-                      </span>
-                    </div>
-                  ))}
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <h4 className="text-xs sm:text-sm font-black uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                    <span>{sec.icon || '🌐'}</span>
+                    <span>{sec.heading}:</span>
+                  </h4>
+                  {sec.badge && (
+                    <span className="text-[11px] font-bold text-pink-700 bg-pink-50 border border-pink-200 px-3 py-0.5 rounded-full">
+                      {sec.badge}
+                    </span>
+                  )}
                 </div>
+
+                {/* If section has items (label + text pairs) */}
+                {sec.items && sec.items.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2.5">
+                    {sec.items.map((item, itemIdx) => (
+                      <div
+                        key={itemIdx}
+                        className="bg-gradient-to-br from-pink-50/40 via-white to-blue-50/40 p-3.5 rounded-2xl border border-pink-200/80 shadow-2xs flex flex-col justify-start"
+                      >
+                        <span className="font-extrabold text-xs sm:text-sm text-purple-950 flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-[#EC4899]"></span>
+                          {item.label}:
+                        </span>
+                        <span className="text-xs text-slate-600 mt-1 leading-relaxed">
+                          {item.text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* If section has points (bullet list) */}
+                {sec.points && sec.points.length > 0 && (
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {sec.points.map((point, ptIdx) => (
+                      <li
+                        key={ptIdx}
+                        className="bg-gradient-to-br from-pink-50/20 via-white to-purple-50/20 p-3 rounded-2xl border border-pink-100 hover:border-pink-300 text-xs sm:text-sm text-slate-700 leading-relaxed flex items-start gap-2.5 shadow-2xs transition"
+                      >
+                        <span className="w-5 h-5 rounded-full bg-pink-100 text-[#EC4899] font-black text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                          •
+                        </span>
+                        <span className="font-medium text-slate-800">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
 
@@ -190,6 +229,30 @@ export const LectureNotesView: React.FC = () => {
               </div>
             )}
 
+            {/* Homework Assignment Highlight Box */}
+            {note.homework && (
+              <div className="bg-gradient-to-r from-yellow-100 via-amber-100 to-yellow-200 border-2 border-amber-400 p-4 rounded-2xl shadow-2xs space-y-2">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-950 bg-amber-300/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                    <ClipboardCheck className="w-3.5 h-3.5" />
+                    <span>Haftalık Ödev Görevi</span>
+                  </span>
+                  {onSelectTab && (
+                    <button
+                      onClick={() => onSelectTab('odev')}
+                      className="text-xs font-black text-amber-950 bg-white hover:bg-amber-50 border border-amber-300 px-3 py-1.5 rounded-xl shadow-2xs transition flex items-center gap-1"
+                    >
+                      <span>Ödev Sekmesini Aç</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <p className="text-xs sm:text-sm font-black text-slate-900 leading-relaxed">
+                  {note.homework}
+                </p>
+              </div>
+            )}
+
             {/* Teacher Tip */}
             {note.tip && (
               <div className="bg-gradient-to-r from-pink-50 via-purple-50/40 to-blue-50 border border-pink-200 p-3.5 rounded-2xl text-xs md:text-sm text-purple-900 font-medium flex items-center gap-2">
@@ -199,6 +262,16 @@ export const LectureNotesView: React.FC = () => {
             )}
           </div>
         ))}
+
+        {filteredNotes.length === 0 && (
+          <div className="bg-white border-2 border-pink-100 rounded-3xl p-10 text-center space-y-3 shadow-xs">
+            <span className="text-4xl block">📝</span>
+            <h3 className="text-lg font-black text-slate-800">Henüz Not Bulunamadı</h3>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
+              Arama kriterlerinize veya seçtiğiniz döneme ait henüz ders notu eklenmemiştir.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

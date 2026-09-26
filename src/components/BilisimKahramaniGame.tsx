@@ -323,7 +323,7 @@ export const BilisimKahramaniGame: React.FC<{ onBackToHome?: () => void }> = () 
                 5. Sınıf
               </span>
             </div>
-            <p className="text-[11px] text-pink-100 font-medium">Hilal KURTOĞLU &bull; Bilişim Teknolojileri ve Yazılım Öğretmeni</p>
+            <p className="text-[11px] text-pink-100 font-medium">Hilal KURTOĞLU &bull; Bilgisayar ve Öğretim Teknolojileri Öğretmeni</p>
           </div>
         </div>
 
@@ -617,7 +617,7 @@ export const BilisimKahramaniGame: React.FC<{ onBackToHome?: () => void }> = () 
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-bold text-slate-800">Hilal KURTOĞLU</div>
-                  <div className="text-[11px] text-purple-700">Bilişim Teknolojileri ve Yazılım Öğretmeni</div>
+                  <div className="text-[11px] text-purple-700">Bilgisayar ve Öğretim Teknolojileri Öğretmeni</div>
                 </div>
               </div>
             </div>

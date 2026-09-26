@@ -5,6 +5,24 @@ import { Material } from '../types';
 // materyaller ilgili haftalara ve orta bölümdeki "Son Yüklenenler" alanına eklenecektir.
 export const INITIAL_MATERIALS: Material[] = [
   {
+    id: "mat-game-2",
+    title: "Dijital Kimlik Kaşifi: Kimlik, Ayak İzi & Vatandaşlık Oyunu",
+    grade: "5. Sınıf",
+    unit: "BİT Kullanımı ve Dijital Vatandaşlık",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 3,
+    type: "oyun",
+    fileFormat: "HTML5",
+    fileSize: "Etkileşimli Web Oyunu",
+    dateAdded: "2026-09-26",
+    description: "Hilal Öğretmen tarafından hazırlanan; Dijital Kimlik, Dijital Ayak İzi testleri ve Sağlık, Eğitim, e-Devlet alanlarına ait uygulamaları sürükle-bırak kategorilendirme oyunu.",
+    author: "Hilal KURTOĞLU",
+    tags: ["Eğitsel Oyun", "Dijital Kimlik", "Dijital Ayak İzi", "e-Devlet", "3. Hafta"],
+    interactiveGameKey: "dijital-kimlik",
+    isFeatured: true
+  },
+  {
     id: "mat-game-1",
     title: "Bilişim Kahramanı: Doğru ve Güvenli Teknoloji Macerası",
     grade: "5. Sınıf",
@@ -29,6 +47,14 @@ export function loadStoredMaterials(): Material[] {
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) {
+        // Ensure standard games from INITIAL_MATERIALS are present
+        const existingIds = new Set(parsed.map((m: Material) => m.id));
+        const missingDefaults = INITIAL_MATERIALS.filter(m => !existingIds.has(m.id));
+        if (missingDefaults.length > 0) {
+          const combined = [...missingDefaults, ...parsed];
+          localStorage.setItem(STORAGE_KEY_MATERIALS, JSON.stringify(combined));
+          return combined;
+        }
         return parsed;
       }
     }

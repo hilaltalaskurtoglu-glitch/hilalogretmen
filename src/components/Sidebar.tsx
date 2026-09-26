@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronDown, ChevronRight, FileText, FolderOpen, Gamepad2, GraduationCap, LayoutList, BookOpen, Sparkles, CheckSquare, Plus, FolderPlus } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronRight, FileText, FolderOpen, Gamepad2, GraduationCap, LayoutList, BookOpen, Sparkles, CheckSquare, Plus, FolderPlus, Megaphone, Bell, ClipboardList, Play, Layers } from 'lucide-react';
 import { CURRICULUM_WEEKS } from '../data/curriculumData';
+import { GAMES_REGISTRY } from '../data/gamesData';
 import { Material } from '../types';
 
 interface SidebarProps {
   onSelectWeek: (term: 1 | 2, period: 1 | 2, periodWeek: number) => void;
   onSelectTab: (tab: string) => void;
+  onSelectGame?: (gameId: string) => void;
   activeTab: string;
   selectedWeekKey: string | null;
   isOpenMobile: boolean;
@@ -17,6 +19,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   onSelectWeek,
   onSelectTab,
+  onSelectGame,
   activeTab,
   selectedWeekKey,
   isOpenMobile,
@@ -25,6 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenAddForWeek
 }) => {
   // State for toggling collapsible sections
+  const [openGamesMenu, setOpenGamesMenu] = useState(false);
   const [openTerm1, setOpenTerm1] = useState(true);
   const [openTerm1Ara1, setOpenTerm1Ara1] = useState(true);
   const [openTerm1Ara2, setOpenTerm1Ara2] = useState(false);
@@ -117,32 +121,181 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition">&rarr;</span>
           </button>
 
-          {/* C. HIZLI ERİŞİM DÜĞMELERİ */}
-          <div className="grid grid-cols-2 gap-1.5">
-            <button
-              onClick={() => handleTabClick('oyunlar')}
-              className={`flex items-center gap-1.5 px-2.5 py-2 rounded-xl font-bold text-xs transition ${
-                activeTab === 'oyunlar'
-                  ? 'bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white shadow-xs'
-                  : 'bg-pink-50/70 hover:bg-pink-100/70 text-purple-900 border border-pink-200'
-              }`}
-            >
-              <Gamepad2 className="w-3.5 h-3.5 text-[#EC4899]" />
-              <span className="truncate">Oyun Alanı</span>
-            </button>
+          {/* B. DUYURULAR MENÜSÜ (EBA Veli Kılavuzu & Haberler) */}
+          <button
+            onClick={() => handleTabClick('duyurular')}
+            className={`w-full p-3 rounded-2xl font-bold transition text-left flex items-center justify-between border shadow-2xs group ${
+              activeTab === 'duyurular'
+                ? 'bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 text-white border-rose-400 shadow-sm'
+                : 'bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white hover:opacity-95 border-pink-400/40'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                📢
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="block font-black text-xs sm:text-sm">Duyurular</span>
+                  <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                    Video Kılavuz
+                  </span>
+                </div>
+                <span className="block text-[11px] text-pink-100 font-medium truncate">
+                  EBA Veli Şifre Kılavuzu &amp; Notlar
+                </span>
+              </div>
+            </div>
+            <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition">&rarr;</span>
+          </button>
 
-            <button
-              onClick={() => handleTabClick('ders-notlari')}
-              className={`flex items-center gap-1.5 px-2.5 py-2 rounded-xl font-bold text-xs transition ${
-                activeTab === 'ders-notlari'
-                  ? 'bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white shadow-xs'
-                  : 'bg-purple-50/70 hover:bg-purple-100/70 text-purple-900 border border-purple-200'
+          {/* C. ÖDEV MENÜSÜ (3. Hafta Afiş Ödevi) */}
+          <button
+            onClick={() => handleTabClick('odev')}
+            className={`w-full p-3 rounded-2xl font-bold transition text-left flex items-center justify-between border shadow-2xs group ${
+              activeTab === 'odev'
+                ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white border-amber-400 shadow-sm'
+                : 'bg-gradient-to-r from-amber-500/95 via-orange-500/90 to-amber-600/95 text-white hover:opacity-95 border-amber-400/40'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                📋
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="block font-black text-xs sm:text-sm">ÖDEV</span>
+                  <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                    3. Hafta
+                  </span>
+                </div>
+                <span className="block text-[11px] text-amber-100 font-medium truncate">
+                  Dijital Vatandaşlığın 9 Boyutu
+                </span>
+              </div>
+            </div>
+            <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition">&rarr;</span>
+          </button>
+
+          {/* C. OYUN BÖLÜMÜ MENÜSÜ & AÇILIR OYUN SEKMELERİ (DROPDOWN / ACCORDION ON HOVER & CLICK) */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setOpenGamesMenu(true)}
+            onMouseLeave={() => setOpenGamesMenu(false)}
+          >
+            {/* Ana Oyun Bölümü Butonu */}
+            <div
+              className={`w-full p-2.5 rounded-2xl font-bold transition flex items-center justify-between border shadow-2xs group cursor-pointer ${
+                activeTab === 'oyunlar'
+                  ? 'bg-gradient-to-r from-teal-600 via-emerald-600 to-indigo-600 text-white border-teal-400 shadow-sm'
+                  : 'bg-gradient-to-r from-teal-600/90 via-emerald-600/90 to-purple-600/90 text-white hover:opacity-95 border-teal-300/40'
               }`}
+              onClick={() => {
+                handleTabClick('oyunlar');
+                setOpenGamesMenu(prev => !prev);
+              }}
             >
-              <FileText className="w-3.5 h-3.5 text-[#8B5CF6]" />
-              <span className="truncate">Ders Notları</span>
-            </button>
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  🎮
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="block font-black text-xs sm:text-sm">Oyun Bölümü</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                      {GAMES_REGISTRY.length} Oyun
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-teal-100 font-medium truncate">
+                    Üzerine gelin veya tıklayın
+                  </span>
+                </div>
+              </div>
+              <ChevronDown 
+                className={`w-4 h-4 text-white/90 transition-transform duration-200 shrink-0 ${
+                  openGamesMenu ? 'rotate-180' : ''
+                }`} 
+              />
+            </div>
+
+            {/* Açılır Sekmeler / Alt Oyun Menüleri (Dropdown / Sub-menu) */}
+            {openGamesMenu && (
+              <div className="mt-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md border-2 border-teal-400/40 rounded-2xl shadow-xl space-y-1 animate-in fade-in slide-in-from-top-2 duration-150 z-20">
+                <div className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-teal-300/80 flex items-center justify-between border-b border-white/10">
+                  <span>Hazırlanan Oyunlar</span>
+                  <span className="text-[9px] bg-teal-400/20 text-teal-300 px-1.5 py-0.2 rounded-md">Tam Ekran</span>
+                </div>
+
+                {GAMES_REGISTRY.map(game => (
+                  <button
+                    key={game.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onSelectGame) {
+                        onSelectGame(game.id);
+                      } else {
+                        handleTabClick('oyunlar');
+                      }
+                      onCloseMobile();
+                    }}
+                    className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                  >
+                    <span className="w-7 h-7 rounded-lg bg-white/10 text-white flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition-transform">
+                      {game.icon}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-xs text-white truncate group-hover:text-teal-300 transition-colors">
+                          {game.title}
+                        </span>
+                        <span className="text-[9px] font-black px-1.5 py-0.2 rounded-md bg-teal-400/20 text-teal-300 shrink-0">
+                          {game.weekTag}
+                        </span>
+                      </div>
+                      <span className="block text-[10px] text-slate-300/80 truncate">
+                        {game.subtitle}
+                      </span>
+                    </div>
+                    <Play className="w-3.5 h-3.5 text-teal-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0 fill-current" />
+                  </button>
+                ))}
+
+                {/* Tümünü Gör Butonu */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('oyunlar');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-center py-1.5 rounded-lg bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 font-bold text-[11px] transition border border-teal-500/30 flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  <Layers className="w-3 h-3" />
+                  <span>Tüm Oyunları Alt Alta Gör</span>
+                </button>
+              </div>
+            )}
           </div>
+
+          {/* D. DERS NOTLARI HIZLI ERİŞİM DÜĞMESİ */}
+          <button
+            onClick={() => handleTabClick('ders-notlari')}
+            className={`w-full p-2.5 rounded-2xl font-bold text-xs transition flex items-center justify-between border ${
+              activeTab === 'ders-notlari'
+                ? 'bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white border-pink-400 shadow-xs'
+                : 'bg-purple-50/80 hover:bg-purple-100/80 text-purple-900 border-purple-200'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-purple-200/80 text-purple-800 flex items-center justify-center font-bold text-xs">
+                <FileText className="w-3.5 h-3.5 text-purple-700" />
+              </div>
+              <div className="text-left">
+                <div className="font-extrabold text-xs">Ders Notları</div>
+                <div className="text-[10px] text-purple-700 font-medium">Haftalık Konu Özetleri</div>
+              </div>
+            </div>
+            <span className="text-xs">&rarr;</span>
+          </button>
 
           {/* D. ÖĞRETMEN MENÜSÜ & HAFTALIK DERSLER */}
           <div className="pt-2 pb-1 border-t border-pink-100 flex items-center justify-between">
