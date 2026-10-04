@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yapay Zekâ Temelleri – Bilgini Ölç | Hilal KURTOĞLU</title>
+<style>
+:root{
+  --ink:#12305a; --ink-soft:#3d5a80;
+  --blue:#4a8cc8; --blue-deep:#2b6aa8; --blue-wash:#e6f0fa;
+  --orange:#c8500a; --orange-wash:#fdeee3;
+  --paper:#ffffff; --bg:#dcebf8;
+  --good:#1b7f52; --good-wash:#e1f5ea;
+  --bad:#b5301f; --bad-wash:#fbe7e3;
+  --font:"Trebuchet MS","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --star:polygon(50% 0%,61% 18%,82% 18%,82% 39%,100% 50%,82% 61%,82% 82%,61% 82%,50% 100%,39% 82%,18% 82%,18% 61%,0% 50%,18% 39%,18% 18%,39% 18%);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:var(--font); color:var(--ink); background:var(--bg);
+  min-height:100vh; display:flex; flex-direction:column;
+  font-size:clamp(17px,1.5vw,24px); line-height:1.45;
+}
+:focus-visible{outline:4px solid var(--orange); outline-offset:3px}
+header.top{
+  display:flex; align-items:center; gap:18px; padding:14px clamp(16px,3vw,40px);
+  background:var(--ink); color:#fff;
+}
+header.top img{width:clamp(54px,6vw,84px); height:auto; border-radius:50%; background:#fff; padding:3px; flex:none}
+header.top .school{font-weight:700; font-size:1.1em; letter-spacing:.02em}
+header.top .course{font-size:.85em; opacity:.85}
+header.top .outcome{margin-left:auto; text-align:right; font-size:.85em; opacity:.9}
+
+main{flex:1; width:min(1180px,100%); margin:0 auto; padding:clamp(14px,2.4vw,32px)}
+.panel{background:var(--paper); border-radius:26px; padding:clamp(18px,3vw,44px); box-shadow:0 10px 0 var(--blue); }
+.hidden{display:none !important}
+
+/* start */
+.start{display:grid; grid-template-columns:1.2fr .8fr; gap:clamp(16px,3vw,48px); align-items:center}
+.start h1{font-size:clamp(2rem,4vw,3.4rem); line-height:1.05; margin:0 0 .35em; color:var(--ink)}
+.start p{margin:0 0 1em; color:var(--ink-soft); font-size:1.15em; max-width:34em}
+.facts{display:flex; gap:12px; flex-wrap:wrap; margin:0 0 1.4em; padding:0; list-style:none}
+.facts li{background:var(--blue-wash); padding:.35em .9em; border-radius:999px; font-weight:700; color:var(--blue-deep)}
+.bigstar{width:min(100%,360px); aspect-ratio:1; margin-inline:auto; background:var(--blue); clip-path:var(--star); display:grid; place-items:center; position:relative}
+.bigstar::before{content:""; position:absolute; inset:12%; background:#fff; clip-path:var(--star)}
+.bigstar span{position:relative; font-size:clamp(3rem,8vw,6rem); font-weight:800; color:var(--orange); line-height:1}
+.btn{
+  font:inherit; font-weight:800; font-size:1.15em; border:0; cursor:pointer;
+  background:var(--orange); color:#fff; padding:.8em 1.6em; border-radius:16px;
+  box-shadow:0 6px 0 #8f3704; transition:transform .08s, box-shadow .08s;
+}
+.btn:hover{background:#b94709}
+.btn:active{transform:translateY(5px); box-shadow:0 1px 0 #8f3704}
+.btn.ghost{background:var(--blue-wash); color:var(--ink); box-shadow:0 6px 0 #aac7e4}
+.btn.ghost:hover{background:#d6e7f7}
+
+/* quiz */
+.meter{display:flex; gap:6px; margin-bottom:clamp(14px,2vw,26px)}
+.meter i{flex:1; height:12px; border-radius:6px; background:#cfe0f1}
+.meter i.done-good{background:var(--good)}
+.meter i.done-bad{background:var(--bad)}
+.meter i.now{background:var(--orange)}
+.qhead{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:.4em; color:var(--ink-soft); font-weight:700}
+.qtext{font-size:clamp(1.5rem,3vw,2.6rem); line-height:1.2; font-weight:800; margin:0 0 clamp(16px,2.4vw,30px)}
+.opts{display:grid; grid-template-columns:1fr 1fr; gap:clamp(10px,1.6vw,20px); padding:0; margin:0; list-style:none}
+.opt{
+  display:flex; align-items:center; gap:16px; width:100%; text-align:left;
+  font:inherit; font-size:1.15em; font-weight:700; color:var(--ink);
+  background:var(--blue-wash); border:3px solid transparent; border-radius:20px;
+  padding:.8em 1em; cursor:pointer; min-height:5.2em;
+  box-shadow:0 6px 0 #aac7e4; transition:transform .08s, box-shadow .08s, background .15s;
+}
+.opt:hover:not(:disabled){background:#d2e5f7}
+.opt:active:not(:disabled){transform:translateY(5px); box-shadow:0 1px 0 #aac7e4}
+.badge{
+  flex:none; width:2.5em; aspect-ratio:1; background:var(--blue-deep); color:#fff;
+  clip-path:var(--star); display:grid; place-items:center; font-weight:800; font-size:1.05em;
+}
+.opt:disabled{cursor:default}
+.opt.correct{background:var(--good-wash); border-color:var(--good); box-shadow:0 6px 0 #9fd4b8}
+.opt.correct .badge{background:var(--good)}
+.opt.wrong{background:var(--bad-wash); border-color:var(--bad); box-shadow:0 6px 0 #eab3aa}
+.opt.wrong .badge{background:var(--bad)}
+.opt.dim{opacity:.55}
+.mark{margin-left:auto; font-size:1.4em; font-weight:800}
+
+.feedback{margin-top:clamp(14px,2vw,26px); display:flex; gap:16px; align-items:center; flex-wrap:wrap; padding:1em 1.2em; border-radius:18px; background:var(--orange-wash); border-left:10px solid var(--orange)}
+.feedback.good{background:var(--good-wash); border-left-color:var(--good)}
+.feedback.bad{background:var(--bad-wash); border-left-color:var(--bad)}
+.feedback .msg{flex:1 1 380px}
+.feedback strong{display:block; font-size:1.15em}
+.feedback .btn{margin-left:auto}
+
+/* result */
+.result{display:grid; grid-template-columns:.8fr 1.2fr; gap:clamp(16px,3vw,44px); align-items:center}
+.score{width:min(100%,320px); aspect-ratio:1; margin-inline:auto; background:var(--orange); clip-path:var(--star); display:grid; place-items:center; position:relative}
+.score::before{content:""; position:absolute; inset:11%; background:#fff; clip-path:var(--star)}
+.score div{position:relative; text-align:center; line-height:1}
+.score b{font-size:clamp(2rem,4.2vw,3.2rem); color:var(--ink)}
+.score small{display:block; font-size:1.1rem; color:var(--ink-soft); margin-top:.3em}
+.result h2{font-size:clamp(1.8rem,3.6vw,3rem); margin:0 0 .3em; line-height:1.1}
+.result p{margin:0 0 1em; color:var(--ink-soft); font-size:1.1em}
+.review{margin:0 0 1.2em; padding:0; list-style:none; display:grid; gap:8px; max-height:34vh; overflow:auto}
+.review li{background:var(--bad-wash); border-left:8px solid var(--bad); padding:.5em .8em; border-radius:12px; font-size:.95em}
+.review li b{display:block}
+.row{display:flex; gap:14px; flex-wrap:wrap}
+
+footer.sign{
+  padding:12px clamp(16px,3vw,40px) 18px; display:flex; justify-content:flex-end;
+}
+.sign .who{text-align:center; background:var(--paper); border-radius:18px; padding:.55em 1.3em; box-shadow:0 5px 0 var(--blue)}
+.sign .who span{display:block; font-size:.78em; color:var(--ink-soft); font-weight:700}
+.sign .who b{display:block; font-size:1em; color:var(--ink)}
+
+@media (max-width:820px){
+  .start,.result{grid-template-columns:1fr}
+  .opts{grid-template-columns:1fr}
+  header.top .outcome{display:none}
+  .bigstar,.score{width:min(70%,260px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+@media print{.btn{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <div class="school">Bilişim Teknolojileri ve Yazılım</div>
+    <div class="course">5. Sınıf</div>
+  </div>
+  <div class="outcome">BTY.5.1.4<br>Yapay zekâ kavramlarını sorgulama</div>
+</header>
+
+<main>
+  <!-- BAŞLANGIÇ -->
+  <section class="panel start" id="screen-start">
+    <div>
+      <h1>Yapay zekâyı ne kadar tanıyorsun?</h1>
+      <p>Yapay zekânın ne olduğunu, nerelerde kullanıldığını ve onu güvenle nasıl kullanacağımızı 16 soruda sına. Her cevaptan sonra kısa bir açıklama göreceksin.</p>
+      <ul class="facts"><li>16 soru</li><li>4 seçenek</li><li>Anında açıklama</li></ul>
+      <button class="btn" id="btn-start">Teste başla</button>
+    </div>
+    <div class="bigstar" aria-hidden="true"><span>YZ</span></div>
+  </section>
+
+  <!-- SORU -->
+  <section class="panel hidden" id="screen-quiz" aria-live="polite">
+    <div class="meter" id="meter" aria-hidden="true"></div>
+    <div class="qhead"><span id="qcount"></span><span id="qscore"></span></div>
+    <h2 class="qtext" id="qtext"></h2>
+    <ul class="opts" id="opts"></ul>
+    <div class="feedback hidden" id="feedback" role="status">
+      <div class="msg"><strong id="fb-title"></strong><span id="fb-text"></span></div>
+      <button class="btn" id="btn-next">Sonraki soru</button>
+    </div>
+  </section>
+
+  <!-- SONUÇ -->
+  <section class="panel result hidden" id="screen-result">
+    <div class="score"><div><b id="res-score"></b><small>doğru</small></div></div>
+    <div>
+      <h2 id="res-title"></h2>
+      <p id="res-text"></p>
+      <ul class="review hidden" id="review"></ul>
+      <div class="row">
+        <button class="btn" id="btn-again">Baştan başla</button>
+        <button class="btn ghost" id="btn-wrong">Sadece yanlışlarımı çöz</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="sign">
+  <div class="who">
+    <b>Hilal KURTOĞLU</b>
+    <span>BİLGİSAYAR VE ÖĞRETİM TEKNOLOJİLERİ ÖĞRETMENİ</span>
+  </div>
+</footer>
+
+<script>
+/* Her sorunun ilk şıkkı doğru cevaptır; şıklar oynatılırken karıştırılır. */
+const BANK = [
+ {q:"Yapay zekâ en kısa hangisiyle tanımlanır?",
+  o:["Bilgisayarların öğrenme, anlama ve karar verme gibi insana özgü işleri taklit etmesi","Bilgisayarın internete daha hızlı bağlanması","Ekranın daha parlak görünmesini sağlayan ayar","Bilgisayardaki dosyaları klasörlere ayıran düğme"],
+  e:"Yapay zekâ, makinelerin insan zekâsına özgü görevleri (öğrenme, anlama, karar verme) yapabilmesini sağlayan teknolojidir."},
+ {q:"Telefona “Yarın hava nasıl olacak?” diye sorduğumuzda cevap veren sesli asistan neyi kullanır?",
+  o:["Konuşmamızı anlayıp yorumlayan yapay zekâyı","Sadece ekran parlaklığını","Yalnızca şarj miktarını","Telefonun kılıfındaki sensörü"],
+  e:"Sesli asistanlar, konuşmayı yazıya çevirip anlamını çözen yapay zekâ yöntemleriyle çalışır."},
+ {q:"Makine öğrenmesi için hangisi doğrudur?",
+  o:["Bilgisayarın örnek verilerden kalıpları bulup zamanla daha iyi sonuç vermesidir.","Bilgisayarın kendi kendine kablosuz bağlanmasıdır.","Makinelerin yağlanarak daha hızlı çalışmasıdır.","Bilgisayara her işi tek tek elle girmektir."],
+  e:"Makine öğrenmesinde bilgisayar, çok sayıda örnekten kalıplar çıkarır ve deneyimle gelişir."},
+ {q:"Bir yapay zekânın kedi fotoğraflarını doğru tanıyabilmesi için en çok neye ihtiyacı vardır?",
+  o:["Çok sayıda kedi örneği (veri)","Çok büyük bir klavye","Renkli bir masa örtüsü","Sürekli açık kalan bir hoparlör"],
+  e:"Yapay zekâ verilerle öğrenir. Ne kadar çok ve çeşitli örnek görürse o kadar iyi tanır."},
+ {q:"Hangisinde yapay zekâ kullanılmaz?",
+  o:["Düğmesine basınca yanan sıradan bir el feneri","Fotoğraftaki yüzleri otomatik bulan galeri","Yazdıklarımızı tamamlayan klavye","Müzik zevkimize göre liste hazırlayan uygulama"],
+  e:"Sıradan el feneri sadece devreyi açıp kapatır; öğrenmez, karar vermez, tahmin etmez."},
+ {q:"Çeviri uygulamalarının cümleleri çevirirken yaptığı şey en çok hangisine benzer?",
+  o:["Cümlenin anlamını örneklerden öğrendiği kalıplara göre çözmeye","Kelimeleri rastgele karıştırmaya","Ekrana hazır bir resim koymaya","Cümleyi silip yeniden yazmamızı beklemeye"],
+  e:"Modern çeviri uygulamaları, çok sayıda çeviri örneğinden öğrendiği kalıplarla anlamı yakalamaya çalışır."},
+ {q:"Yapay zekâ ve robot için hangisi doğrudur?",
+  o:["Yapay zekâ bir yazılımdır; robotsuz da, örneğin telefonda çalışabilir.","Yapay zekâ olması için mutlaka insana benzeyen bir robot gerekir.","Her robot kesinlikle yapay zekâ kullanır.","Yapay zekâ yalnızca fabrikalarda bulunur."],
+  e:"Yapay zekâ bir robotun “beyni” olabilir ama telefon, uygulama ve web sitelerinde de çalışır. Her robot da yapay zekâ içermez."},
+ {q:"Bir yapay zekâ sistemi yanlış sonuç verirse bunun en olası nedeni hangisidir?",
+  o:["Eksik, hatalı veya dengesiz verilerle öğrenmiş olması","Bilgisayarın şarjının dolu olması","Ekranın temiz olması","Klavyedeki tuşların sayısı"],
+  e:"Yapay zekâ verilerden öğrenir; veri eksik ya da hatalıysa sonuçlar da hatalı olabilir."},
+ {q:"Hangisi insanın yapay zekâdan hâlâ çok daha iyi yaptığı şeydir?",
+  o:["Arkadaşının üzüntüsünü gerçekten hissedip onu teselli etmek","Yüz binlerce sayfayı birkaç saniyede taramak","Milyonlarca işlemi aynı anda saymak","Aynı görevi yorulmadan binlerce kez tekrar etmek"],
+  e:"Gerçek duygu, empati ve içten dostluk insana özgüdür. Yapay zekâ duyguları taklit edebilir ama hissetmez."},
+ {q:"Hangisi yapay zekânın insana göre güçlü olduğu bir alandır?",
+  o:["Çok büyük veri yığınlarını kısa sürede taramak","Bir şiiri yaşadığı anılarla yazmak","Bir hayvana şefkat göstermek","Gerçekten korkmak ve cesaret toplamak"],
+  e:"Yapay zekâ, büyük miktardaki veriyi çok hızlı işleyip kalıpları bulmada çok başarılıdır."},
+ {q:"Bir yapay zekâ uygulamasına asla yazmamamız gereken bilgi hangisidir?",
+  o:["Şifremiz, açık adresimiz ve kimlik numaramız","Sevdiğimiz renk","Çözmek istediğimiz bir matematik sorusu","Merak ettiğimiz bir hayvan"],
+  e:"Kişisel ve gizli bilgiler başkalarının eline geçebilir. Şifre, adres ve kimlik bilgisi paylaşılmaz."},
+ {q:"Yapay zekâdan aldığın bilgiyi ödevinde kullanmadan önce ne yapmalısın?",
+  o:["Güvenilir kaynaklardan kontrol edip kendi cümlelerimle yazmalıyım.","Olduğu gibi kopyalayıp yapıştırmalıyım.","Yalnızca ilk cevabı kullanmalıyım.","Hiç okumadan öğretmenime vermeliyim."],
+  e:"Yapay zekâ yanılabilir. Bilgiyi kontrol etmek ve kendi anlayışınla yazmak hem doğruluğu hem öğrenmeyi sağlar."},
+ {q:"Sosyal medyada gerçek gibi görünen ama çok şaşırtıcı bir fotoğraf gördün. İlk ne yapmalısın?",
+  o:["Yapay zekâyla üretilmiş olabileceğini düşünüp kaynağını araştırmalıyım.","Hemen herkese göndermeliyim.","Gördüğüm her fotoğrafın gerçek olduğunu kabul etmeliyim.","Altına kişisel bilgilerimi yazmalıyım."],
+  e:"Yapay zekâ gerçeğe çok benzeyen sahte görseller üretebilir. Paylaşmadan önce kaynağı doğrulamak gerekir."},
+ {q:"Hangisi eğitimde yapay zekâ kullanımına örnektir?",
+  o:["Öğrencinin eksik konularını bulup ona uygun sorular öneren uygulama","Sınıfın duvarındaki saat","Sınıfın kapısındaki asma kilit","Defterin kareli olması"],
+  e:"Öğrenme uygulamaları, öğrencinin cevaplarını inceleyerek ona özel çalışma önerileri hazırlayabilir."},
+ {q:"Fotoğraf çekerken telefonun yüzleri bulup netlemesinde hangi teknoloji vardır?",
+  o:["Görüntü tanıma yapan yapay zekâ","Metin dosyası sıkıştırma","Sesli kitap okuma","Ağ kablosu yönlendirme"],
+  e:"Yüz algılama, yapay zekânın görüntü tanıma becerisine güzel bir örnektir."},
+ {q:"Yapay zekâ önyargılı verilerle eğitilirse ne olabilir?",
+  o:["Bazı kişilere karşı adil olmayan kararlar verebilir.","Daha da adil kararlar verir.","Hiç çalışmaz ve ekran kararır.","Kendiliğinden insan olur."],
+  e:"Veri dengesiz ise sonuç da dengesiz olabilir. Bu yüzden önemli kararlarda insan denetimi şarttır."}
+];
+
+const $ = id => document.getElementById(id);
+const shuffle = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; };
+const LETTERS = ["A","B","C","D"];
+
+let order=[], idx=0, score=0, locked=false, results=[], current=null;
+
+function show(id){ ["screen-start","screen-quiz","screen-result"].forEach(s=>$(s).classList.toggle("hidden", s!==id)); window.scrollTo(0,0); }
+
+function begin(list){
+  order = list.slice(); idx=0; score=0; results=[];
+  const m = $("meter"); m.innerHTML = order.map(()=>"<i></i>").join("");
+  show("screen-quiz"); render();
+}
+
+function render(){
+  locked=false;
+  const item = BANK[order[idx]];
+  const opts = shuffle(item.o.map((t,i)=>({t, ok:i===0})));
+  current = {item, opts};
+  $("qcount").textContent = "Soru " + (idx+1) + " / " + order.length;
+  $("qscore").textContent = "Doğru: " + score;
+  $("qtext").textContent = item.q;
+  const ul = $("opts"); ul.innerHTML="";
+  opts.forEach((o,i)=>{
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.className="opt"; b.type="button";
+    b.innerHTML = '<span class="badge">'+LETTERS[i]+'</span><span class="t"></span><span class="mark" aria-hidden="true"></span>';
+    b.querySelector(".t").textContent = o.t;
+    b.addEventListener("click",()=>choose(i));
+    li.appendChild(b); ul.appendChild(li);
+  });
+  $("feedback").classList.add("hidden");
+  [...$("meter").children].forEach((el,i)=>{ el.className = i<idx ? (results[i]?"done-good":"done-bad") : (i===idx?"now":""); });
+  $("btn-next").textContent = idx===order.length-1 ? "Sonucu gör" : "Sonraki soru";
+}
+
+function choose(i){
+  if(locked) return; locked=true;
+  const {item,opts} = current;
+  const ok = opts[i].ok;
+  if(ok) score++;
+  results[idx]=ok;
+  if(!ok) missed.add(order[idx]); else missed.delete(order[idx]);
+  const btns = [...document.querySelectorAll(".opt")];
+  btns.forEach((b,k)=>{
+    b.disabled = true;
+    if(opts[k].ok){ b.classList.add("correct"); b.querySelector(".mark").textContent="✓"; }
+    else if(k===i){ b.classList.add("wrong"); b.querySelector(".mark").textContent="✗"; }
+    else b.classList.add("dim");
+  });
+  const fb=$("feedback"); fb.className="feedback "+(ok?"good":"bad");
+  $("fb-title").textContent = ok ? "Doğru!" : "Bu sefer olmadı.";
+  $("fb-text").textContent = item.e;
+  $("qscore").textContent = "Doğru: " + score;
+  [...$("meter").children][idx].className = ok?"done-good":"done-bad";
+  $("btn-next").focus({preventScroll:true});
+}
+const missed = new Set();
+
+function next(){
+  if(!locked) return;
+  if(idx<order.length-1){ idx++; render(); } else finish();
+}
+
+function finish(){
+  const n=order.length;
+  $("res-score").textContent = score+" / "+n;
+  const pct = score/n;
+  let t,x;
+  if(pct===1){t="Harika, hepsi doğru!"; x="Yapay zekâ konusunda çok iyisin. Şimdi bu bilgileri arkadaşlarına da anlatabilirsin.";}
+  else if(pct>=.75){t="Çok iyi gidiyorsun!"; x="Konuyu büyük ölçüde kavramışsın. Kaçırdığın soruların açıklamalarına bir daha göz at.";}
+  else if(pct>=.5){t="İyi bir başlangıç!"; x="Bazı kavramları pekiştirmek faydalı olur. Yanlışlarını yeniden çözerek eksiklerini tamamlayabilirsin.";}
+  else {t="Bir tur daha deneyelim!"; x="Yapay zekâ yeni bir konu, tekrar ettikçe daha kolay gelir. Açıklamaları okuyarak yeniden dene.";}
+  $("res-title").textContent=t; $("res-text").textContent=x;
+  const rv=$("review"); rv.innerHTML="";
+  const wrongNow = order.filter((q,i)=>!results[i]);
+  rv.classList.toggle("hidden", wrongNow.length===0);
+  wrongNow.forEach(q=>{
+    const li=document.createElement("li"); const b=document.createElement("b"); b.textContent=BANK[q].q;
+    const s=document.createElement("span"); s.textContent="Doğru cevap: "+BANK[q].o[0];
+    li.append(b,s); rv.appendChild(li);
+  });
+  $("btn-wrong").classList.toggle("hidden", wrongNow.length===0);
+  show("screen-result");
+}
+
+$("btn-start").onclick = ()=>{ missed.clear(); begin(shuffle(BANK.map((_,i)=>i))); };
+$("btn-next").onclick = next;
+$("btn-again").onclick = ()=>{ missed.clear(); begin(shuffle(BANK.map((_,i)=>i))); };
+$("btn-wrong").onclick = ()=>{ const w = order.filter((q,i)=>!results[i]); if(w.length) begin(shuffle(w)); };
+
+document.addEventListener("keydown",e=>{
+  if($("screen-quiz").classList.contains("hidden")) return;
+  const k=e.key.toUpperCase(); const n=LETTERS.indexOf(k); const d=parseInt(e.key,10);
+  if(!locked){
+    if(n>-1) choose(n); else if(d>=1&&d<=4) choose(d-1);
+  } else if(e.key==="Enter"||e.key===" "){ e.preventDefault(); next(); }
+});
+</script>
+</body>
+</html>

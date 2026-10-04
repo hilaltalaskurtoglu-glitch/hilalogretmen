@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Material } from '../types';
 import { BilisimKahramaniGame } from './BilisimKahramaniGame';
 import { DigitalIdentityGame } from './DigitalIdentityGame';
+import { YapayZekaGame } from './YapayZekaGame';
 import { CurrentWeekOutcomeCard } from './CurrentWeekOutcomeCard';
 import { RecentUploadsSection } from './RecentUploadsSection';
 import { Gamepad2, BookOpen, Layers, Sparkles, Calendar, ArrowRight, ShieldCheck, Cpu, Code2, Network, FileText, CheckCircle2, Megaphone, Maximize2, Printer, ChevronRight, Bookmark } from 'lucide-react';
@@ -27,7 +28,7 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
   onDeleteMaterial,
   onSelectGame
 }) => {
-  const [activeHomeGame, setActiveHomeGame] = useState<'dijital-kimlik' | 'bilisim-kahramani'>('dijital-kimlik');
+  const [activeHomeGame, setActiveHomeGame] = useState<'yapay-zeka' | 'dijital-kimlik' | 'bilisim-kahramani'>('yapay-zeka');
 
   // Son eklenen ders notunu al (en son eklenen veya en güncel ünite ders notu)
   const latestLectureNote = LECTURE_NOTES[LECTURE_NOTES.length - 1];
@@ -177,8 +178,10 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
               🎮 Eğitsel Ders Oyunları
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-              {activeHomeGame === 'dijital-kimlik'
-                ? 'Son Eklenen Oyun: 3. Hafta Dijital Kimlik, Dijital Ayak İzi ve Vatandaşlık Uygulamaları interaktif oyunu.'
+              {activeHomeGame === 'yapay-zeka'
+                ? 'Son Eklenen Oyun: 4. Hafta Yapay Zekâ Temelleri – Bilgini Ölç interaktif bilgi yarışması.'
+                : activeHomeGame === 'dijital-kimlik'
+                ? '3. Hafta: Dijital Kimlik, Dijital Ayak İzi ve Vatandaşlık Uygulamaları interaktif oyunu.'
                 : 'Tüm üniteleri kapsayan 5 seviyeli Bilişim Kahramanı macera ve rozet oyunu.'}
             </p>
           </div>
@@ -189,10 +192,12 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
               {GAMES_REGISTRY.map(game => (
                 <button
                   key={game.id}
-                  onClick={() => setActiveHomeGame(game.id as 'dijital-kimlik' | 'bilisim-kahramani')}
+                  onClick={() => setActiveHomeGame(game.id as 'yapay-zeka' | 'dijital-kimlik' | 'bilisim-kahramani')}
                   className={`px-3 py-1.5 rounded-xl text-xs font-black transition flex items-center gap-1.5 cursor-pointer ${
                     activeHomeGame === game.id
-                      ? game.accentColor === 'teal'
+                      ? game.accentColor === 'blue'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-xs'
+                        : game.accentColor === 'teal'
                         ? 'bg-gradient-to-r from-teal-700 to-[#12263a] text-white shadow-xs'
                         : 'bg-gradient-to-r from-pink-600 to-purple-700 text-white shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
@@ -200,7 +205,11 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
                 >
                   <span>{game.icon} {game.title}</span>
                   <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-black ${
-                    game.accentColor === 'teal' ? 'bg-teal-400 text-slate-950' : 'bg-pink-100 text-pink-700'
+                    game.accentColor === 'blue'
+                      ? 'bg-blue-300 text-blue-950'
+                      : game.accentColor === 'teal'
+                      ? 'bg-teal-400 text-slate-950'
+                      : 'bg-pink-100 text-pink-700'
                   }`}>
                     {game.weekTag}
                   </span>
@@ -220,7 +229,9 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
         </div>
 
         {/* Embedded Active Game Component */}
-        {activeHomeGame === 'dijital-kimlik' ? (
+        {activeHomeGame === 'yapay-zeka' ? (
+          <YapayZekaGame onBackToHome={() => handleLaunchGameFullscreen('yapay-zeka')} />
+        ) : activeHomeGame === 'dijital-kimlik' ? (
           <DigitalIdentityGame />
         ) : (
           <BilisimKahramaniGame />

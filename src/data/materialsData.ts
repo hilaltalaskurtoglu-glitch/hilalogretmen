@@ -5,6 +5,24 @@ import { Material } from '../types';
 // materyaller ilgili haftalara ve orta bölümdeki "Son Yüklenenler" alanına eklenecektir.
 export const INITIAL_MATERIALS: Material[] = [
   {
+    id: "mat-game-3",
+    title: "Yapay Zekâ Temelleri: Bilgini Ölç Oyunu",
+    grade: "5. Sınıf",
+    unit: "Bilişim Teknolojilerinin Hayatımızdaki Yeri",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 4,
+    type: "oyun",
+    fileFormat: "HTML5",
+    fileSize: "Etkileşimli Web Oyunu",
+    dateAdded: "2026-10-04",
+    description: "Hilal Öğretmen tarafından hazırlanan; BTY.5.1.4 kazanımına uygun, yapay zekânın ne olduğu, nerelerde kullanıldığı, makine öğrenmesi ve güvenli kullanımı üzerine 16 soruluk etkileşimli bilgi yarışması oyunu.",
+    author: "Hilal KURTOĞLU",
+    tags: ["Eğitsel Oyun", "Yapay Zekâ", "Makine Öğrenmesi", "BTY.5.1.4", "4. Hafta"],
+    interactiveGameKey: "yapay-zeka",
+    isFeatured: true
+  },
+  {
     id: "mat-game-2",
     title: "Dijital Kimlik Kaşifi: Kimlik, Ayak İzi & Vatandaşlık Oyunu",
     grade: "5. Sınıf",

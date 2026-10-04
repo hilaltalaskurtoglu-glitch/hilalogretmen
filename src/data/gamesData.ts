@@ -12,6 +12,23 @@ export interface GameItem {
 
 export const GAMES_REGISTRY: GameItem[] = [
   {
+    id: 'yapay-zeka',
+    title: 'Yapay Zekâ Temelleri – Bilgini Ölç',
+    subtitle: 'BTY.5.1.4 Yapay Zekâ Kavramlarını Sorgulama',
+    weekTag: '4. Hafta',
+    description: 'Yapay zekânın ne olduğunu, nerelerde kullanıldığını, makine öğrenmesini ve güvenle nasıl kullanacağımızı 16 soruda sına. Anında açıklama ve dönütlerle öğren!',
+    icon: '🤖',
+    accentColor: 'blue',
+    tags: ['Yapay Zekâ', 'Makine Öğrenmesi', 'BTY.5.1.4', 'Sesli Asistanlar', 'Etik ve Güvenlik', '4. Hafta'],
+    features: [
+      '16 Özgün Soru & Anında Açıklamalı Dönüt',
+      'Kazanım: BTY.5.1.4 Yapay zekâ kavramlarını sorgulama',
+      'Görsel İlerleme Çubuğu ve Doğru/Yanlış Takibi',
+      'Sadece Yanlışları Yeniden Çözme (Akıllı Tekrar) Modu',
+      'Klavye (A, B, C, D, 1-4, Enter) ve Dokunmatik Tahta Uyumlu'
+    ]
+  },
+  {
     id: 'dijital-kimlik',
     title: 'Dijital Kimlik Kaşifi',
     subtitle: 'Dijital Kimlik, Ayak İzi & Vatandaşlık Uygulamaları',
