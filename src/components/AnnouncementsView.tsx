@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bell, Megaphone, Play, ExternalLink, Copy, CheckCircle2, ShieldCheck, HelpCircle, Calendar, User, Video, Info, Sparkles, BookOpen } from 'lucide-react';
+import { CodeWeekAnnouncementCard } from './CodeWeekAnnouncementCard';
 
 export const AnnouncementsView: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState(false);
@@ -28,6 +29,15 @@ export const AnnouncementsView: React.FC = () => {
   };
 
   const otherAnnouncements = [
+    {
+      id: 'd-codeweek',
+      category: 'ogrenci',
+      title: "Okulumuz Avrupa Kod Haftası 2026'ya Katılıyor! (EU Code Week)",
+      date: '10–25 Ekim 2026',
+      author: 'Hilal KURTOĞLU',
+      summary: 'Ahi Evran Ortaokulu olarak KodlaBüyü platformu üzerinden "Yapay Zekâ Geleceği Şekillendiriyor" temalı kodlama ve yapay zekâ etkinliklerine katılıyoruz.',
+      tag: 'Kod Haftası 2026'
+    },
     {
       id: 'd-1',
       category: 'veli',
@@ -93,7 +103,10 @@ export const AnnouncementsView: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. ÖNE ÇIKAN DUYURU: EBA VELİ ŞİFRE KILAVUZU (YOUTUBE VİDEOLU) */}
+      {/* 2. ÖNE ÇIKAN ETKİNLİK DUYURUSU: AVRUPA KOD HAFTASI 2026 (EU CODE WEEK) & KODLABÜYÜ */}
+      <CodeWeekAnnouncementCard />
+
+      {/* 3. ÖNE ÇIKAN VİDEO KILAVUZ: EBA VELİ ŞİFRE KILAVUZU */}
       <section className="bg-white border-2 border-pink-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 relative overflow-hidden">
         
         {/* Top Badges & Date */}
