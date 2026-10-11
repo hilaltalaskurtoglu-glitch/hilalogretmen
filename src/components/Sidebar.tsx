@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronDown, ChevronRight, FileText, FolderOpen, Gamepad2, GraduationCap, LayoutList, BookOpen, Sparkles, CheckSquare, Plus, FolderPlus, Megaphone, Bell, ClipboardList, Play, Layers } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronRight, FileText, FolderOpen, Gamepad2, GraduationCap, LayoutList, BookOpen, Sparkles, CheckSquare, Plus, FolderPlus, Megaphone, Bell, ClipboardList, Play, Layers, Brain } from 'lucide-react';
 import { CURRICULUM_WEEKS } from '../data/curriculumData';
 import { GAMES_REGISTRY } from '../data/gamesData';
 import { LECTURE_NOTES } from '../data/lectureNotesData';
@@ -36,6 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [openOdevMenu, setOpenOdevMenu] = useState(false);
   const [openGamesMenu, setOpenGamesMenu] = useState(false);
   const [openNotesMenu, setOpenNotesMenu] = useState(false);
+  const [openMaterialsMenu, setOpenMaterialsMenu] = useState(false);
   const [openTerm1, setOpenTerm1] = useState(true);
   const [openTerm1Ara1, setOpenTerm1Ara1] = useState(true);
   const [openTerm1Ara2, setOpenTerm1Ara2] = useState(false);
@@ -681,7 +682,123 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          {/* D. ÖĞRETMEN MENÜSÜ & HAFTALIK DERSLER */}
+          {/* D. DERS MATERYALLERİ KÜTÜPHANESİ & TESTLER AÇILIR MENÜSÜ */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setOpenMaterialsMenu(true)}
+            onMouseLeave={() => setOpenMaterialsMenu(false)}
+          >
+            {/* Ana Buton */}
+            <div
+              className={`w-full p-2.5 rounded-2xl font-bold transition flex items-center justify-between border shadow-2xs group cursor-pointer ${
+                activeTab === 'materyaller' || activeTab === 'testler'
+                  ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white border-indigo-400 shadow-sm'
+                  : 'bg-gradient-to-r from-indigo-500/90 via-purple-500/90 to-blue-600/90 text-white hover:opacity-95 border-indigo-300/40'
+              }`}
+              onClick={() => {
+                handleTabClick('materyaller');
+                setOpenMaterialsMenu(prev => !prev);
+              }}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  📚
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="block font-black text-xs sm:text-sm">Materyaller &amp; Testler</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                      Kütüphane
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-indigo-100 font-medium truncate">
+                    Testler, sunumlar &amp; belgeler
+                  </span>
+                </div>
+              </div>
+              <ChevronDown 
+                className={`w-4 h-4 text-white/90 transition-transform duration-200 shrink-0 ${
+                  openMaterialsMenu ? 'rotate-180' : ''
+                }`} 
+              />
+            </div>
+
+            {/* Açılır Sekmeler / Alt Menü */}
+            {openMaterialsMenu && (
+              <div className="mt-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md border-2 border-indigo-400/40 rounded-2xl shadow-xl space-y-1 animate-in fade-in slide-in-from-top-2 duration-150 z-20">
+                <div className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-indigo-300/80 flex items-center justify-between border-b border-white/10">
+                  <span>Ders Deposu &amp; Testler</span>
+                  <span className="text-[9px] bg-indigo-400/20 text-indigo-300 px-1.5 py-0.2 rounded-md">5. Sınıf</span>
+                </div>
+
+                {/* TESTLER BÖLÜMÜ BAŞLIĞI & DOĞRUDAN LİNK */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('testler');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-400/30 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-indigo-400/30 text-indigo-200 flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition-transform">
+                    📝
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-black text-xs text-indigo-200 group-hover:text-white transition-colors">
+                        Testler &amp; Bilgini Ölç Bölümü
+                      </span>
+                      <span className="text-[9px] font-black px-1.5 py-0.2 rounded-md bg-yellow-400/20 text-yellow-300 shrink-0 animate-pulse">
+                        4. Hafta
+                      </span>
+                    </div>
+                    <span className="block text-[10px] text-slate-300/90 truncate">
+                      Yapay Zekâ Temelleri Testi (16 Soru)
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-indigo-300 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* 4. Hafta Yapay Zeka Testi Hızlı Çöz */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('testler');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer pl-3"
+                >
+                  <span className="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs shrink-0">
+                    🤖
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-cyan-300">
+                      Yapay Zekâ Temelleri Testi
+                    </div>
+                    <span className="block text-[10px] text-slate-400 truncate">
+                      16 soru &bull; Anında açıklamalı dönüt
+                    </span>
+                  </div>
+                  <Play className="w-3 h-3 text-cyan-400 opacity-60 group-hover:opacity-100 transition shrink-0 fill-current" />
+                </button>
+
+                {/* Tüm Materyaller Kütüphanesini Gör */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('materyaller');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-center py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-indigo-200 font-bold text-[11px] transition border border-white/15 flex items-center justify-center gap-1 cursor-pointer mt-1"
+                >
+                  <BookOpen className="w-3 h-3" />
+                  <span>Ders Materyalleri Kütüphanesini Aç ({materials.length})</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* E. ÖĞRETMEN MENÜSÜ & HAFTALIK DERSLER */}
           <div className="pt-2 pb-1 border-t border-pink-100 flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-black text-slate-800 uppercase tracking-wider">

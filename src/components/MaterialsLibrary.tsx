@@ -1,24 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Material, MaterialType } from '../types';
 import { downloadMaterialFile } from '../utils/downloadHelper';
-import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2 } from 'lucide-react';
+import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain } from 'lucide-react';
+import { YapayZekaGame } from './YapayZekaGame';
+import { DigitalIdentityGame } from './DigitalIdentityGame';
 
 interface MaterialsLibraryProps {
   materials: Material[];
   onOpenMaterial: (mat: Material) => void;
   onOpenAddModal: () => void;
   onPlayGame: (gameKey?: string) => void;
+  initialSelectedType?: string;
+  initialTestId?: string | null;
 }
 
 export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
   materials,
   onOpenMaterial,
   onOpenAddModal,
-  onPlayGame
+  onPlayGame,
+  initialSelectedType = 'all',
+  initialTestId = null
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedType, setSelectedType] = useState<string>('all');
+  const [selectedType, setSelectedType] = useState<string>(initialSelectedType || 'all');
   const [selectedUnit, setSelectedUnit] = useState<string>('all');
+  const [activeInteractiveTestId, setActiveInteractiveTestId] = useState<string>('yapay-zeka');
+
+  useEffect(() => {
+    if (initialSelectedType) {
+      setSelectedType(initialSelectedType);
+    }
+  }, [initialSelectedType]);
+
+  useEffect(() => {
+    if (initialTestId) {
+      setActiveInteractiveTestId(initialTestId);
+      setSelectedType('test');
+    }
+  }, [initialTestId]);
 
   // Extract unique units for filter dropdown
   const units = Array.from(new Set(materials.map(m => m.unit))).filter(Boolean);
@@ -40,6 +60,7 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
 
   const getTypeIcon = (type: MaterialType) => {
     switch (type) {
+      case 'test': return '📝';
       case 'oyun': return '🎮';
       case 'sunum': return '📊';
       case 'dokuman': return '📄';
@@ -51,6 +72,7 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
 
   const getTypeName = (type: MaterialType) => {
     switch (type) {
+      case 'test': return 'Online Test';
       case 'oyun': return 'Eğitsel Oyun';
       case 'sunum': return 'Ders Sunumu';
       case 'dokuman': return 'Belge / Kılavuz';
@@ -77,13 +99,25 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={onOpenAddModal}
-            className="self-start md:self-auto px-5 py-3 bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] hover:opacity-95 text-white font-bold rounded-2xl transition flex items-center gap-2 shadow-sm shrink-0"
-          >
-            <PlusCircle className="w-5 h-5" />
-            <span>Yeni Materyal Ekle</span>
-          </button>
+          <div className="flex items-center gap-2 flex-wrap self-start md:self-auto">
+            <button
+              onClick={() => {
+                setSelectedType('test');
+                setActiveInteractiveTestId('yapay-zeka');
+              }}
+              className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-95 text-white font-bold rounded-2xl transition flex items-center gap-2 shadow-sm cursor-pointer"
+            >
+              <span>📝 Testler (3. &amp; 4. Hafta)</span>
+            </button>
+
+            <button
+              onClick={onOpenAddModal}
+              className="px-5 py-3 bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] hover:opacity-95 text-white font-bold rounded-2xl transition flex items-center gap-2 shadow-sm shrink-0 cursor-pointer"
+            >
+              <PlusCircle className="w-5 h-5" />
+              <span>Yeni Materyal Ekle</span>
+            </button>
+          </div>
         </div>
 
         {/* Search & Filters Bar */}
@@ -99,6 +133,16 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
               }`}
             >
               Tüm Türler ({materials.length})
+            </button>
+            <button
+              onClick={() => setSelectedType('test')}
+              className={`px-4 py-2 rounded-xl text-xs md:text-sm font-bold transition whitespace-nowrap flex items-center gap-1.5 ${
+                selectedType === 'test'
+                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-xs'
+                  : 'bg-indigo-50/70 text-indigo-900 hover:bg-indigo-100/80 border border-indigo-200/60'
+              }`}
+            >
+              <span>📝 Testler &amp; Bilgini Ölç</span>
             </button>
             <button
               onClick={() => setSelectedType('oyun')}
@@ -182,6 +226,102 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
         </div>
       </div>
 
+      {/* İNTERAKTİF TEST ÇÖZÜCÜ SAHNESİ (TESTLER FİLTRESİ AKTİFKEN GÖSTERİLİR) */}
+      {selectedType === 'test' && (
+        <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-indigo-400/50 rounded-3xl p-5 sm:p-7 text-white shadow-md space-y-5 animate-in fade-in duration-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-indigo-400 text-slate-950">
+                  Ders Materyalleri &bull; Testler Bölümü
+                </span>
+                <span className="text-xs text-indigo-200 font-bold hidden sm:inline">
+                  5. Sınıf Bilişim Teknolojileri ve Yazılım
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white mt-1 flex items-center gap-2">
+                <span>📝 Online Testi Çöz &amp; Bilgini Ölç</span>
+              </h3>
+            </div>
+
+            {/* Test Değiştirici Düğmeler (3. ve 4. Hafta) */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={() => setActiveInteractiveTestId('yapay-zeka')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1.5 cursor-pointer shadow-xs ${
+                  activeInteractiveTestId === 'yapay-zeka'
+                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white ring-2 ring-blue-300'
+                    : 'bg-white/10 text-slate-300 hover:text-white hover:bg-white/20'
+                }`}
+              >
+                <span>🤖 4. Hafta: Yapay Zekâ Testi</span>
+              </button>
+
+              <button
+                onClick={() => setActiveInteractiveTestId('dijital-kimlik')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1.5 cursor-pointer shadow-xs ${
+                  activeInteractiveTestId === 'dijital-kimlik'
+                    ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-white ring-2 ring-teal-300'
+                    : 'bg-white/10 text-slate-300 hover:text-white hover:bg-white/20'
+                }`}
+              >
+                <span>🆔 3. Hafta: Dijital Kimlik Testi</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Dış Bağlantılar (4. Hafta için Bağımsız Sayfa / İndir) */}
+          {activeInteractiveTestId === 'yapay-zeka' && (
+            <div className="flex items-center justify-between gap-3 text-xs text-indigo-200 flex-wrap bg-white/5 p-3 rounded-2xl border border-white/10">
+              <span className="font-semibold">
+                📌 16 Özgün Soru &bull; Akıllı Tekrar Modu &bull; Kazanım: BTY.5.1.4
+              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/oyun-4-hafta-yapay-zeka.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-blue-500/30 hover:bg-blue-500/40 border border-blue-400/40 text-blue-200 font-bold transition flex items-center gap-1.5"
+                  title="Testi ayrı pencerede aç"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Ayrı Sekmede Aç</span>
+                </a>
+                <a
+                  href="/oyun-4-hafta-yapay-zeka.html"
+                  download="4_Hafta_Yapay_Zeka_Testi.html"
+                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold transition flex items-center gap-1.5"
+                  title="Test dosyasını bilgisayara indir"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>İndir</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {activeInteractiveTestId === 'dijital-kimlik' && (
+            <div className="flex items-center justify-between gap-3 text-xs text-teal-200 flex-wrap bg-white/5 p-3 rounded-2xl border border-white/10">
+              <span className="font-semibold">
+                📌 10 Soru &bull; Dijital Kimlik, Siber Ayak İzi ve e-Vatandaşlık &bull; Kazanım: BTY.5.1.3
+              </span>
+              <span className="text-teal-300 font-bold">
+                Hilal KURTOĞLU &bull; 3. Hafta Değerlendirmesi
+              </span>
+            </div>
+          )}
+
+          {/* Seçili Test Bileşeni Gövdesi */}
+          <div className="bg-white rounded-3xl p-3 sm:p-6 text-slate-900 shadow-lg">
+            {activeInteractiveTestId === 'dijital-kimlik' ? (
+              <DigitalIdentityGame />
+            ) : (
+              <YapayZekaGame />
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Materials Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredMaterials.map(mat => {
@@ -245,7 +385,21 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                 </div>
 
                 <div className="flex items-center gap-1.5">
-                  {isGame ? (
+                  {mat.type === 'test' ? (
+                    <button
+                      onClick={() => {
+                        setSelectedType('test');
+                        if (mat.interactiveGameKey) {
+                          setActiveInteractiveTestId(mat.interactiveGameKey);
+                        }
+                        window.scrollTo({ top: 300, behavior: 'smooth' });
+                      }}
+                      className="px-3.5 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-95 text-white text-xs font-black rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>Testi Çöz</span>
+                    </button>
+                  ) : isGame ? (
                     <button
                       onClick={() => onPlayGame(mat.interactiveGameKey)}
                       className="px-3.5 py-1.5 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] hover:opacity-95 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-xs"

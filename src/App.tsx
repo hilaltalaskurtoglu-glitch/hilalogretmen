@@ -11,6 +11,7 @@ import { AboutView } from './components/AboutView';
 import { AnnouncementsView } from './components/AnnouncementsView';
 import { HomeworkView } from './components/HomeworkView';
 import { GamesView } from './components/GamesView';
+import { TestsView } from './components/TestsView';
 import { BilisimKahramaniGame } from './components/BilisimKahramaniGame';
 import { MaterialDetailModal } from './components/MaterialDetailModal';
 import { AddMaterialModal } from './components/AddMaterialModal';
@@ -168,8 +169,15 @@ export default function App() {
                 setModalDefaultWeek(undefined);
                 setIsAddModalOpen(true);
               }}
-              onPlayGame={() => {
+              onPlayGame={(gameKey) => {
+                if (gameKey) {
+                  setSelectedGameId(gameKey);
+                }
                 setActiveTab('oyunlar');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onNavigateToTests={() => {
+                setActiveTab('testler');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             />
@@ -221,6 +229,14 @@ export default function App() {
           {/* TAB 9: ÖDEV (DİJİTAL VATANDAŞLIĞIN 9 BOYUTU AFİŞ ÖDEVİ) */}
           {activeTab === 'odev' && (
             <HomeworkView onSelectTab={handleSelectTab} />
+          )}
+
+          {/* TAB 10: TESTLER BÖLÜMÜ (ONLINE TESTLER & BİLGİNİ ÖLÇ - YAPAY ZEKA TESTİ VB.) */}
+          {activeTab === 'testler' && (
+            <TestsView
+              onBackToHome={() => handleSelectTab('anasayfa')}
+              onNavigateToMaterials={() => handleSelectTab('materyaller')}
+            />
           )}
 
         </main>

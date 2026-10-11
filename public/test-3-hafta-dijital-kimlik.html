@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dijital Kimlik Testi – 5. Sınıf 3. Hafta | Hilal KURTOĞLU</title>
+<style>
+  :root{--bg:#e8f6fb;--card:#ffffff;--blue:#1e88c7;--teal:#2bb3b1;--text:#16384f;--ok:#d9f4e6;--okb:#2e9e6b;--no:#fde4e4;--nob:#e05a5a;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;min-height:100%;}
+  body{font-family:'Segoe UI','Trebuchet MS',Arial,sans-serif;background:linear-gradient(160deg,#dff2fa,#f2fbfd);color:var(--text);padding:24px;display:flex;justify-content:center;}
+  .app{width:100%;max-width:1200px;}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  h1{margin:0;font-size:2.2rem;color:var(--blue);}
+  .sub{font-size:1.2rem;color:#4b7a94;}
+  .counter{font-size:1.7rem;font-weight:bold;background:#fff;padding:8px 22px;border-radius:30px;border:3px solid var(--teal);}
+  .bar{height:16px;background:#cfe9f3;border-radius:10px;overflow:hidden;margin-bottom:22px;}
+  .fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .4s;}
+  .card{background:var(--card);border-radius:24px;padding:34px 38px;box-shadow:0 12px 30px rgba(30,136,199,.15);}
+  .q{font-size:2.1rem;line-height:1.4;font-weight:bold;margin:0 0 26px;}
+  .opts{display:grid;gap:16px;}
+  .opt{display:flex;align-items:center;gap:18px;text-align:left;font-size:1.65rem;line-height:1.35;padding:18px 22px;border-radius:16px;border:3px solid #bfe0ee;background:#f4fbfe;color:var(--text);cursor:pointer;font-family:inherit;}
+  .opt:hover:not([disabled]){border-color:var(--blue);background:#e6f5fc;}
+  .opt .l{flex:0 0 52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;font-weight:bold;display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
+  .opt.correct{background:var(--ok);border-color:var(--okb);}
+  .opt.wrong{background:var(--no);border-color:var(--nob);}
+  .opt[disabled]{cursor:default;}
+  .fb{display:none;margin-top:22px;padding:18px 22px;border-radius:16px;font-size:1.5rem;line-height:1.5;}
+  .fb.show{display:block;}
+  .fb.ok{background:var(--ok);border:3px solid var(--okb);}
+  .fb.no{background:var(--no);border:3px solid var(--nob);}
+  .actions{display:flex;justify-content:flex-end;margin-top:22px;}
+  .btn{font-size:1.7rem;font-weight:bold;padding:16px 42px;border:none;border-radius:16px;background:var(--blue);color:#fff;cursor:pointer;font-family:inherit;}
+  .btn:disabled{opacity:.35;cursor:default;}
+  .end{text-align:center;padding:20px 0;}
+  .medal{font-size:6rem;}
+  .score{font-size:3.4rem;font-weight:bold;color:var(--blue);margin:8px 0;}
+  .msg{font-size:1.9rem;margin-bottom:26px;line-height:1.5;}
+  footer{margin-top:20px;text-align:center;font-size:1.1rem;color:#6b8b9e;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div><h1>Dijital Kimlik Testi</h1><div class="sub">5. Sınıf Bilişim Teknolojileri ve Yazılım · 3. Hafta</div></div>
+    <div class="counter" id="counter">1 / 10</div>
+  </header>
+  <div class="bar"><div class="fill" id="fill"></div></div>
+  <div class="card" id="card"></div>
+  <footer>Kazanım: BTY.5.1.3 – Dijital kimlik ve ayak izi kavramlarını analiz edebilme &bull; Hilal KURTOĞLU</footer>
+</div>
+
+<script>
+const Q=[
+ {q:"Bir kişinin internetteki kullanıcı adı, profil bilgileri ve paylaşımlarının bütününe ne denir?",o:["Dijital ayak izi","Dijital kimlik","Ekran süresi","Bulut depolama"],c:1,e:"Dijital kimlik; çevrim içi ortamda bizi temsil eden kullanıcı adı, profil bilgisi ve paylaşımların bütünüdür."},
+ {q:"Aşağıdakilerden hangisi dijital kimliğimizin bir parçasıdır?",o:["Çantamızdaki defter","Oyun hesabındaki kullanıcı adımız ve profil fotoğrafımız","Sınıftaki sıramız","Okul formamız"],c:1,e:"Sosyal medya, oyun ve diğer platformlardaki kullanıcı adı, fotoğraf ve paylaşımlar dijital kimliğimizi oluşturur."},
+ {q:"Yaptığımız aramalar, gezdiğimiz siteler ve paylaşımlarımızla çevrim içi ortamda bıraktığımız izlere ne denir?",o:["Dijital ayak izi","İşletim sistemi","Dosya uzantısı","Yazılım güncellemesi"],c:0,e:"Bilerek ya da bilmeyerek bıraktığımız bu izlere dijital ayak izi denir."},
+ {q:"İnternette bir şey paylaşmadan önce neden iki kez düşünmeliyiz?",o:["Paylaşımlar bir gün sonra kendiliğinden silinir.","Paylaşımlar yalnızca bizim görebileceğimiz yerde durur.","Paylaşımlar uzun süre kalabilir ve birçok kişi tarafından görülebilir.","Paylaşımların hiçbir etkisi olmaz."],c:2,e:"Dijital ortamdaki paylaşımlar kalıcı olabilir ve çok kişi görebilir. Bu yüzden paylaşmadan önce düşünmeliyiz."},
+ {q:"Aşağıdakilerden hangisi en güçlü şifredir?",o:["123456","okulum","ahmet2014","Mv7!kT#92q"],c:3,e:"Güçlü şifre; büyük-küçük harf, rakam ve özel karakter içerir ve kişisel bilgi barındırmaz."},
+ {q:"Giriş şifreni kiminle paylaşmalısın?",o:["En yakın arkadaşımla","Sınıftaki herkesle","Kimseyle paylaşmamalıyım","Oyunda tanıştığım biriyle"],c:2,e:"Şifre kişiseldir. Arkadaşlarımızla bile paylaşmamalıyız."},
+ {q:"Tanımadığın biri mesaj atıp ev adresini ve telefon numaranı isterse ne yapmalısın?",o:["Hemen verirsin","Vermez, ailene veya öğretmenine haber verirsin","Sadece adresini verirsin","Mesajı cevaplayıp onunla sohbet edersin"],c:1,e:"Kişisel bilgiler tanımadığımız kişilerle paylaşılmaz. Güvendiğimiz bir yetişkine haber vermeliyiz."},
+ {q:"Bir yapay zekâ uygulamasına adını, adresini, fotoğraflarını veya ailenle ilgili bilgileri vermek için ne yapmalısın?",o:["İstediği her şeyi vermeliyim","Arkadaşlarım veriyorsa vermeliyim","İzinsiz hiçbir bilgi vermemeliyim","Sadece fotoğraf vermem yeterli"],c:2,e:"Bu bilgileri hiçbir yapay zekâ uygulamasına izinsiz vermemeliyiz. Son karar her zaman yetişkinlerindir (aile ve öğretmenler)."},
+ {q:"EBA ile ders videosu izlemek hangi dijital vatandaşlık uygulama alanına girer?",o:["Sağlık","Alışveriş","Eğitim","E-Devlet"],c:2,e:"EBA bir eğitim uygulamasıdır. MHRS sağlık, e-Devlet ise kamu hizmetleri alanına girer."},
+ {q:"Sosyal medyada seni rahatsız eden bir durumla ya da güvenlik sorunuyla karşılaşırsan ne yapmalısın?",o:["Kimseye söylemeden kendim çözerim","Güvendiğim aile bireyine, öğretmenime veya rehber öğretmenime başvururum","İnternetteki yabancılara danışırım","Hiçbir şey yapmam"],c:1,e:"Böyle bir durumda aile, öğretmen veya okul rehberlik servisi gibi güvenilir kişilere başvurmalıyız."}
+];
+let i=0,score=0;
+const card=document.getElementById("card"),counter=document.getElementById("counter"),fill=document.getElementById("fill");
+const L=["A","B","C","D"];
+function show(){
+  const q=Q[i];
+  counter.textContent=(i+1)+" / "+Q.length;
+  fill.style.width=(i/Q.length*100)+"%";
+  card.innerHTML='<p class="q">'+q.q+'</p><div class="opts" id="opts"></div><div class="fb" id="fb"></div><div class="actions"><button class="btn" id="next" disabled>'+(i===Q.length-1?"Sonucu Gör":"Sonraki Soru")+'</button></div>';
+  const box=document.getElementById("opts");
+  q.o.forEach((t,k)=>{
+    const b=document.createElement("button");
+    b.className="opt";
+    b.innerHTML='<span class="l">'+L[k]+'</span><span>'+t+'</span>';
+    b.onclick=()=>pick(k);
+    box.appendChild(b);
+  });
+  document.getElementById("next").onclick=()=>{i++;i<Q.length?show():end();};
+}
+function pick(k){
+  const q=Q[i],btns=document.querySelectorAll(".opt"),fb=document.getElementById("fb");
+  btns.forEach(b=>b.disabled=true);
+  btns[q.c].classList.add("correct");
+  if(k===q.c){score++;fb.className="fb show ok";fb.textContent="✔ Doğru! "+q.e;}
+  else{btns[k].classList.add("wrong");fb.className="fb show no";fb.textContent="✘ Yanlış. "+q.e;}
+  document.getElementById("next").disabled=false;
+}
+function end(){
+  fill.style.width="100%";
+  counter.textContent="Bitti";
+  let m,e;
+  if(score>=9){e="🏅";m="Harika! Tam bir dijital kimlik uzmanısın!";}
+  else if(score>=7){e="🌟";m="Çok iyi! Dijital kimliğini iyi koruyorsun.";}
+  else if(score>=5){e="👍";m="İyi gidiyorsun! Konuyu biraz daha tekrar edelim.";}
+  else{e="📘";m="Hadi birlikte konuyu tekrar edelim, bir dahaki sefere daha iyi olacak!";}
+  card.innerHTML='<div class="end"><div class="medal">'+e+'</div><div class="score">'+score+' / '+Q.length+'</div><div class="msg">'+m+'</div><button class="btn" id="again">Testi Tekrar Çöz</button></div>';
+  document.getElementById("again").onclick=()=>{i=0;score=0;show();};
+}
+show();
+</script>
+</body>
+</html>

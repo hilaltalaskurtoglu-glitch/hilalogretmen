@@ -12,20 +12,20 @@ export interface GameItem {
 
 export const GAMES_REGISTRY: GameItem[] = [
   {
-    id: 'yapay-zeka',
-    title: 'Yapay Zekâ Temelleri – Bilgini Ölç',
-    subtitle: 'BTY.5.1.4 Yapay Zekâ Kavramlarını Sorgulama',
+    id: 'yapay-zeka-kasifleri',
+    title: 'Yapay Zekâ Kaşifleri',
+    subtitle: '5. Sınıf · 4. Hafta – 5 Görevli Yapay Zekâ Macerası',
     weekTag: '4. Hafta',
-    description: 'Yapay zekânın ne olduğunu, nerelerde kullanıldığını, makine öğrenmesini ve güvenle nasıl kullanacağımızı 16 soruda sına. Anında açıklama ve dönütlerle öğren!',
+    description: 'Yapay zekânın temellerini 5 eğlenceli görevle keşfet! Yapay zekâ mı/değil mi sınıflandırması, insan vs makine karşılaştırması, alan eşleştirmeleri, öncü bilim insanları ve bilinçli kullanım görevlerini tamamla, kaşif rozetini kazan!',
     icon: '🤖',
     accentColor: 'blue',
-    tags: ['Yapay Zekâ', 'Makine Öğrenmesi', 'BTY.5.1.4', 'Sesli Asistanlar', 'Etik ve Güvenlik', '4. Hafta'],
+    tags: ['Yapay Zekâ Kaşifleri', 'BTY.5.1.4', '4. Hafta', '5 Görev', 'Eşleştirme', 'Sınıflandırma', 'Akıllı Tahta'],
     features: [
-      '16 Özgün Soru & Anında Açıklamalı Dönüt',
-      'Kazanım: BTY.5.1.4 Yapay zekâ kavramlarını sorgulama',
-      'Görsel İlerleme Çubuğu ve Doğru/Yanlış Takibi',
-      'Sadece Yanlışları Yeniden Çözme (Akıllı Tekrar) Modu',
-      'Klavye (A, B, C, D, 1-4, Enter) ve Dokunmatik Tahta Uyumlu'
+      '1. Görev: Yapay Zekâ mı, Değil mi? (8 Örnek)',
+      '2. Görev: İnsan mı, Yapay Zekâ mı? (Özellik Analizi)',
+      '3. Görev: Yapay Zekâ Nerede? (Kullanım Alanları Eşleştirme)',
+      '4. Görev: Yapay Zekânın Öncüleri (Turing, Arf, McCarthy, Lovelace)',
+      '5. Görev: Kaptan Sensin! (Güvenli & Bilinçli Kullanım Soruları)'
     ]
   },
   {

@@ -18,7 +18,7 @@ import {
 import { GAMES_REGISTRY, GameItem } from '../data/gamesData';
 import { DigitalIdentityGame } from './DigitalIdentityGame';
 import { BilisimKahramaniGame } from './BilisimKahramaniGame';
-import { YapayZekaGame } from './YapayZekaGame';
+import { YapayZekaKasifleriGame } from './YapayZekaKasifleriGame';
 
 interface GamesViewProps {
   onBackToHome?: () => void;
@@ -187,10 +187,10 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <Maximize2 className="w-3.5 h-3.5 ml-auto opacity-70" />
                   </button>
 
-                  {game.id === 'yapay-zeka' && (
+                  {game.id === 'yapay-zeka-kasifleri' && (
                     <div className="flex items-center gap-1.5">
                       <a
-                        href="/oyun-4-hafta-yapay-zeka.html"
+                        href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition"
@@ -200,8 +200,8 @@ export const GamesView: React.FC<GamesViewProps> = ({
                         <span>Web Sitesinde Aç</span>
                       </a>
                       <a
-                        href="/oyun-4-hafta-yapay-zeka.html"
-                        download="4_Hafta_Yapay_Zeka_Oyunu.html"
+                        href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
+                        download="Yapay_Zeka_Kasifleri_5Sinif_4Hafta.html"
                         className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition"
                         title="HTML dosyasını bilgisayara indir"
                       >
@@ -250,21 +250,21 @@ export const GamesView: React.FC<GamesViewProps> = ({
             {/* Oyun Değiştirici ve Kapatma Butonu */}
             <div className="flex items-center gap-2">
               {/* Web sitesi / HTML aç seçeneği */}
-              {activeFullscreenGameId === 'yapay-zeka' && (
+              {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
                 <div className="hidden sm:flex items-center gap-1.5">
                   <a
-                    href="/oyun-4-hafta-yapay-zeka.html"
+                    href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 text-blue-200 text-xs font-bold transition"
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/30 text-sky-200 text-xs font-bold transition"
                     title="Bağımsız Web Sitesi Olarak Aç"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Ayrı Sekmede Aç</span>
                   </a>
                   <a
-                    href="/oyun-4-hafta-yapay-zeka.html"
-                    download="4_Hafta_Yapay_Zeka_Oyunu.html"
+                    href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
+                    download="Yapay_Zeka_Kasifleri_5Sinif_4Hafta.html"
                     className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
                     title="HTML Dosyasını İndir"
                   >
@@ -308,8 +308,8 @@ export const GamesView: React.FC<GamesViewProps> = ({
           {/* Modal Oyun Alanı (Scrollable / Full-Height Container) */}
           <div className="flex-1 overflow-y-auto p-2 sm:p-6 flex items-center justify-center">
             <div className="w-full max-w-5xl my-auto">
-              {activeFullscreenGameId === 'yapay-zeka' && (
-                <YapayZekaGame onBackToHome={() => setActiveFullscreenGameId(null)} />
+              {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
+                <YapayZekaKasifleriGame onBackToHome={() => setActiveFullscreenGameId(null)} />
               )}
 
               {activeFullscreenGameId === 'dijital-kimlik' && (

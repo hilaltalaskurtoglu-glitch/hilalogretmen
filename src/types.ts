@@ -1,4 +1,4 @@
-export type MaterialType = 'oyun' | 'sunum' | 'dokuman' | 'video' | 'etkinlik';
+export type MaterialType = 'oyun' | 'sunum' | 'dokuman' | 'video' | 'etkinlik' | 'test';
 
 export interface Material {
   id: string;
