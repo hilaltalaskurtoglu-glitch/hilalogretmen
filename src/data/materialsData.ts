@@ -5,6 +5,23 @@ import { Material } from '../types';
 // materyaller ilgili haftalara ve orta bölümdeki "Son Yüklenenler" alanına eklenecektir.
 export const INITIAL_MATERIALS: Material[] = [
   {
+    id: "mat-not-4-hafta-yapay-zeka",
+    title: "4. Hafta Defter Notu: Yapay Zekâda Temel Kavram ve Özellikler",
+    grade: "5. Sınıf",
+    unit: "Bilişim Teknolojilerinin Hayatımızdaki Yeri",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 4,
+    type: "dokuman",
+    fileFormat: "PDF",
+    fileSize: "Defter Notu / Özet",
+    dateAdded: "2026-10-11",
+    description: "Yapay zekâ tanımı, günlük hayattaki kullanım alanları, insan zekâsı ile karşılaştırılması, John McCarthy ve yapay zekânın doğuşu, yapay zekâ öncüleri (Ada Lovelace, Alan Turing, Cahit Arf) ve teknolojiyi bilinçli kullanma rehberi.",
+    author: "Hilal KURTOĞLU",
+    tags: ["Ders Notu", "Yapay Zekâ", "Defter Notu", "4. Hafta", "BTY.5.1.4"],
+    isFeatured: true
+  },
+  {
     id: "mat-game-3",
     title: "Yapay Zekâ Temelleri: Bilgini Ölç Oyunu",
     grade: "5. Sınıf",

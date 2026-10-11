@@ -11,7 +11,9 @@ import {
   X, 
   Star,
   Layers,
-  ChevronRight
+  ChevronRight,
+  ExternalLink,
+  Download
 } from 'lucide-react';
 import { GAMES_REGISTRY, GameItem } from '../data/gamesData';
 import { DigitalIdentityGame } from './DigitalIdentityGame';
@@ -168,8 +170,8 @@ export const GamesView: React.FC<GamesViewProps> = ({
                   </div>
                 </div>
 
-                {/* Sağ Kısım: Tam Ekran Başlat Butonu */}
-                <div className="lg:w-60 flex flex-col gap-2 shrink-0 border-t lg:border-t-0 lg:border-l border-white/15 pt-4 lg:pt-0 lg:pl-6">
+                {/* Sağ Kısım: Tam Ekran Başlat Butonu & Web Sitesi Seçenekleri */}
+                <div className="lg:w-64 flex flex-col gap-2 shrink-0 border-t lg:border-t-0 lg:border-l border-white/15 pt-4 lg:pt-0 lg:pl-6">
                   <button
                     onClick={() => setActiveFullscreenGameId(game.id)}
                     className={`w-full py-3.5 px-5 rounded-2xl font-black text-sm flex items-center justify-center gap-2.5 shadow-lg transition-transform hover:scale-102 active:scale-98 cursor-pointer ${
@@ -184,6 +186,30 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <span>Tam Ekran Oyna</span>
                     <Maximize2 className="w-3.5 h-3.5 ml-auto opacity-70" />
                   </button>
+
+                  {game.id === 'yapay-zeka' && (
+                    <div className="flex items-center gap-1.5">
+                      <a
+                        href="/oyun-4-hafta-yapay-zeka.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition"
+                        title="Web oyunu olarak yeni sekmede aç"
+                      >
+                        <ExternalLink className="w-3 h-3 text-cyan-300" />
+                        <span>Web Sitesinde Aç</span>
+                      </a>
+                      <a
+                        href="/oyun-4-hafta-yapay-zeka.html"
+                        download="4_Hafta_Yapay_Zeka_Oyunu.html"
+                        className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition"
+                        title="HTML dosyasını bilgisayara indir"
+                      >
+                        <Download className="w-3 h-3 text-cyan-300" />
+                        <span>İndir</span>
+                      </a>
+                    </div>
+                  )}
 
                   <div className="text-center text-[11px] text-slate-400 font-medium">
                     ⚡ Akıllı Tahta &amp; Tablet Uyumlu
@@ -223,6 +249,31 @@ export const GamesView: React.FC<GamesViewProps> = ({
 
             {/* Oyun Değiştirici ve Kapatma Butonu */}
             <div className="flex items-center gap-2">
+              {/* Web sitesi / HTML aç seçeneği */}
+              {activeFullscreenGameId === 'yapay-zeka' && (
+                <div className="hidden sm:flex items-center gap-1.5">
+                  <a
+                    href="/oyun-4-hafta-yapay-zeka.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/30 text-blue-200 text-xs font-bold transition"
+                    title="Bağımsız Web Sitesi Olarak Aç"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Ayrı Sekmede Aç</span>
+                  </a>
+                  <a
+                    href="/oyun-4-hafta-yapay-zeka.html"
+                    download="4_Hafta_Yapay_Zeka_Oyunu.html"
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
+                    title="HTML Dosyasını İndir"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>İndir</span>
+                  </a>
+                </div>
+              )}
+
               {/* Diğer oyuna hızlı geçiş */}
               <div className="hidden md:flex items-center gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700">
                 {GAMES_REGISTRY.map(g => (

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. Hafta Ödevi: Yapay Zekânın Temelleri - BTY Dersi | Hilal KURTOĞLU</title>
+<style>
+  :root {
+    --ink: #0f172a;
+    --navy: #1e3a8a;
+    --orange: #ea580c;
+    --orange-dark: #c2410c;
+    --orange-soft: #fff7ed;
+    --purple: #7e22ce;
+    --purple-soft: #faf5ff;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: #f8fafc;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 32px 38px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+  }
+  .header {
+    text-align: center;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  .school {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 6px 0 4px 0;
+    font-size: 22px;
+    color: var(--navy);
+    font-weight: 900;
+    letter-spacing: .3px;
+  }
+  .sub {
+    font-size: 13px;
+    color: var(--orange-dark);
+    font-weight: 800;
+  }
+  .student-card {
+    background: var(--orange-soft);
+    border: 1.5px solid #fed7aa;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    font-size: 13px;
+  }
+  .student-card .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .student-card .field label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9a3412;
+    text-transform: uppercase;
+  }
+  .student-card .field .line {
+    border-bottom: 1.5px dotted #9a3412;
+    min-height: 22px;
+    font-weight: 800;
+    color: #1e293b;
+    padding: 0 4px;
+  }
+  .instruction-box {
+    background: #fefce8;
+    border-left: 4px solid #eab308;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    font-size: 12.5px;
+    color: #713f12;
+    line-height: 1.5;
+  }
+  .question-block {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+  .q-badge {
+    display: inline-block;
+    background: var(--navy);
+    color: #fff;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .q-badge.orange {
+    background: var(--orange);
+  }
+  .q-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .tip-box {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11.5px;
+    color: #475569;
+    border: 1px dashed #cbd5e1;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .answer-area {
+    min-height: 110px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #1e293b;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    position: relative;
+  }
+  .answer-lines {
+    background-image: repeating-linear-gradient(transparent, transparent 27px, #e2e8f0 28px);
+    line-height: 28px;
+  }
+  .footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 2px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11.5px;
+    color: #64748b;
+  }
+  .footer strong {
+    color: #1e293b;
+  }
+  .actions {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-print {
+    background: #ea580c;
+    color: white;
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+  }
+  .btn-print:hover {
+    background: #c2410c;
+  }
+  .btn-back {
+    background: #e2e8f0;
+    color: #334155;
+  }
+  .btn-back:hover {
+    background: #cbd5e1;
+  }
+  @media print {
+    body {
+      background: #fff !important;
+      padding: 0 !important;
+    }
+    .page {
+      box-shadow: none !important;
+      border: none !important;
+      padding: 10mm 12mm !important;
+      max-width: 100% !important;
+    }
+    .actions, .no-print {
+      display: none !important;
+    }
+    @page {
+      size: A4 portrait;
+      margin: 10mm 8mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="actions no-print">
+  <button class="btn btn-print" onclick="window.print()">
+    🖨️ Bu Sayfayı Yazdır / PDF Olarak Kaydet
+  </button>
+  <button class="btn btn-back" onclick="window.close(); if(!window.closed) history.back();">
+    ✕ Sayfayı Kapat
+  </button>
+</div>
+
+<div class="page" id="printable-content">
+  <div class="header">
+    <div class="school">Ahi Evran Ortaokulu &bull; Bilişim Teknolojileri ve Yazılım Dersi</div>
+    <h1>4. HAFTA ÖDEV ÇALIŞMA FORMU</h1>
+    <div class="sub">YAPAY ZEKÂNIN TEMELLERİ &bull; 1. DÖNEM 4. HAFTA</div>
+  </div>
+
+  <div class="student-card">
+    <div class="field">
+      <label>Öğrenci Adı ve Soyadı</label>
+      <div class="line" id="val-name">_________________________________</div>
+    </div>
+    <div class="field">
+      <label>Sınıfı &amp; Şubesi</label>
+      <div class="line" id="val-class">5 - ____</div>
+    </div>
+    <div class="field">
+      <label>Okul Numarası</label>
+      <div class="line" id="val-no">________</div>
+    </div>
+  </div>
+
+  <div class="instruction-box">
+    📌 <strong>Öğretmenin Talimatı (Hilal KURTOĞLU):</strong> Bu hafta dersimizde Yapay Zekânın Temellerini, insan zekâsı ile benzer ve farklı yönlerini öğrendik. Aşağıdaki 2 soruyu kendi düşüncelerinizle cevaplayarak bu formu bir sonraki Bilişim dersine getiriniz. Puan Değeri: 100 Puan.
+  </div>
+
+  <!-- Soru 1 -->
+  <div class="question-block">
+    <span class="q-badge">SORU 1 &bull; 50 PUAN</span>
+    <div class="q-title">
+      1. Yapay zekâ ile insan zekâsı arasındaki en temel fark sence nedir?
+    </div>
+    <div class="tip-box">
+      💡 <strong>Düşünce Rehberi:</strong> İnsanların hisleri, empati yeteneği, bilinci, vicdanı ve yaratıcılığı ile yapay zekânın dev verilerle eğitilmesi, hızlı hesaplaması ve duygu/bilinçten yoksun olması yönlerini karşılaştırabilirsiniz.
+    </div>
+    <div class="answer-area answer-lines" id="val-q1">
+      <br><br><br><br>
+    </div>
+  </div>
+
+  <!-- Soru 2 -->
+  <div class="question-block">
+    <span class="q-badge orange">SORU 2 &bull; 50 PUAN</span>
+    <div class="q-title">
+      2. Sen bir yapay zekâ geliştiricisi olsaydın, hangi alanda çalışmak isterdin? Yapay zekâyı hangi sorunu çözmek için kullanırdın?
+    </div>
+    <div class="tip-box">
+      💡 <strong>Örnek Alanlar:</strong> Sağlık ve Tıp, Çevre ve İklim, Engelsiz Yaşam, Uzay Keşfi, Akıllı Şehirler, Eğitim, Tarım, Siber Güvenlik ve Afet Yönetimi...
+    </div>
+    <div class="answer-area answer-lines" id="val-q2">
+      <br><br><br><br>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>
+      <strong>Hilal KURTOĞLU</strong> &bull; Bilgisayar ve Öğretim Teknolojileri Öğretmeni
+    </div>
+    <div>
+      📅 Teslim: Bir sonraki Bilişim dersinde &bull; 100 Puan
+    </div>
+  </div>
+</div>
+
+<script>
+  // localStorage'dan kaydedilmiş cevapları otomatik alıp sayfaya yerleştir
+  try {
+    const name = localStorage.getItem('bty_homework_name');
+    const cls = localStorage.getItem('bty_homework_class');
+    const no = localStorage.getItem('bty_homework_no');
+    const q1 = localStorage.getItem('bty_homework_q1');
+    const q2 = localStorage.getItem('bty_homework_q2');
+
+    if (name) document.getElementById('val-name').textContent = name;
+    if (cls) document.getElementById('val-class').textContent = cls;
+    if (no) document.getElementById('val-no').textContent = no;
+    if (q1 && q1.trim()) {
+      const q1El = document.getElementById('val-q1');
+      q1El.textContent = q1;
+      q1El.classList.remove('answer-lines');
+    }
+    if (q2 && q2.trim()) {
+      const q2El = document.getElementById('val-q2');
+      q2El.textContent = q2;
+      q2El.classList.remove('answer-lines');
+    }
+  } catch (e) {
+    console.error(e);
+  }
+</script>
+
+</body>
+</html>

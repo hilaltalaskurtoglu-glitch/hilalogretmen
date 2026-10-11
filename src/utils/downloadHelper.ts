@@ -25,6 +25,28 @@ export function downloadMaterialFile(material: Material): { success: boolean; me
       return { success: true, message: 'İndirme bağlantısı açıldı!' };
     }
 
+    // Special: 4. Hafta Defter Notu HTML Dosyası
+    if (material.id === 'mat-not-4-hafta-yapay-zeka') {
+      const a = document.createElement('a');
+      a.href = '/ders-notu-4-hafta-yapay-zeka.html';
+      a.download = '4_Hafta_Yapay_Zeka_Ders_Notu.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return { success: true, message: '"4. Hafta Defter Notu" HTML dosyası başarıyla indirildi!' };
+    }
+
+    // Special: 4. Hafta Yapay Zekâ Web Oyunu HTML Dosyası
+    if (material.id === 'mat-game-3' || material.interactiveGameKey === 'yapay-zeka') {
+      const a = document.createElement('a');
+      a.href = '/oyun-4-hafta-yapay-zeka.html';
+      a.download = '4_Hafta_Yapay_Zeka_Oyunu.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return { success: true, message: '"Yapay Zekâ Bilgini Ölç" oyun dosyası başarıyla indirildi!' };
+    }
+
     // 2. If it's a real base64/Data URL (from user uploaded file)
     if (material.downloadUrl && (material.downloadUrl.startsWith('data:') || material.downloadUrl.startsWith('blob:'))) {
       const a = document.createElement('a');

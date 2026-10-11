@@ -56,14 +56,26 @@ export interface LectureNote {
   id: string;
   unit: string;
   title: string;
+  subtitle?: string;
   summary: string;
   keyPoints?: string[];
   sections?: {
     heading: string;
     icon?: string;
     badge?: string;
+    description?: string;
     items?: { label: string; text: string }[];
     points?: string[];
+    table?: {
+      headers: string[];
+      rows: string[][];
+    };
+    columns?: {
+      title: string;
+      badge?: string;
+      color?: 'green' | 'red' | 'amber' | 'blue' | 'purple';
+      points: string[];
+    }[];
   }[];
   benefits?: string[];
   homework?: string;

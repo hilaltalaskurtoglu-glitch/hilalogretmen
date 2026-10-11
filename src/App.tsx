@@ -21,6 +21,7 @@ import { loadStoredMaterials, saveStoredMaterials } from './data/materialsData';
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('anasayfa');
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+  const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const [materials, setMaterials] = useState<Material[]>(() => loadStoredMaterials());
   const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -54,12 +55,21 @@ export default function App() {
     if (tab !== 'oyunlar') {
       setSelectedGameId(null);
     }
+    if (tab !== 'ders-notlari') {
+      setSelectedNoteId(null);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectGame = (gameId: string) => {
     setSelectedGameId(gameId);
     setActiveTab('oyunlar');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectNote = (noteId: string) => {
+    setSelectedNoteId(noteId);
+    setActiveTab('ders-notlari');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -121,6 +131,7 @@ export default function App() {
           onSelectWeek={handleSelectWeek}
           onSelectTab={handleSelectTab}
           onSelectGame={handleSelectGame}
+          onSelectNote={handleSelectNote}
           activeTab={activeTab}
           selectedWeekKey={selectedWeekKey}
           isOpenMobile={isSidebarOpenMobile}
@@ -194,7 +205,7 @@ export default function App() {
 
           {/* TAB 6: DERS NOTLARI (5. SINIF TÜM ÜNİTE ÇALIŞMA ÖZETLERİ) */}
           {activeTab === 'ders-notlari' && (
-            <LectureNotesView onSelectTab={handleSelectTab} />
+            <LectureNotesView onSelectTab={handleSelectTab} selectedNoteId={selectedNoteId} />
           )}
 
           {/* TAB 7: HAKKINDA (ÖĞRETMEN VE MİSYON BİLGİSİ) */}
@@ -229,10 +240,15 @@ export default function App() {
       <MaterialDetailModal
         material={selectedMaterial}
         onClose={() => setSelectedMaterial(null)}
-        onPlayGame={() => {
+        onPlayGame={(key) => {
           setSelectedMaterial(null);
-          handleSelectTab('oyunlar');
+          if (key) {
+            handleSelectGame(key);
+          } else {
+            handleSelectTab('oyunlar');
+          }
         }}
+        onSelectTab={handleSelectTab}
       />
 
       {/* Modal: Teacher Upload / Add New Material */}

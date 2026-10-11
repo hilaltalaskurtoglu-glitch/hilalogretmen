@@ -157,5 +157,110 @@ export const LECTURE_NOTES: LectureNote[] = [
     term: "1. Dönem",
     recommendedWeek: "3. Hafta",
     icon: "🏛️"
+  },
+  {
+    id: "not-4-hafta-yapay-zeka",
+    unit: "Bilişim Teknolojilerinin Hayatımızdaki Yeri",
+    title: "YAPAY ZEKÂDA TEMEL KAVRAM VE ÖZELLİKLER",
+    subtitle: "5. Sınıf Bilişim Teknolojileri ve Yazılım • Defter Notu",
+    summary: "Yapay zekânın tanımı, temel özellikleri, günlük hayattaki kullanım alanları, insan zekâsı ile karşılaştırılması, John McCarthy ve yapay zekânın doğuşu, yapay zekâ öncüleri ve teknolojiyi bilinçli kullanma rehberi.",
+    keyPoints: [
+      "1. Yapay Zekâ Nedir?: Yapay zekâ, bilgisayarların ve makinelerin bazı görevleri insanlara benzer şekilde yapabilmesini sağlayan teknolojidir.",
+      "Temel Özellikleri: Verileri analiz eder, öğrenebilir, karar verebilir, akıllı öneriler sunabilir.",
+      "Bilinçli Kullanım İlkesi: Yapay zekâ bir araçtır; onu bilinçli ve sorumlu bir şekilde kullanmalıyız."
+    ],
+    sections: [
+      {
+        heading: "2. Günlük Hayatta Yapay Zekâ",
+        icon: "📱",
+        badge: "Uygulama & Görevleri",
+        description: "Günlük yaşantımızda sıkça karşımıza çıkan akıllı sistemler:",
+        table: {
+          headers: ["Uygulama", "Ne yapar?"],
+          rows: [
+            ["Sesli asistan", "Sorularını dinler, sesli cevap verir."],
+            ["Yüz tanıma", "Yüzünü tanıyarak telefonun kilidini açar."],
+            ["Film / video öneri sistemi", "İzlediklerine bakarak yeni öneriler sunar."],
+            ["Akıllı ev cihazları", "Evdeki bazı işleri bizim yerimize kolaylaştırır."],
+            ["Robot süpürge", "Evi dolaşır, engellere çarpmadan temizler."],
+            ["Navigasyon", "Trafiği bilip seni en kısa yoldan götürür."]
+          ]
+        }
+      },
+      {
+        heading: "3. Yapay Zekâ ve İnsan Zekâsı Karşılaştırması",
+        icon: "🧠",
+        badge: "Ortak & Farklı Yönler",
+        description: "Ortak özellikler: Öğrenebilirler, karar verebilirler, sorun çözebilirler, yeni şeyler keşfedebilirler.",
+        table: {
+          headers: ["Özellik", "İnsan Zekâsı", "Yapay Zekâ"],
+          rows: [
+            ["Hayal gücü", "Var", "Yok"],
+            ["Duygular", "Var", "Yok"],
+            ["Hızlı hesaplama", "Yavaş", "Çok hızlı"],
+            ["Yaratıcılık", "Yüksek", "Sınırlı"]
+          ]
+        }
+      },
+      {
+        heading: "4. John McCarthy ve Yapay Zekânın Doğuşu",
+        icon: "💡",
+        badge: "Tarihsel Dönüm Noktası",
+        points: [
+          "Yapay zekâ kavramını ilk ortaya atan Amerikalı bilim insanı John McCarthy’dir; “yapay zekânın babası” olarak bilinir.",
+          "1956’daki Dartmouth Konferansı’nda “Yapay Zekâ” terimini kullandı.",
+          "Bilgisayarların öğrenebileceğini, karar verebileceğini ve sorun çözebileceğini düşündü."
+        ]
+      },
+      {
+        heading: "5. Yapay Zekâ Öncüleri",
+        icon: "🎓",
+        badge: "Bilim İnsanları & Katkıları",
+        description: "Yapay zekâ ve bilgisayar biliminin temellerini atan önemli bilim insanları:",
+        table: {
+          headers: ["Bilim insanı", "Katkısı"],
+          rows: [
+            ["Ada Lovelace", "İlk bilgisayar programcısı kabul edilir."],
+            ["Alan Turing", "Turing Testi ile tanınır."],
+            ["John McCarthy", "“Yapay Zekâ” terimini kullandı."],
+            ["Marvin Minsky", "Yapay zekâ laboratuvarı çalışmalarına öncülük etti."],
+            ["Cahit Arf", "Türk matematikçi; makine düşünmesi üzerine çalışmalar yaptı."]
+          ]
+        }
+      },
+      {
+        heading: "6. Hayatımızı Nasıl Kolaylaştırır?",
+        icon: "⚖️",
+        badge: "Faydalar & Dikkat Edilecekler",
+        columns: [
+          {
+            title: "Faydaları",
+            badge: "Kolaylıklar",
+            color: "green",
+            points: [
+              "İşleri daha hızlı yapmamıza yardımcı olur.",
+              "Büyük verileri analiz eder.",
+              "Akıllı öneriler sunar.",
+              "Günlük hayatı kolaylaştırır."
+            ]
+          },
+          {
+            title: "Dikkat Edilmesi Gerekenler",
+            badge: "Güvenlik & Sorumluluk",
+            color: "amber",
+            points: [
+              "Bazen hatalı sonuçlar üretebilir.",
+              "Kişisel veriler ve güvenlik sorunları olabilir.",
+              "Teknolojiye bağımlılığı artırabilir."
+            ]
+          }
+        ]
+      }
+    ],
+    tip: "💡 Önemli İlke: Yapay zekâ bir araçtır; onu bilinçli ve sorumlu kullanmalıyız. Ödevlerimizde ve araştırmalarımızda güvenilir kaynaklardan teyit etmeli, kişisel verilerimizi korumalıyız.",
+    homework: "📋 4. HAFTA ÖDEVİ - YAPAY ZEKÂNIN TEMELLERİ: 1. Yapay zekâ ile insan zekâsı arasındaki en temel fark sence nedir? 2. Sen bir yapay zekâ geliştiricisi olsaydın, hangi alanda çalışmak isterdin? Yapay zekâyı hangi sorunu çözmek için kullanırdın?",
+    term: "1. Dönem",
+    recommendedWeek: "4. Hafta",
+    icon: "🤖"
   }
 ];

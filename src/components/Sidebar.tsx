@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Calendar, ChevronDown, ChevronRight, FileText, FolderOpen, Gamepad2, GraduationCap, LayoutList, BookOpen, Sparkles, CheckSquare, Plus, FolderPlus, Megaphone, Bell, ClipboardList, Play, Layers } from 'lucide-react';
 import { CURRICULUM_WEEKS } from '../data/curriculumData';
 import { GAMES_REGISTRY } from '../data/gamesData';
+import { LECTURE_NOTES } from '../data/lectureNotesData';
 import { Material } from '../types';
 
 interface SidebarProps {
   onSelectWeek: (term: 1 | 2, period: 1 | 2, periodWeek: number) => void;
   onSelectTab: (tab: string) => void;
   onSelectGame?: (gameId: string) => void;
+  onSelectNote?: (noteId: string) => void;
   activeTab: string;
   selectedWeekKey: string | null;
   isOpenMobile: boolean;
@@ -20,6 +22,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectWeek,
   onSelectTab,
   onSelectGame,
+  onSelectNote,
   activeTab,
   selectedWeekKey,
   isOpenMobile,
@@ -28,7 +31,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenAddForWeek
 }) => {
   // State for toggling collapsible sections
+  const [openPlanMenu, setOpenPlanMenu] = useState(false);
+  const [openDuyuruMenu, setOpenDuyuruMenu] = useState(false);
+  const [openOdevMenu, setOpenOdevMenu] = useState(false);
   const [openGamesMenu, setOpenGamesMenu] = useState(false);
+  const [openNotesMenu, setOpenNotesMenu] = useState(false);
   const [openTerm1, setOpenTerm1] = useState(true);
   const [openTerm1Ara1, setOpenTerm1Ara1] = useState(true);
   const [openTerm1Ara2, setOpenTerm1Ara2] = useState(false);
@@ -100,82 +107,379 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Scrollable Nav Area */}
         <div className="flex-1 overflow-y-auto p-3 space-y-3 text-sm select-none">
           
-          {/* A. YILLIK PLANLARIM */}
-          <button
-            onClick={() => handleTabClick('yillik-plan')}
-            className={`w-full p-3.5 rounded-2xl font-bold transition text-left flex items-center justify-between border shadow-2xs group ${
-              activeTab === 'yillik-plan'
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white border-emerald-500 shadow-sm'
-                : 'bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 text-white hover:opacity-95 border-emerald-400/50'
-            }`}
+          {/* A. YILLIK PLANLARIM AÇILIR MENÜSÜ (DROPDOWN / ACCORDION) */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setOpenPlanMenu(true)}
+            onMouseLeave={() => setOpenPlanMenu(false)}
           >
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-base shrink-0 shadow-2xs">
-                📅
-              </div>
-              <div>
-                <span className="block font-black text-xs sm:text-sm">Yıllık Planlarım</span>
-                <span className="block text-[11px] text-emerald-100 font-medium">2026-2027 MEB &bull; 37 Hafta Plan</span>
-              </div>
-            </div>
-            <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition">&rarr;</span>
-          </button>
-
-          {/* B. DUYURULAR MENÜSÜ (EBA Veli Kılavuzu & Haberler) */}
-          <button
-            onClick={() => handleTabClick('duyurular')}
-            className={`w-full p-3 rounded-2xl font-bold transition text-left flex items-center justify-between border shadow-2xs group ${
-              activeTab === 'duyurular'
-                ? 'bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 text-white border-rose-400 shadow-sm'
-                : 'bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white hover:opacity-95 border-pink-400/40'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
-                📢
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="block font-black text-xs sm:text-sm">Duyurular</span>
-                  <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
-                    Video Kılavuz
+            {/* Ana Buton */}
+            <div
+              onClick={() => {
+                handleTabClick('yillik-plan');
+                setOpenPlanMenu(prev => !prev);
+              }}
+              className={`w-full p-2.5 rounded-2xl font-bold transition flex items-center justify-between border shadow-2xs group cursor-pointer ${
+                activeTab === 'yillik-plan'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white border-emerald-500 shadow-sm'
+                  : 'bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 text-white hover:opacity-95 border-emerald-400/50'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  📅
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="block font-black text-xs sm:text-sm">Yıllık Planlarım</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                      37 Hafta
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-emerald-100 font-medium truncate">
+                    2026-2027 MEB &bull; Tıklayın
                   </span>
                 </div>
-                <span className="block text-[11px] text-pink-100 font-medium truncate">
-                  EBA Veli Şifre Kılavuzu &amp; Notlar
-                </span>
               </div>
+              <ChevronDown 
+                className={`w-4 h-4 text-white/90 transition-transform duration-200 shrink-0 ${
+                  openPlanMenu ? 'rotate-180' : ''
+                }`} 
+              />
             </div>
-            <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition">&rarr;</span>
-          </button>
 
-          {/* C. ÖDEV MENÜSÜ (3. Hafta Afiş Ödevi) */}
-          <button
-            onClick={() => handleTabClick('odev')}
-            className={`w-full p-3 rounded-2xl font-bold transition text-left flex items-center justify-between border shadow-2xs group ${
-              activeTab === 'odev'
-                ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white border-amber-400 shadow-sm'
-                : 'bg-gradient-to-r from-amber-500/95 via-orange-500/90 to-amber-600/95 text-white hover:opacity-95 border-amber-400/40'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
-                📋
+            {/* Açılır Sekmeler / Plan Hızlı Bağlantıları (Dropdown) */}
+            {openPlanMenu && (
+              <div className="mt-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md border-2 border-emerald-400/40 rounded-2xl shadow-xl space-y-1 animate-in fade-in slide-in-from-top-2 duration-150 z-20">
+                <div className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-300/80 flex items-center justify-between border-b border-white/10">
+                  <span>Dönem Planları &amp; Haftalar</span>
+                  <span className="text-[9px] bg-emerald-400/20 text-emerald-300 px-1.5 py-0.2 rounded-md">MEB BTY</span>
+                </div>
+
+                {/* 1. Dönem Planı */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('yillik-plan');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold shrink-0">
+                    1.D
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-emerald-300">
+                      1. Dönem Planı (1 - 18. Hafta)
+                    </div>
+                    <span className="block text-[10px] text-slate-300/80 truncate">
+                      BİT Giriş, Sağlık, e-Devlet, Yapay Zekâ
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-emerald-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* 2. Dönem Planı */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('yillik-plan');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs font-bold shrink-0">
+                    2.D
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-emerald-300">
+                      2. Dönem Planı (19 - 37. Hafta)
+                    </div>
+                    <span className="block text-[10px] text-slate-300/80 truncate">
+                      Problem Çözme, Algoritmalar, Scratch Kodlama
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-emerald-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* 4. Hafta Hızlı Geçiş Butonu */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleWeekClick(1, 1, 4);
+                  }}
+                  className="w-full text-center py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 font-bold text-[11px] transition border border-emerald-500/30 flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  <span>✨ 4. Hafta Yapay Zekâ Detayını Aç</span>
+                </button>
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="block font-black text-xs sm:text-sm">ÖDEV</span>
-                  <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
-                    3. Hafta
+            )}
+          </div>
+
+          {/* B. DUYURULAR MENÜSÜ AÇILIR MENÜSÜ (DROPDOWN / ACCORDION) */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setOpenDuyuruMenu(true)}
+            onMouseLeave={() => setOpenDuyuruMenu(false)}
+          >
+            {/* Ana Buton */}
+            <div
+              onClick={() => {
+                handleTabClick('duyurular');
+                setOpenDuyuruMenu(prev => !prev);
+              }}
+              className={`w-full p-2.5 rounded-2xl font-bold transition flex items-center justify-between border shadow-2xs group cursor-pointer ${
+                activeTab === 'duyurular'
+                  ? 'bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 text-white border-rose-400 shadow-sm'
+                  : 'bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white hover:opacity-95 border-pink-400/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  📢
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="block font-black text-xs sm:text-sm">Duyurular</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                      Aktif
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-pink-100 font-medium truncate">
+                    Haber &amp; Kılavuzlar &bull; Tıklayın
                   </span>
                 </div>
-                <span className="block text-[11px] text-amber-100 font-medium truncate">
-                  Dijital Vatandaşlığın 9 Boyutu
-                </span>
               </div>
+              <ChevronDown 
+                className={`w-4 h-4 text-white/90 transition-transform duration-200 shrink-0 ${
+                  openDuyuruMenu ? 'rotate-180' : ''
+                }`} 
+              />
             </div>
-            <span className="text-xs text-white/80 group-hover:translate-x-0.5 transition">&rarr;</span>
-          </button>
+
+            {/* Açılır Duyurular Listesi (Dropdown) */}
+            {openDuyuruMenu && (
+              <div className="mt-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md border-2 border-rose-400/40 rounded-2xl shadow-xl space-y-1 animate-in fade-in slide-in-from-top-2 duration-150 z-20">
+                <div className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-rose-300/80 flex items-center justify-between border-b border-white/10">
+                  <span>Önemli Duyurular &amp; Kılavuzlar</span>
+                  <span className="text-[9px] bg-rose-400/20 text-rose-300 px-1.5 py-0.2 rounded-md">Güncel</span>
+                </div>
+
+                {/* EBA Veli Şifre */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('duyurular');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-300 flex items-center justify-center text-xs shrink-0">
+                    🎬
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-rose-300">
+                      EBA Veli Şifre Kılavuzu &amp; Video
+                    </div>
+                    <span className="block text-[10px] text-slate-300/80 truncate">
+                      Adım adım e-Devlet &amp; EBA şifre alma
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-rose-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* Kod Haftası 2026 */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('duyurular');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-pink-500/20 text-pink-300 flex items-center justify-center text-xs shrink-0">
+                    🇪🇺
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-rose-300">
+                      Avrupa Kod Haftası 2026 (EU Code Week)
+                    </div>
+                    <span className="block text-[10px] text-slate-300/80 truncate">
+                      KodlaBüyü &amp; Yapay Zekâ Etkinlikleri
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-rose-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* Bilişim Laboratuvarı Kuralları */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('duyurular');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs shrink-0">
+                    💻
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-rose-300">
+                      Laboratuvar Kuralları &amp; İhtiyaç Listesi
+                    </div>
+                    <span className="block text-[10px] text-slate-300/80 truncate">
+                      Pardus &amp; Güvenli kullanım kuralları
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-rose-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* Tüm Duyuruları Gör Butonu */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('duyurular');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-center py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 font-bold text-[11px] transition border border-rose-500/30 flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  <span>📢 Tüm Duyuruları Gör</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* C. ÖDEV MENÜSÜ AÇILIR MENÜSÜ (DROPDOWN / ACCORDION) */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setOpenOdevMenu(true)}
+            onMouseLeave={() => setOpenOdevMenu(false)}
+          >
+            {/* Ana Buton */}
+            <div
+              onClick={() => {
+                handleTabClick('odev');
+                setOpenOdevMenu(prev => !prev);
+              }}
+              className={`w-full p-2.5 rounded-2xl font-bold transition flex items-center justify-between border shadow-2xs group cursor-pointer ${
+                activeTab === 'odev'
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white border-amber-400 shadow-sm'
+                  : 'bg-gradient-to-r from-amber-500/95 via-orange-500/90 to-amber-600/95 text-white hover:opacity-95 border-amber-400/40'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  📋
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="block font-black text-xs sm:text-sm">ÖDEV</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                      4. Hafta
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-amber-100 font-medium truncate">
+                    Yapay Zekânın Temelleri &bull; Tıklayın
+                  </span>
+                </div>
+              </div>
+              <ChevronDown 
+                className={`w-4 h-4 text-white/90 transition-transform duration-200 shrink-0 ${
+                  openOdevMenu ? 'rotate-180' : ''
+                }`} 
+              />
+            </div>
+
+            {/* Açılır Ödev İçeriği ve Yönergeleri (Dropdown) */}
+            {openOdevMenu && (
+              <div className="mt-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md border-2 border-amber-400/40 rounded-2xl shadow-xl space-y-1 animate-in fade-in slide-in-from-top-2 duration-150 z-20">
+                <div className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-amber-300/80 flex items-center justify-between border-b border-white/10">
+                  <span>4. Hafta Aktif Ödevi</span>
+                  <span className="text-[9px] bg-emerald-500/30 text-emerald-300 px-1.5 py-0.2 rounded-md font-bold">GÜNCEL</span>
+                </div>
+
+                {/* 4. Hafta Ödev Başlığı */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('odev');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-300 flex items-center justify-center text-xs shrink-0">
+                    🧠
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-xs text-white truncate group-hover:text-amber-300">
+                      4. Hafta: Yapay Zekânın Temelleri
+                    </div>
+                    <span className="block text-[10px] text-slate-300/80 truncate">
+                      İnsan vs YZ Farkı &amp; Geleceğin Geliştiricisi
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-amber-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* Ödev Soruları Özeti */}
+                <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-100 space-y-1">
+                  <div className="font-bold text-amber-300 flex items-center gap-1 text-[10px]">
+                    <span>✨</span>
+                    <span>4. Hafta Ödev Soruları:</span>
+                  </div>
+                  <p className="text-[10px] text-slate-300 leading-snug">
+                    1. Yapay zekâ ile insan zekâsı arasındaki en temel fark sence nedir?<br/>
+                    2. Sen bir YZ geliştiricisi olsaydın, hangi sorunu çözmek için kullanırdın?
+                  </p>
+                </div>
+
+                {/* 3. Hafta Önceki Ödev (Arşiv) */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('odev');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-1.5 px-2 rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2 group cursor-pointer border-t border-white/5"
+                >
+                  <span className="text-xs">🎨</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[11px] font-bold text-slate-300 truncate block group-hover:text-pink-300">
+                      3. Hafta: Dijital Vatandaşlık (Afiş)
+                    </span>
+                  </div>
+                  <span className="text-[9px] bg-white/10 text-slate-400 px-1 rounded">Arşiv</span>
+                </button>
+
+                {/* Ödev Sayfasını Aç Butonu */}
+                <div className="flex gap-1 pt-0.5">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleTabClick('odev');
+                      onCloseMobile();
+                    }}
+                    className="flex-1 text-center py-1.5 rounded-lg bg-gradient-to-r from-amber-500/30 to-orange-500/30 hover:from-amber-500/40 hover:to-orange-500/40 text-amber-200 font-bold text-[11px] transition border border-amber-500/40 flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <span>📋 Ödev Formu</span>
+                  </button>
+
+                  <a
+                    href="/odev-4-hafta-yapay-zeka.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    className="px-2.5 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-bold text-[11px] transition flex items-center justify-center gap-1 shadow-xs"
+                    title="4. Hafta ödevini A4 formunda yazdır veya PDF al"
+                  >
+                    <span>🖨️ Yazdır / PDF</span>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* C. OYUN BÖLÜMÜ MENÜSÜ & AÇILIR OYUN SEKMELERİ (DROPDOWN / ACCORDION ON HOVER & CLICK) */}
           <div 
@@ -276,26 +580,106 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          {/* D. DERS NOTLARI HIZLI ERİŞİM DÜĞMESİ */}
-          <button
-            onClick={() => handleTabClick('ders-notlari')}
-            className={`w-full p-2.5 rounded-2xl font-bold text-xs transition flex items-center justify-between border ${
-              activeTab === 'ders-notlari'
-                ? 'bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white border-pink-400 shadow-xs'
-                : 'bg-purple-50/80 hover:bg-purple-100/80 text-purple-900 border-purple-200'
-            }`}
+          {/* D. DERS NOTLARI AÇILIR MENÜSÜ & HAFTALIK KONU ÖZETLERİ (DROPDOWN / ACCORDION) */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setOpenNotesMenu(true)}
+            onMouseLeave={() => setOpenNotesMenu(false)}
           >
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-purple-200/80 text-purple-800 flex items-center justify-center font-bold text-xs">
-                <FileText className="w-3.5 h-3.5 text-purple-700" />
+            {/* Ana Ders Notları Menü Başlığı */}
+            <div
+              className={`w-full p-2.5 rounded-2xl font-bold transition flex items-center justify-between border shadow-2xs group cursor-pointer ${
+                activeTab === 'ders-notlari'
+                  ? 'bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 text-white border-pink-400 shadow-sm'
+                  : 'bg-gradient-to-r from-pink-500/90 via-purple-600/90 to-blue-600/90 text-white hover:opacity-95 border-pink-300/40'
+              }`}
+              onClick={() => {
+                handleTabClick('ders-notlari');
+                setOpenNotesMenu(prev => !prev);
+              }}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-white/20 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  📝
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="block font-black text-xs sm:text-sm">Ders Notları</span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
+                      {LECTURE_NOTES.length} Hafta
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-pink-100 font-medium truncate">
+                    Haftalık konu özetleri &bull; Tıklayın
+                  </span>
+                </div>
               </div>
-              <div className="text-left">
-                <div className="font-extrabold text-xs">Ders Notları</div>
-                <div className="text-[10px] text-purple-700 font-medium">Haftalık Konu Özetleri</div>
-              </div>
+              <ChevronDown 
+                className={`w-4 h-4 text-white/90 transition-transform duration-200 shrink-0 ${
+                  openNotesMenu ? 'rotate-180' : ''
+                }`} 
+              />
             </div>
-            <span className="text-xs">&rarr;</span>
-          </button>
+
+            {/* Açılır Sekmeler / Haftalık Ders Notları Listesi (Dropdown / Accordion) */}
+            {openNotesMenu && (
+              <div className="mt-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md border-2 border-purple-400/40 rounded-2xl shadow-xl space-y-1 animate-in fade-in slide-in-from-top-2 duration-150 z-20">
+                <div className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-purple-300/80 flex items-center justify-between border-b border-white/10">
+                  <span>Haftalık Ders Notları</span>
+                  <span className="text-[9px] bg-purple-400/20 text-purple-300 px-1.5 py-0.2 rounded-md">5. Sınıf BTY</span>
+                </div>
+
+                {LECTURE_NOTES.map(note => (
+                  <button
+                    key={note.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onSelectNote) {
+                        onSelectNote(note.id);
+                      } else {
+                        handleTabClick('ders-notlari');
+                      }
+                      onCloseMobile();
+                    }}
+                    className="w-full text-left p-2 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                  >
+                    <span className="w-7 h-7 rounded-lg bg-white/10 text-white flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition-transform">
+                      {note.icon || '📄'}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-xs text-white truncate group-hover:text-pink-300 transition-colors">
+                          {note.recommendedWeek}: {note.title}
+                        </span>
+                        {note.id === 'not-4-hafta-yapay-zeka' && (
+                          <span className="text-[9px] font-black px-1.5 py-0.2 rounded-md bg-pink-500/30 text-pink-300 shrink-0 animate-pulse">
+                            Yeni
+                          </span>
+                        )}
+                      </div>
+                      <span className="block text-[10px] text-slate-300/80 truncate">
+                        {note.unit}
+                      </span>
+                    </div>
+                    <ChevronRight className="w-3.5 h-3.5 text-pink-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                  </button>
+                ))}
+
+                {/* Tüm Ders Notlarını Gör Butonu */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('ders-notlari');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-center py-1.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 font-bold text-[11px] transition border border-purple-500/30 flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  <FileText className="w-3 h-3 text-pink-400" />
+                  <span>Tüm Ders Notlarını Listele &amp; Oku</span>
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* D. ÖĞRETMEN MENÜSÜ & HAFTALIK DERSLER */}
           <div className="pt-2 pb-1 border-t border-pink-100 flex items-center justify-between">

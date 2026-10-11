@@ -10,14 +10,51 @@
 }
 
 @media print {
-  header, aside, .print\:hidden, .right-column-panel {
+  /* Sayfa kenar boşlukları ve A4 uyumu */
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm;
+  }
+
+  /* Yazdırmada gizlenecek site bileşenleri */
+  header, 
+  aside, 
+  .print\:hidden, 
+  .right-column-panel,
+  nav,
+  button,
+  .no-print {
     display: none !important;
   }
-  body {
-    background: white !important;
-    color: black !important;
+
+  /* Ana sayfa arka plan ve metin renkleri */
+  body, html {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
+
+  /* Layout sıfırlama: Yalnızca ödev belgesi düzgün basılsın */
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Kenarlık ve gölge düzeltmeleri */
+  .shadow-xs, .shadow-sm, .shadow-md, .shadow-2xs {
+    box-shadow: none !important;
+  }
+
   .print\:border-2 {
     border-width: 2px !important;
+  }
+
+  .print\:break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 }

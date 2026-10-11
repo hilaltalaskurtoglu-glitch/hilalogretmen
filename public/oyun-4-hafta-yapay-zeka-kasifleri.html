@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yapay Zekâ Kaşifleri – 5. Sınıf 4. Hafta</title>
+<style>
+:root{
+  --ink:#1f3b63; --ink-soft:#4a6485;
+  --bg:#eef8fd; --panel:#ffffff; --line:#cfe6f3;
+  --sky:#c4e8f9; --sky-d:#4fb0e0; --sky-b:#5cc0ea;
+  --teal:#cdf2eb; --teal-d:#2fb5a4;
+  --lav:#e4e2fb; --lav-d:#8077dc;
+  --mint:#d6f5e3; --mint-d:#2fa874;
+  --ice:#dbeefb;
+  --font:"Trebuchet MS","Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:var(--font); color:var(--ink);
+  background:linear-gradient(180deg,#e3f4fc 0%,#f2fbff 45%,#e9f1fd 100%);
+  min-height:100vh; display:flex; flex-direction:column;
+  font-size:clamp(20px,1.5vw + 3px,36px); line-height:1.4;
+  -webkit-user-select:none; user-select:none;
+}
+button{font:inherit; color:inherit; -webkit-tap-highlight-color:transparent}
+:focus-visible{outline:5px solid var(--lav-d); outline-offset:3px}
+
+/* ÜST ŞERİT */
+.top{
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px;
+  padding:12px clamp(14px,2vw,36px);
+  background:linear-gradient(90deg,#d3eefb,#e0e9fc);
+  border-bottom:6px solid var(--sky-b);
+}
+.brand{display:flex; align-items:center; gap:14px; font-weight:800; font-size:1.15em; line-height:1.1}
+.brand svg{width:2.4em; height:2.4em; flex:none}
+.week{
+  background:#fff; border:5px solid var(--sky-b); border-radius:999px;
+  padding:.2em 1.1em; font-weight:800; font-size:1.55em; letter-spacing:.01em; white-space:nowrap;
+}
+.week small{font-size:.55em; font-weight:700; color:var(--ink-soft); margin-left:.5em}
+.hud{display:flex; justify-content:flex-end; align-items:center; gap:14px}
+.pts{background:#fff; border:4px solid var(--line); border-radius:18px; padding:.15em .8em; font-weight:800; font-size:1.1em; white-space:nowrap}
+.pts b{color:var(--sky-d)}
+.small-btn{
+  background:#fff; border:4px solid var(--line); border-radius:16px; padding:.25em .8em; cursor:pointer; font-weight:700; font-size:.8em;
+}
+.small-btn:hover{background:var(--ice)}
+
+main{flex:1; width:min(1700px,100%); margin:0 auto; padding:clamp(12px,1.8vw,28px)}
+.hidden{display:none !important}
+.panel{background:var(--panel); border:5px solid var(--line); border-radius:28px; padding:clamp(16px,2.2vw,40px); box-shadow:0 10px 0 #cde6f4}
+
+/* butonlar */
+.btn{
+  background:var(--sky-b); color:var(--ink); border:5px solid #3aa5d8; border-radius:22px;
+  font-weight:800; font-size:1.2em; padding:.55em 1.6em; cursor:pointer;
+  box-shadow:0 8px 0 #3aa5d8; transition:transform .08s, box-shadow .08s;
+}
+.btn:hover{background:#6fcaf0}
+.btn:active{transform:translateY(6px); box-shadow:0 2px 0 #3aa5d8}
+.btn.soft{background:var(--ice); border-color:#a9d3ec; box-shadow:0 8px 0 #a9d3ec}
+.btn.soft:active{box-shadow:0 2px 0 #a9d3ec}
+.row{display:flex; gap:20px; flex-wrap:wrap; justify-content:center}
+
+/* HARİTA */
+.hello{display:flex; align-items:center; gap:22px; margin-bottom:clamp(10px,1.6vw,26px)}
+.hello svg{width:clamp(90px,9vw,160px); height:auto; flex:none}
+.bubble{
+  position:relative; background:#fff; border:5px solid var(--line); border-radius:26px;
+  padding:.5em 1em; font-size:1.25em; font-weight:800;
+}
+.bubble::before{content:""; position:absolute; left:-20px; top:50%; margin-top:-14px; border:14px solid transparent; border-right-color:var(--line); border-left:0}
+.bubble span{display:block; font-weight:600; font-size:.7em; color:var(--ink-soft)}
+.grid{display:grid; grid-template-columns:repeat(6,1fr); gap:clamp(12px,1.6vw,26px)}
+.card{
+  grid-column:span 2; text-align:left; cursor:pointer; border:5px solid transparent; border-radius:28px;
+  padding:clamp(14px,1.6vw,26px); display:flex; flex-direction:column; gap:.4em; min-height:7.2em;
+  box-shadow:0 9px 0 rgba(31,59,99,.14); transition:transform .08s, box-shadow .08s;
+}
+.card:nth-child(4){grid-column:2 / span 2}
+.card:nth-child(5){grid-column:4 / span 2}
+.card:hover{transform:translateY(-3px)}
+.card:active{transform:translateY(6px); box-shadow:0 3px 0 rgba(31,59,99,.14)}
+.card .num{
+  width:2.1em; height:2.1em; border-radius:50%; background:#fff; display:grid; place-items:center;
+  font-weight:800; font-size:1.3em; border:4px solid currentColor;
+}
+.card h3{margin:0; font-size:1.3em; line-height:1.15}
+.card p{margin:0; font-size:.85em; color:var(--ink-soft)}
+.card .stars{margin-top:auto}
+.c1{background:var(--sky); border-color:var(--sky-d); color:#2a86b8}
+.c2{background:var(--teal); border-color:var(--teal-d); color:#1f8d7f}
+.c3{background:var(--lav); border-color:var(--lav-d); color:#5f56c4}
+.c4{background:var(--mint); border-color:var(--mint-d); color:#238458}
+.c5{background:var(--ice); border-color:#6aa9d6; color:#3d79a6}
+.card h3,.card p{color:var(--ink)} .card h3{color:var(--ink)}
+.stars{display:flex; gap:6px}
+.stars svg{width:1.5em; height:1.5em}
+.done-banner{margin-top:clamp(14px,2vw,28px); text-align:center; background:var(--mint); border:5px solid var(--mint-d); border-radius:26px; padding:.7em 1em; font-weight:800; font-size:1.15em}
+.done-banner small{display:block; font-weight:600; font-size:.75em; color:var(--ink-soft)}
+
+/* GİRİŞ */
+.intro h2{margin:0 0 .3em; font-size:1.8em; line-height:1.1}
+.intro .tag{display:inline-block; background:var(--lav); border:4px solid var(--lav-d); border-radius:999px; padding:.05em .8em; font-weight:800; font-size:.8em; margin-bottom:.6em}
+.intro ul{margin:.4em 0 1em; padding:0; list-style:none; display:grid; gap:.6em}
+.intro li{background:var(--ice); border-left:12px solid var(--sky-d); border-radius:16px; padding:.5em .9em; font-size:1.05em}
+
+/* OYUN */
+.bar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:.6em; font-weight:800}
+.dots{display:flex; gap:8px; flex-wrap:wrap}
+.dots i{width:1.1em; height:1.1em; border-radius:50%; background:var(--line); border:3px solid #b7d8ea}
+.dots i.ok{background:var(--mint-d); border-color:var(--mint-d)}
+.dots i.bad{background:var(--lav-d); border-color:var(--lav-d)}
+.dots i.now{background:var(--sky-b); border-color:var(--sky-d)}
+.q{
+  background:var(--ice); border:5px solid var(--sky); border-radius:26px;
+  text-align:center; font-weight:800; font-size:clamp(1.5em,2.4vw + .4em,2.6em); line-height:1.2;
+  padding:clamp(18px,2.6vw,48px) 1em; margin-bottom:clamp(14px,1.8vw,26px);
+  min-height:3.6em; display:grid; place-items:center;
+}
+.q small{display:block; font-size:.45em; font-weight:700; color:var(--ink-soft); margin-bottom:.3em}
+.opts{display:grid; gap:clamp(12px,1.6vw,24px)}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.three{grid-template-columns:repeat(3,1fr)}
+.opts.mc{grid-template-columns:1fr}
+.opt{
+  display:flex; align-items:center; justify-content:center; gap:.5em; text-align:center;
+  background:var(--sky); border:5px solid var(--sky-d); border-radius:24px;
+  font-weight:800; font-size:1.2em; padding:.7em .8em; min-height:3em; cursor:pointer;
+  box-shadow:0 8px 0 #7cc4e6; transition:transform .08s, box-shadow .08s;
+}
+.opts.mc .opt{justify-content:flex-start; text-align:left; font-size:1.05em}
+.opt:hover:not(:disabled){background:#b2e0f6}
+.opt:active:not(:disabled){transform:translateY(6px); box-shadow:0 2px 0 #7cc4e6}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--mint); border-color:var(--mint-d); box-shadow:0 8px 0 #98d9b8}
+.opt.wrong{background:var(--lav); border-color:var(--lav-d); box-shadow:0 8px 0 #bcb7ee}
+.opt.faded{opacity:.5}
+.opt .ic{font-size:1.2em}
+.fb{
+  margin-top:clamp(14px,1.8vw,26px); display:flex; gap:18px; align-items:center; flex-wrap:wrap;
+  border-radius:24px; border:5px solid; padding:.7em 1em;
+}
+.fb.good{background:var(--mint); border-color:var(--mint-d)}
+.fb.bad{background:var(--lav); border-color:var(--lav-d)}
+.fb .msg{flex:1 1 20em; font-size:1em}
+.fb .msg b{display:block; font-size:1.2em}
+.fb .btn{margin-left:auto; font-size:1.05em}
+
+/* EŞLEŞTİR */
+.match{display:grid; grid-template-columns:1fr 1fr; gap:clamp(12px,3vw,60px)}
+.col{display:grid; gap:clamp(10px,1.2vw,18px); align-content:start}
+.tile{
+  background:var(--sky); border:5px solid var(--sky-d); border-radius:22px; padding:.55em .8em;
+  min-height:2.5em; font-weight:800; font-size:1.05em; cursor:pointer; text-align:center;
+  box-shadow:0 7px 0 #7cc4e6; display:flex; align-items:center; justify-content:center;
+}
+.col.r .tile{background:var(--teal); border-color:var(--teal-d); box-shadow:0 7px 0 #92d9cf; font-size:.95em}
+.tile:active:not(:disabled){transform:translateY(5px)}
+.col .tile.sel{background:#fff; border-color:var(--lav-d); box-shadow:0 0 0 7px var(--lav)}
+.pink-sel .col .tile.sel{background:#ffd9e8; border-color:#e0559a; box-shadow:0 0 0 7px #ffe6f0}
+.rows{grid-template-columns:1fr !important; gap:clamp(14px,1.8vw,26px)}
+.rows .col.l{grid-template-columns:repeat(6,1fr)}
+.rows .col.r{grid-template-columns:repeat(3,1fr)}
+.rows .col .tile{min-height:3.2em}
+.yellow-ok .col .tile.ok{background:#fff3a8; border-color:#e0b400; box-shadow:0 7px 0 #f0d95c}
+@media (max-width:900px){.rows .col.l,.rows .col.r{grid-template-columns:1fr 1fr}}
+.pink-sel .col .tile.ok{background:#ffd9e8; border-color:#e0559a; box-shadow:0 7px 0 #f2a9c8}
+.col .tile.ok{background:var(--mint); border-color:var(--mint-d); box-shadow:0 7px 0 #98d9b8; cursor:default}
+.col .tile.no{background:var(--lav); border-color:var(--lav-d); animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.info{margin-top:clamp(12px,1.6vw,24px); background:var(--ice); border:5px dashed var(--sky-d); border-radius:22px; padding:.6em 1em; min-height:3.2em; font-size:1em}
+.hint{text-align:center; font-weight:700; color:var(--ink-soft); margin:0 0 .6em; font-size:.85em}
+
+/* SONUÇ */
+.res{text-align:center}
+.res h2{font-size:2em; margin:.1em 0}
+.res .stars.big{justify-content:center; gap:14px; margin:.3em 0}
+.res .stars.big svg{width:3.2em; height:3.2em}
+.res .score{font-size:1.4em; font-weight:800; margin-bottom:.7em}
+.res .score b{color:var(--sky-d)}
+
+footer{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:20px;
+  padding:6px clamp(14px,2vw,36px) 16px; color:var(--ink-soft); font-size:.62em;
+}
+footer .kz{max-width:48em}
+.sign{background:#fff; border:4px solid var(--line); border-radius:16px; padding:.4em 1.1em; text-align:center; color:var(--ink); flex:none}
+.sign b{display:block; font-size:1.05em}
+.sign span{display:block; font-size:.78em; font-weight:700; color:var(--ink-soft)}
+
+@media (max-width:900px){
+  .top{grid-template-columns:1fr; justify-items:center}
+  .grid{grid-template-columns:1fr 1fr}
+  .card,.card:nth-child(4),.card:nth-child(5){grid-column:auto}
+  .opts.two,.opts.three,.match{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 120 120" aria-hidden="true"><use href="#robot"/></svg>
+    <div>Yapay Zekâ<br>Kaşifleri</div>
+  </div>
+  <div class="week" id="week">5. Sınıf · 4. Hafta<small>Yapay Zekâ Temelleri</small></div>
+  <div class="hud">
+    <div class="pts">Puan: <b id="pts">0</b></div>
+    <button class="small-btn" id="btn-new" type="button">Yeni oyuncu</button>
+  </div>
+</header>
+
+<main id="stage"></main>
+
+<footer>
+  <div class="kz">Kazanım: BTY.5.1.4 – Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme</div>
+  <div class="sign"><b>Hilal KURTOĞLU</b><span>BİLGİSAYAR VE ÖĞRETİM TEKNOLOJİLERİ ÖĞRETMENİ</span></div>
+</footer>
+
+<!-- tekrar kullanılan şekiller -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="robot" viewBox="0 0 120 120">
+      <line x1="60" y1="12" x2="60" y2="30" stroke="#4fb0e0" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="7" fill="#c4e8f9" stroke="#4fb0e0" stroke-width="4"/>
+      <rect x="12" y="50" width="12" height="22" rx="6" fill="#cdf2eb" stroke="#2fb5a4" stroke-width="4"/>
+      <rect x="96" y="50" width="12" height="22" rx="6" fill="#cdf2eb" stroke="#2fb5a4" stroke-width="4"/>
+      <rect x="22" y="28" width="76" height="62" rx="24" fill="#c4e8f9" stroke="#4fb0e0" stroke-width="5"/>
+      <circle cx="45" cy="56" r="10" fill="#fff" stroke="#1f3b63" stroke-width="3"/>
+      <circle cx="75" cy="56" r="10" fill="#fff" stroke="#1f3b63" stroke-width="3"/>
+      <circle cx="47" cy="57" r="4.5" fill="#1f3b63"/><circle cx="77" cy="57" r="4.5" fill="#1f3b63"/>
+      <path d="M44 76 Q60 90 76 76" fill="none" stroke="#1f3b63" stroke-width="4" stroke-linecap="round"/>
+      <rect x="36" y="95" width="48" height="20" rx="10" fill="#d6f5e3" stroke="#2fa874" stroke-width="4"/>
+    </symbol>
+    <symbol id="star-on" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="#5cc0ea" stroke="#2a86b8" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="star-off" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="#fff" stroke="#b7d8ea" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<script>
+"use strict";
+/* ============ İÇERİK ============ */
+const CLASSIFY_YZ = [{k:"yz",label:"Yapay zekâ"},{k:"no",label:"Yapay zekâ değil"}];
+const CLASSIFY_IN = [{k:"in",label:"İnsan zekâsı"},{k:"yz",label:"Yapay zekâ"},{k:"both",label:"İkisi de"}];
+
+const STATIONS = [
+ { id:1, cls:"c1", title:"Yapay Zekâ mı, Değil mi?", sub:"Örnekleri doğru gruba ayır", type:"single", choices:CLASSIFY_YZ,
+   intro:["Yapay zekâ, bilgisayarların ve makinelerin bazı görevleri insanlara benzer şekilde yapabilmesini sağlayan teknolojidir.",
+          "Yapay zekâ verileri inceler, öğrenebilir, karar verebilir ve öneriler sunabilir.",
+          "Sadece düğmeyle açılıp kapanan sıradan aletler öğrenmez ve karar vermez."],
+   items:[
+    {t:"Telefonun yüzünü tanıyıp kilidi açması", a:"yz", e:"Yüz tanıma sistemleri, yüzü tanımayı öğrenmiş yapay zekâ ile çalışır."},
+    {t:"Sesli asistanın sorunu duyup sesli cevap vermesi", a:"yz", e:"Sesli asistanlar konuşmayı anlayıp cevap üretmek için yapay zekâ kullanır."},
+    {t:"Düğmeye basınca yanan sıradan lamba", a:"no", e:"Lamba sadece açılıp kapanır. Öğrenmez, karar vermez."},
+    {t:"İzlediklerine bakarak yeni video öneren uygulama", a:"yz", e:"Öneri sistemleri, senin izlediklerinden öğrenerek yeni öneriler sunar."},
+    {t:"Kurularak çalışan mekanik çalar saat", a:"no", e:"Mekanik saat hep aynı şekilde çalışır. Veriden öğrenmez."},
+    {t:"Engellere çarpmadan evi temizleyen robot süpürge", a:"yz", e:"Robot süpürge çevresini algılar ve nereye gideceğine kendisi karar verir."},
+    {t:"Sadece sayıları toplayan basit hesap makinesi", a:"no", e:"Basit hesap makinesi verilen işlemi yapar; öğrenmez ve karar vermez."},
+    {t:"Trafiği bilip seni en kısa yola yönlendiren harita uygulaması", a:"yz", e:"Navigasyon uygulamaları trafik verilerini inceleyerek en iyi yolu önerir."}
+   ]},
+ { id:2, cls:"c2", title:"İnsan mı, Yapay Zekâ mı?", sub:"Özelliğin sahibini bul", type:"single", choices:CLASSIFY_IN,
+   intro:["İnsan zekâsı ve yapay zekâ ikisi de öğrenebilir, karar verebilir ve sorun çözebilir.",
+          "Duygular, hayal gücü ve yüksek yaratıcılık insana özgüdür.",
+          "Çok hızlı hesap yapmak yapay zekânın güçlü yanıdır."],
+   items:[
+    {t:"Hayal kurar.", a:"in", e:"Hayal gücü insana aittir. Yapay zekâ hayal kuramaz."},
+    {t:"Çok hızlı hesap yapar.", a:"yz", e:"Yapay zekâ çok hızlı hesap yapar. İnsanlar daha yavaştır ama yaratıcıdır."},
+    {t:"Öğrenebilir.", a:"both", e:"İnsan deneyimle, yapay zekâ verilerle öğrenir. İkisi de öğrenebilir!"},
+    {t:"Sevinir, üzülür; duyguları vardır.", a:"in", e:"Duygular insana özgüdür. Yapay zekânın duyguları yoktur."},
+    {t:"Karar verebilir.", a:"both", e:"İnsan duygu ve bilgiyle, yapay zekâ bilgiyle karar verir. İkisi de karar verebilir."},
+    {t:"Çok sayıda veriyi inceleyerek öğrenir.", a:"yz", e:"Yapay zekâ verilerle öğrenir. Ne kadar çok veri incelerse o kadar gelişir."},
+    {t:"Hata yapabilir.", a:"both", e:"Hem insanlar hem de yapay zekâ hata yapabilir. Bu yüzden kontrol etmek önemlidir."},
+    {t:"Yaratıcılığı çok yüksektir.", a:"in", e:"İnsanın yaratıcılığı yüksektir. Yapay zekânın yaratıcılığı sınırlıdır."}
+   ]},
+ { id:3, cls:"c3", title:"Yapay Zekâ Nerede?", sub:"Alanı örneğiyle eşleştir", type:"match",
+   intro:["Yapay zekâ günlük hayatta pek çok yerde bize yardım eder.",
+          "Tarım, eğitim, sağlık, ulaşım, eğlence ve güvenlik bunlardan bazılarıdır.",
+          "Soldaki alana uyan örneği sağdan bul. Önce birine, sonra eşine dokun!"],
+   pairs:[
+    {l:"Tarım", r:"Ürün verimini artıran izleme sistemleri", e:"Tarımda yapay zekâ, ürün veriminin artmasına yardımcı olur."},
+    {l:"Eğitim", r:"Öğrencinin hızına göre çalışan uygulamalar", e:"Eğitimde yapay zekâ, öğrencinin hızına göre çalışan uygulamalarda kullanılır."},
+    {l:"Sağlık", r:"Hastalıkları erken fark etmeye yardım eden sistemler", e:"Sağlıkta yapay zekâ, hastalıkların erken fark edilmesine yardımcı olur."},
+    {l:"Ulaşım", r:"Yolu algılayarak giden sürücüsüz araçlar", e:"Ulaşımda yapay zekâ, yolu algılayarak ilerleyen sürücüsüz araçlarda kullanılır."},
+    {l:"Eğlence", r:"Film ve video öneren sistemler", e:"Eğlencede yapay zekâ, film ve video önerir."},
+    {l:"Güvenlik", r:"Kişiyi yüzünden tanıyan sistemler", e:"Güvenlikte yapay zekâ, kişiyi yüzünden tanıyan sistemlerde kullanılır."},
+   ]},
+ { id:4, cls:"c4", title:"Yapay Zekânın Öncüleri", sub:"Bilim insanını işiyle eşleştir", type:"match",
+   intro:["Yapay zekâ fikri bir anda ortaya çıkmadı. Birçok bilim insanı katkı verdi.",
+          "John McCarthy 1956’da “Yapay Zekâ” terimini kullandı ve yapay zekânın babası olarak bilinir.",
+          "Cahit Arf, makine düşünmesi üzerine çalışmalar yapan Türk matematikçidir."],
+   pairs:[
+    {l:"Ada Lovelace", r:"İlk bilgisayar programcısı", e:"Ada Lovelace, ilk bilgisayar programcısı olarak kabul edilir."},
+    {l:"Alan Turing", r:"Turing Testi", e:"Alan Turing “Makineler düşünebilir mi?” fikrini ortaya attı ve Turing Testi ile tanınır."},
+    {l:"John McCarthy", r:"“Yapay Zekâ” terimini kullandı", e:"McCarthy, 1956’daki Dartmouth Konferansı’nda “Yapay Zekâ” terimini kullandı."},
+    {l:"Marvin Minsky", r:"Yapay zekâ laboratuvarı çalışmaları", e:"Marvin Minsky, yapay zekâ laboratuvarı çalışmalarına öncülük etti."},
+    {l:"Cahit Arf", r:"Makine düşünmesini inceleyen Türk matematikçi", e:"Cahit Arf, makinelerin düşünmesi üzerine çalışmalar yapan Türk matematikçidir."}
+   ]},
+ { id:5, cls:"c5", title:"Kaptan Sensin!", sub:"Yapay zekâyı güvenli kullan", type:"single", mc:true,
+   intro:["Yapay zekâ güçlü bir araçtır ama hata yapabilir.",
+          "Kişisel bilgilerimizi korumalı, aldığımız bilgileri kontrol etmeliyiz.",
+          "Sürücü koltuğunda her zaman insan olmalı!"],
+   items:[
+    {q:"Bir yapay zekâ uygulamasına hangi bilgiyi yazmamalısın?",
+     o:["Şifremi ve ev adresimi","Matematikte çözemediğim bir soruyu","Merak ettiğim bir hayvanın adını"],
+     e:"Şifre, adres gibi kişisel bilgiler paylaşılmaz. Bilgilerimizin güvenliği çok önemlidir."},
+    {q:"Yapay zekâ sana bir bilgi verdi ama doğru olduğundan emin değilsin. Ne yapmalısın?",
+     o:["Güvenilir kaynaklardan kontrol ederim","Hiç bakmadan ödevime yazarım","Herkese doğru diye anlatırım"],
+     e:"Yapay zekâ hata yapabilir. Doğru bilgi kullanmak için kontrol etmeliyiz."},
+    {q:"Yapay zekâ hata yapabilir mi?",
+     o:["Evet, bazen yanlış sonuçlar üretebilir","Hayır, hiçbir zaman hata yapmaz","Sadece pil bitince hata yapar"],
+     e:"Yapay zekâ bazen hatalı veya yanlış sonuç üretebilir. Bu yüzden her zaman düşünerek kullanmalıyız."},
+    {q:"Ödevini tamamen yapay zekâya yaptırırsan ne olur?",
+     o:["Kendim düşünmeyi ve öğrenmeyi azaltırım","Daha çok öğrenirim","Hiçbir şey değişmez"],
+     e:"Buna “tembellik tuzağı” denir. Yapay zekâ bir yardımcıdır; düşünen ve öğrenen sensin."},
+    {q:"Yapay zekâ doktorlara hastalığı anlamada yardım ediyor. Son kararı kim vermeli?",
+     o:["Dikkatli davranan insanlar","Sadece yapay zekâ","Hiç kimse"],
+     e:"Yapay zekâ yardım eder ama insan kontrolü her zaman önemlidir."},
+    {q:"Geleceğin kaptanı olmak için en önemli şey nedir?",
+     o:["Yapay zekâyı bilinçli ve kontrollü kullanmayı öğrenmek","Yapay zekâdan korkup hiç kullanmamak","Her dediğine körü körüne inanmak"],
+     e:"Kontrol bizim elimizde! Yapay zekâyı iyi kullanan insanlar geleceği şekillendirir."}
+   ]}
+];
+
+/* ============ YARDIMCILAR ============ */
+const $ = (s,r=document)=>r.querySelector(s);
+const shuffle = a=>{a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a;};
+function h(tag,attrs,...kids){
+  if(attrs===undefined||attrs===null) attrs={};
+  else if(typeof attrs!=="object"||attrs.nodeType||Array.isArray(attrs)){ kids.unshift(attrs); attrs={}; }
+  const el=document.createElement(tag);
+  for(const k in attrs){
+    if(k==="class") el.className=attrs[k];
+    else if(k.startsWith("on")) el.addEventListener(k.slice(2),attrs[k]);
+    else if(k==="html") el.innerHTML=attrs[k];
+    else el.setAttribute(k,attrs[k]);
+  }
+  kids.flat().forEach(c=>{ if(c==null) return; el.append(c.nodeType?c:document.createTextNode(c)); });
+  return el;
+}
+function starsEl(n,big){
+  const w=h("div",{class:"stars"+(big?" big":""),"aria-label":n+" yıldız"});
+  for(let i=0;i<3;i++){
+    const s=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    s.setAttribute("viewBox","0 0 24 24");
+    const u=document.createElementNS("http://www.w3.org/2000/svg","use");
+    u.setAttribute("href", i<n?"#star-on":"#star-off");
+    s.appendChild(u); w.appendChild(s);
+  }
+  return w;
+}
+function robot(){ const s=document.createElementNS("http://www.w3.org/2000/svg","svg"); s.setAttribute("viewBox","0 0 120 120"); s.setAttribute("aria-hidden","true"); const u=document.createElementNS("http://www.w3.org/2000/svg","use"); u.setAttribute("href","#robot"); s.appendChild(u); return s; }
+
+/* ============ DURUM ============ */
+let best = STATIONS.map(()=>({stars:0,pts:0}));
+const stage = $("#stage");
+function totalPts(){ return best.reduce((a,b)=>a+b.pts,0); }
+function updateHud(){ $("#pts").textContent = totalPts(); }
+function show(node){ stage.replaceChildren(node); window.scrollTo(0,0); updateHud(); }
+function starsFor(ratio){ return ratio>=.85?3: ratio>=.6?2:1; }
+
+/* ============ HARİTA ============ */
+function home(){
+  const wrap=h("div");
+  const hello=h("div",{class:"hello"}, robot(),
+    h("div",{class:"bubble"}, "Merhaba kaşif! Hangi göreve çıkıyorsun?", h("span","Bir göreve dokun ve oynamaya başla.")));
+  const grid=h("div",{class:"grid"});
+  STATIONS.forEach((st,i)=>{
+    const c=h("button",{class:"card "+st.cls,type:"button",onclick:()=>intro(i)},
+      h("div",{class:"num"}, String(st.id)),
+      h("h3",st.title), h("p",st.sub), starsEl(best[i].stars));
+    grid.appendChild(c);
+  });
+  wrap.append(hello,grid);
+  if(best.every(b=>b.stars>0)){
+    wrap.appendChild(h("div",{class:"done-banner"},
+      "Tebrikler! Tüm görevleri tamamladın. Sen bir Yapay Zekâ Kaşifisin! Toplam puanın: "+totalPts(),
+      h("small","Unutma: Yapay zekâ güçlü bir araçtır ama kontrol her zaman insanda. Geleceğin kaptanı sensin!")));
+  }
+  show(wrap);
+}
+
+/* ============ GİRİŞ EKRANI ============ */
+function intro(i){
+  const st=STATIONS[i];
+  const p=h("section",{class:"panel intro"},
+    h("span",{class:"tag"},"Görev "+st.id),
+    h("h2",st.title),
+    h("p",{style:"margin:.2em 0 .4em;font-weight:800;color:var(--ink-soft)"},"Önce hatırlayalım:"),
+    h("ul",{},st.intro.map(t=>h("li",t))),
+    h("div",{class:"row"},
+      h("button",{class:"btn",type:"button",onclick:()=>play(i)},"Başla!"),
+      h("button",{class:"btn soft",type:"button",onclick:home},"Haritaya dön")));
+  show(p);
+}
+
+function play(i){ const st=STATIONS[i]; (st.type==="match"?playMatch:playSingle)(i); }
+
+/* ============ TEK CEVAPLI OYUN ============ */
+function playSingle(i){
+  const st=STATIONS[i];
+  const order=shuffle(st.items.map((_,k)=>k));
+  let n=0, right=0; const marks=[];
+  function ask(){
+    if(n>=order.length) return finish(i,right,st.items.length,right*10);
+    const it=st.items[order[n]];
+    let opts;
+    if(st.mc){ opts=shuffle(it.o.map((t,k)=>({label:t,ok:k===0}))); }
+    else { opts=st.choices.map(c=>({label:c.label,ok:c.k===it.a})); }
+    const dots=h("div",{class:"dots"},order.map((_,k)=>h("i",{class:k<n?marks[k]:(k===n?"now":"")})));
+    const qbox=h("div",{class:"q"}, st.mc? it.q : h("div",{},h("small","Bu örnek hangisi?"), it.t));
+    const cls = st.mc?"mc":(opts.length===3?"three":"two");
+    const box=h("div",{class:"opts "+cls});
+    const fb=h("div",{class:"fb hidden",role:"status"});
+    const btns=opts.map((o,k)=>{
+      const b=h("button",{class:"opt",type:"button",onclick:()=>pick(k)}, h("span",{class:"ic"}), h("span",o.label));
+      box.appendChild(b); return b;
+    });
+    function pick(k){
+      btns.forEach((b,j)=>{
+        b.disabled=true;
+        const ic=b.querySelector(".ic");
+        if(opts[j].ok){ b.classList.add("right"); ic.textContent="✓"; }
+        else if(j===k){ b.classList.add("wrong"); ic.textContent="✗"; }
+        else b.classList.add("faded");
+      });
+      const ok=opts[k].ok; if(ok) right++; marks[n]=ok?"ok":"bad";
+      fb.className="fb "+(ok?"good":"bad");
+      fb.replaceChildren(
+        h("div",{class:"msg"}, h("b",ok?"Doğru!":"Bu sefer olmadı, hadi öğrenelim!"), it.e),
+        h("button",{class:"btn",type:"button",onclick:()=>{n++; ask();}}, n===order.length-1?"Sonucu gör":"Devam"));
+      fb.querySelector("button").focus({preventScroll:true});
+      dots.children[n].className=marks[n];
+    }
+    show(h("section",{class:"panel"},
+      h("div",{class:"bar"}, h("span",st.title), h("span",(n+1)+" / "+order.length), dots),
+      qbox, box, fb));
+  }
+  ask();
+}
+
+/* ============ EŞLEŞTİRME OYUNU ============ */
+function playMatch(i){
+  const st=STATIONS[i], P=st.pairs, N=P.length;
+  const L=shuffle(P.map((_,k)=>k)), R=shuffle(P.map((_,k)=>k));
+  let sel=null, matched=0, wrong=0;
+  const counter=h("span","Eşleşen: 0 / "+N);
+  const info=h("div",{class:"info"},"Eşleştirmeye başla! Önce bir kutuya, sonra eşine dokun.");
+  const tiles={l:{},r:{}};
+  const colL=h("div",{class:"col l"}), colR=h("div",{class:"col r"});
+  L.forEach(k=>{ const t=h("button",{class:"tile",type:"button",onclick:()=>click("l",k)},P[k].l); tiles.l[k]=t; colL.appendChild(t); });
+  R.forEach(k=>{ const t=h("button",{class:"tile",type:"button",onclick:()=>click("r",k)},P[k].r); tiles.r[k]=t; colR.appendChild(t); });
+  function clear(){ Object.values(tiles.l).concat(Object.values(tiles.r)).forEach(t=>t.classList.remove("sel","no")); }
+  function click(side,k){
+    const t=tiles[side][k]; if(t.disabled) return;
+    if(!sel){ sel={side,k}; t.classList.add("sel"); return; }
+    if(sel.side===side){ clear(); sel={side,k}; t.classList.add("sel"); return; }
+    const a=sel; sel=null;
+    const tl=side==="l"?t:tiles.l[a.k], tr=side==="r"?t:tiles.r[a.k];
+    const kl=side==="l"?k:a.k, kr=side==="r"?k:a.k;
+    clear();
+    if(kl===kr){
+      [tl,tr].forEach(x=>{x.classList.add("ok"); x.disabled=true;});
+      matched++; counter.textContent="Eşleşen: "+matched+" / "+N; info.replaceChildren(h("b","✓ "),P[kl].e);
+      if(matched===N) setTimeout(()=>finish(i,N-Math.min(wrong,N),N,(N-Math.min(wrong,N))*10),1800);
+    } else {
+      wrong++; [tl,tr].forEach(x=>{x.classList.add("no"); setTimeout(()=>x.classList.remove("no"),600);});
+      info.replaceChildren("Bu iki kutu eşleşmiyor. Tekrar dene!");
+    }
+  }
+  show(h("section",{class:"panel"},
+    h("div",{class:"bar"}, h("span",st.title), counter),
+    h("p",{class:"hint"},(st.id===3?"Üstten ve alttan birer kutu seç. Doğruysa seçilen ikili sarıya dönüşür!":"Sol ve sağdan birer kutu seç. Doğruysa "+(st.id===4?"pembe":"yeşil")+" olur!")),
+    h("div",{class:"match"+(st.id===4?" pink-sel":"")+(st.id===3?" rows yellow-ok":"")},colL,colR), info));
+}
+
+/* ============ SONUÇ ============ */
+function finish(i,good,total,pts){
+  const st=STATIONS[i];
+  const stars=starsFor(good/total);
+  if(stars>best[i].stars) best[i].stars=stars;
+  if(pts>best[i].pts) best[i].pts=pts;
+  const msg = stars===3?"Harikasın! Bu konuda çok iyisin."
+            : stars===2?"Çok iyi! Biraz daha pratikle 3 yıldız senin."
+            : "Güzel başlangıç! Bir daha oynayıp yıldızlarını artırabilirsin.";
+  const allDone=best.every(b=>b.stars>0);
+  show(h("section",{class:"panel res"},
+    h("div",{class:"tag",style:"font-weight:800;color:var(--ink-soft)"},st.title),
+    h("h2","Görev tamamlandı!"),
+    starsEl(stars,true),
+    h("div",{class:"score"},"Doğru: ",h("b",good+" / "+total),"  ·  Kazandığın puan: ",h("b",String(pts))),
+    h("p",{style:"margin:0 0 1em"},msg+(allDone?" Tüm görevleri tamamladın!":"")),
+    h("div",{class:"row"},
+      h("button",{class:"btn",type:"button",onclick:home},"Haritaya dön"),
+      h("button",{class:"btn soft",type:"button",onclick:()=>play(i)},"Bu görevi tekrar oyna"))));
+}
+
+$("#btn-new").addEventListener("click",()=>{
+  if(confirm("Yeni oyuncu için tüm puanlar ve yıldızlar sıfırlansın mı?")){ best=STATIONS.map(()=>({stars:0,pts:0})); home(); }
+});
+home();
+</script>
+</body>
+</html>

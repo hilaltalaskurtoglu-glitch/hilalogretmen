@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. Hafta Ders Notu – Yapay Zekâda Temel Kavram ve Özellikler | Hilal KURTOĞLU</title>
+<style>
+  :root {
+    --ink: #1e293b;
+    --navy: #12305a;
+    --blue: #2563eb;
+    --blue-dark: #1e40af;
+    --blue-soft: #f0f7ff;
+    --border: #cbd5e1;
+    --green: #15803d;
+    --green-soft: #f0fdf4;
+    --amber: #b45309;
+    --amber-soft: #fffbeb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: #f8fafc;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 36px 42px;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid var(--border);
+  }
+  .header {
+    text-align: center;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  .week-badge {
+    display: inline-block;
+    color: var(--blue-dark);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    margin-bottom: 6px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--navy);
+    font-weight: 900;
+    letter-spacing: .3px;
+  }
+  .sub {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .section {
+    margin-bottom: 22px;
+  }
+  h2 {
+    font-size: 16px;
+    color: var(--blue-dark);
+    margin: 0 0 8px 0;
+    font-weight: 800;
+    border-bottom: 2px solid #e0e7ff;
+    padding-bottom: 4px;
+  }
+  p { margin: 0 0 6px 0; font-size: 14px; }
+  ul { margin: 6px 0 0 0; padding-left: 20px; font-size: 14px; }
+  li { margin-bottom: 4px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 13.5px;
+  }
+  th {
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #1d4ed8;
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+  }
+  tr:nth-child(even) td { background: #f8fafc; }
+  td:first-child { font-weight: 700; color: #0f172a; width: 32%; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .col-box {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid;
+    font-size: 13.5px;
+  }
+  .col-good {
+    background: var(--green-soft);
+    border-color: #86efac;
+    color: #14532d;
+  }
+  .col-warn {
+    background: var(--amber-soft);
+    border-color: #fde68a;
+    color: #78350f;
+  }
+  .col-title {
+    font-weight: 800;
+    margin-bottom: 6px;
+    font-size: 14px;
+    border-bottom: 1px dashed currentColor;
+    padding-bottom: 4px;
+  }
+  .tip-box {
+    margin-top: 18px;
+    background: #e0f2fe;
+    border-left: 4px solid var(--blue);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: #0369a1;
+    font-weight: 600;
+  }
+  .footer {
+    margin-top: 28px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    text-align: right;
+    font-size: 13px;
+    color: #475569;
+  }
+  .footer strong { color: #0f172a; display: block; }
+  @media print {
+    body { padding: 0; background: #fff; }
+    .page { box-shadow: none; border: none; padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="week-badge">4. Hafta Ders Notu</div>
+    <h1>YAPAY ZEKÂDA TEMEL KAVRAM VE ÖZELLİKLER</h1>
+    <div class="sub">5. Sınıf Bilişim Teknolojileri ve Yazılım &bull; Defter Notu</div>
+  </div>
+
+  <div class="section">
+    <h2>1. Yapay Zekâ Nedir?</h2>
+    <p><strong>Yapay zekâ,</strong> bilgisayarların ve makinelerin bazı görevleri insanlara benzer şekilde yapabilmesini sağlayan teknolojidir.</p>
+    <p><strong>Özellikleri:</strong> Verileri analiz eder, öğrenebilir, karar verebilir, öneriler sunabilir.</p>
+  </div>
+
+  <div class="section">
+    <h2>2. Günlük Hayatta Yapay Zekâ</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Uygulama</th>
+          <th>Ne yapar?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Sesli asistan</td><td>Sorularını dinler, sesli cevap verir.</td></tr>
+        <tr><td>Yüz tanıma</td><td>Yüzünü tanıyarak telefonun kilidini açar.</td></tr>
+        <tr><td>Film/video öneri sistemi</td><td>İzlediklerine bakarak yeni öneriler sunar.</td></tr>
+        <tr><td>Akıllı ev cihazları</td><td>Evdeki bazı işleri bizim yerimize kolaylaştırır.</td></tr>
+        <tr><td>Robot süpürge</td><td>Evi dolaşır, engellere çarpmadan temizler.</td></tr>
+        <tr><td>Navigasyon</td><td>Trafiği bilip seni en kısa yoldan götürür.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>3. Yapay Zekâ ve İnsan Zekâsı</h2>
+    <p><strong>Ortak özellikler:</strong> Öğrenebilirler, karar verebilirler, sorun çözebilirler, yeni şeyler keşfedebilirler.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Özellik</th>
+          <th>İnsan Zekâsı</th>
+          <th>Yapay Zekâ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Hayal gücü</td><td>Var</td><td>Yok</td></tr>
+        <tr><td>Duygular</td><td>Var</td><td>Yok</td></tr>
+        <tr><td>Hızlı hesaplama</td><td>Yavaş</td><td>Çok hızlı</td></tr>
+        <tr><td>Yaratıcılık</td><td>Yüksek</td><td>Sınırlı</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>4. John McCarthy ve Yapay Zekânın Doğuşu</h2>
+    <ul>
+      <li>Yapay zekâ kavramını ilk ortaya atan Amerikalı bilim insanı <strong>John McCarthy’dir;</strong> “yapay zekânın babası” olarak bilinir.</li>
+      <li>1956’daki Dartmouth Konferansı’nda “Yapay Zekâ” terimini kullandı.</li>
+      <li>Bilgisayarların öğrenebileceğini, karar verebileceğini ve sorun çözebileceğini düşündü.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>5. Yapay Zekâ Öncüleri</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Bilim insanı</th>
+          <th>Katkısı</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Ada Lovelace</td><td>İlk bilgisayar programcısı kabul edilir.</td></tr>
+        <tr><td>Alan Turing</td><td>Turing Testi ile tanınır.</td></tr>
+        <tr><td>John McCarthy</td><td>“Yapay Zekâ” terimini kullandı.</td></tr>
+        <tr><td>Marvin Minsky</td><td>Yapay zekâ laboratuvarı çalışmalarına öncülük etti.</td></tr>
+        <tr><td>Cahit Arf</td><td>Türk matematikçi; makine düşünmesi üzerine çalışmalar yaptı.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>6. Hayatımızı Nasıl Kolaylaştırır?</h2>
+    <div class="two-col">
+      <div class="col-box col-good">
+        <div class="col-title">Faydaları</div>
+        <ul>
+          <li>İşleri daha hızlı yapmamıza yardımcı olur.</li>
+          <li>Büyük verileri analiz eder.</li>
+          <li>Akıllı öneriler sunar.</li>
+          <li>Günlük hayatı kolaylaştırır.</li>
+        </ul>
+      </div>
+      <div class="col-box col-warn">
+        <div class="col-title">Dikkat edilmesi gerekenler</div>
+        <ul>
+          <li>Bazen hatalı sonuçlar üretebilir.</li>
+          <li>Kişisel veriler ve güvenlik sorunları olabilir.</li>
+          <li>Teknolojiye bağımlılığı artırabilir.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    💡 <strong>Önemli İlke:</strong> Yapay zekâ bir araçtır; onu bilinçli kullanmalıyız.
+  </div>
+
+  <div class="footer">
+    <strong>Hilal Kurtoğlu</strong>
+    <span>Bilgisayar ve Öğretim Teknolojileri Öğretmeni</span>
+  </div>
+</div>
+</body>
+</html>

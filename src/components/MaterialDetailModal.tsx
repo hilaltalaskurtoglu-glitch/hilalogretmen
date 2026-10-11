@@ -7,12 +7,14 @@ interface MaterialDetailModalProps {
   material: Material | null;
   onClose: () => void;
   onPlayGame: (key?: string) => void;
+  onSelectTab?: (tab: string) => void;
 }
 
 export const MaterialDetailModal: React.FC<MaterialDetailModalProps> = ({
   material,
   onClose,
-  onPlayGame
+  onPlayGame,
+  onSelectTab
 }) => {
   const [downloadMsg, setDownloadMsg] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -174,20 +176,64 @@ export const MaterialDetailModal: React.FC<MaterialDetailModalProps> = ({
               )}
 
               {isGame ? (
-                <button
-                  onClick={() => {
-                    onClose();
-                    onPlayGame(material.interactiveGameKey);
-                  }}
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-md transition"
-                >
-                  <Play className="w-4 h-4 fill-current" />
-                  <span>Oyunu Şimdi Başlat</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="/oyun-4-hafta-yapay-zeka.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 bg-blue-50 border border-blue-200 hover:bg-blue-100 text-blue-800 font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 transition"
+                    title="Oyunu bağımsız web sitesi olarak yeni sekmede aç"
+                  >
+                    <ExternalLink className="w-4 h-4 text-blue-600" />
+                    <span>Web Oyunu Aç</span>
+                  </a>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onPlayGame(material.interactiveGameKey);
+                    }}
+                    className="px-6 py-2.5 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-md transition cursor-pointer"
+                  >
+                    <Play className="w-4 h-4 fill-current" />
+                    <span>Oyunu Şimdi Başlat</span>
+                  </button>
+                </div>
+              ) : material.id === 'mat-not-4-hafta-yapay-zeka' ? (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <a
+                    href="/ders-notu-4-hafta-yapay-zeka.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-900 font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 transition"
+                    title="Defter Notunu HTML olarak yeni pencerede aç"
+                  >
+                    <ExternalLink className="w-4 h-4 text-purple-600" />
+                    <span>HTML Olarak Aç</span>
+                  </a>
+                  {onSelectTab && (
+                    <button
+                      onClick={() => {
+                        onClose();
+                        onSelectTab('ders-notlari');
+                      }}
+                      className="px-4 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-md transition cursor-pointer"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>Ders Notunu Oku</span>
+                    </button>
+                  )}
+                  <button
+                    onClick={handleDownload}
+                    className="px-4 py-2.5 bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center gap-1.5 shadow-md transition cursor-pointer"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>İndir (HTML/PDF)</span>
+                  </button>
+                </div>
               ) : (
                 <button
                   onClick={handleDownload}
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-md transition"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm rounded-xl flex items-center gap-2 shadow-md transition cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
                   <span>Dosyayı İndir ({material.fileFormat})</span>

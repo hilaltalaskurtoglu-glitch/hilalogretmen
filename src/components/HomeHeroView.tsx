@@ -273,10 +273,10 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
             </span>
             <div className="min-w-0">
               <span className="text-xs font-black text-slate-800 block truncate group-hover:text-amber-800">
-                3. Hafta Ödevi: Dijital Vatandaşlık Afişi
+                4. Hafta Ödevi: Yapay Zekânın Temelleri
               </span>
               <span className="text-[11px] text-slate-500 block truncate">
-                Tanımları oku, seçtiğin boyut için A4 afiş çalışması yap.
+                İnsan zekâsı vs YZ ve geleceğin yapay zekâ geliştiricisi araştırma görevi.
               </span>
             </div>
           </div>
