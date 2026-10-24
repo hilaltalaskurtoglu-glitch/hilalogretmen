@@ -652,7 +652,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         <span className="font-bold text-xs text-white truncate group-hover:text-pink-300 transition-colors">
                           {note.recommendedWeek}: {note.title}
                         </span>
-                        {note.id === 'not-4-hafta-yapay-zeka' && (
+                        {(note.id === 'not-4-hafta-yapay-zeka' || note.id === 'not-6-hafta-bilgisayar-sistemleri') && (
                           <span className="text-[9px] font-black px-1.5 py-0.2 rounded-md bg-pink-500/30 text-pink-300 shrink-0 animate-pulse">
                             Yeni
                           </span>
@@ -682,7 +682,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
             )}
           </div>
 
-          {/* D. DERS MATERYALLERİ KÜTÜPHANESİ & TESTLER AÇILIR MENÜSÜ */}
+
+          {/* D. DERS MATERYALLERİ KÜTÜPHANESİ AÇILIR MENÜSÜ */}
           <div 
             className="relative"
             onMouseEnter={() => setOpenMaterialsMenu(true)}
@@ -706,13 +707,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="block font-black text-xs sm:text-sm">Materyaller &amp; Testler</span>
+                    <span className="block font-black text-xs sm:text-sm">Materyaller Kütüphanesi</span>
                     <span className="px-1.5 py-0.2 rounded-full bg-white/25 text-[10px] font-black uppercase tracking-wider text-white">
                       Kütüphane
                     </span>
                   </div>
                   <span className="block text-[11px] text-indigo-100 font-medium truncate">
-                    Testler, sunumlar &amp; belgeler
+                    Sunumlar, oyunlar &amp; belgeler
                   </span>
                 </div>
               </div>
@@ -757,6 +758,62 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </span>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-indigo-300 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* 6. HAFTA TESTİ: GİRİŞ-ÇIKIŞ, KLAVYE VE FARE TESTİ */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('testler');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-400/30 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-teal-400/30 text-teal-200 flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition-transform">
+                    ⌨️
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-black text-xs text-teal-200 group-hover:text-white transition-colors">
+                        Giriş-Çıkış, Klavye ve Fare Testi
+                      </span>
+                      <span className="text-[9px] font-black px-1.5 py-0.2 rounded-md bg-teal-400/30 text-teal-300 shrink-0 animate-pulse">
+                        6. Hafta
+                      </span>
+                    </div>
+                    <span className="block text-[10px] text-slate-300/90 truncate">
+                      16 Soru &bull; Resimli Donanım Testi
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-teal-300 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
+                </button>
+
+                {/* POSTERLER & AFİŞLER BÖLÜMÜ BAŞLIĞI */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTabClick('posterler');
+                    onCloseMobile();
+                  }}
+                  className="w-full text-left p-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-400/30 transition-colors flex items-center gap-2.5 group cursor-pointer"
+                >
+                  <span className="w-7 h-7 rounded-lg bg-purple-400/30 text-purple-200 flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition-transform">
+                    🖼️
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-black text-xs text-purple-200 group-hover:text-white transition-colors">
+                        Posterler &amp; Panolar
+                      </span>
+                      <span className="text-[9px] font-black px-1.5 py-0.2 rounded-md bg-pink-400/20 text-pink-300 shrink-0">
+                        Seçil Gökçe
+                      </span>
+                    </div>
+                    <span className="block text-[10px] text-slate-300/90 truncate">
+                      Klavye, Fare &amp; Donanım Afişleri
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-purple-300 opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition shrink-0" />
                 </button>
 
                 {/* 4. Hafta Yapay Zeka Testi Hızlı Çöz */}

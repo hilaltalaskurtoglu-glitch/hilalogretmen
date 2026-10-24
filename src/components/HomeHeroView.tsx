@@ -3,6 +3,7 @@ import { Material } from '../types';
 import { BilisimKahramaniGame } from './BilisimKahramaniGame';
 import { DigitalIdentityGame } from './DigitalIdentityGame';
 import { YapayZekaKasifleriGame } from './YapayZekaKasifleriGame';
+import { DonanimAvcisiGame } from './DonanimAvcisiGame';
 import { CurrentWeekOutcomeCard } from './CurrentWeekOutcomeCard';
 import { RecentUploadsSection } from './RecentUploadsSection';
 import { Gamepad2, BookOpen, Layers, Sparkles, Calendar, ArrowRight, ShieldCheck, Cpu, Code2, Network, FileText, CheckCircle2, Megaphone, Maximize2, Printer, ChevronRight, Bookmark } from 'lucide-react';
@@ -28,7 +29,7 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
   onDeleteMaterial,
   onSelectGame
 }) => {
-  const [activeHomeGame, setActiveHomeGame] = useState<string>('yapay-zeka-kasifleri');
+  const [activeHomeGame, setActiveHomeGame] = useState<string>('donanim-avcisi');
 
   // Son eklenen ders notunu al (en son eklenen veya en güncel ünite ders notu)
   const latestLectureNote = LECTURE_NOTES[LECTURE_NOTES.length - 1];
@@ -229,7 +230,9 @@ export const HomeHeroView: React.FC<HomeHeroViewProps> = ({
         </div>
 
         {/* Embedded Active Game Component */}
-        {activeHomeGame === 'yapay-zeka-kasifleri' ? (
+        {activeHomeGame === 'donanim-avcisi' ? (
+          <DonanimAvcisiGame onBackToHome={() => handleLaunchGameFullscreen('donanim-avcisi')} />
+        ) : activeHomeGame === 'yapay-zeka-kasifleri' ? (
           <YapayZekaKasifleriGame onBackToHome={() => handleLaunchGameFullscreen('yapay-zeka-kasifleri')} />
         ) : activeHomeGame === 'dijital-kimlik' ? (
           <DigitalIdentityGame />

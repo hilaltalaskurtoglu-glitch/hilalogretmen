@@ -6,6 +6,7 @@ export const CodeWeekAnnouncementCard: React.FC = () => {
   const [showAiGuideText, setShowAiGuideText] = useState(false);
   const [img1Error, setImg1Error] = useState(false);
   const [img2Error, setImg2Error] = useState(false);
+  const [img3Error, setImg3Error] = useState(false);
 
   const poster1Src = img1Error
     ? '/src/assets/images/codeweek_poster_1791106855697.jpg'
@@ -14,6 +15,10 @@ export const CodeWeekAnnouncementCard: React.FC = () => {
   const poster2Src = img2Error
     ? '/src/assets/images/kodlabuyu_ai_poster_1791106865308.jpg'
     : '/kodlabuyu_ai_poster.jpg?v=2026';
+
+  const poster3Src = img3Error
+    ? '/milli_teknoloji_panosu.jpg'
+    : '/codeweek2026.jpg';
 
   const handleDownloadHtml = () => {
     const a = document.createElement('a');
@@ -287,7 +292,67 @@ export const CodeWeekAnnouncementCard: React.FC = () => {
           )}
         </div>
 
-        {/* 6. Info Box (Gold border-left matching the HTML) */}
+        {/* 6. Section Title with Dot: Millî Teknoloji Ürünleri Panosu */}
+        <div className="flex items-center gap-2.5 pt-3">
+          <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0 shadow-2xs" />
+          <h4 className="text-base sm:text-lg font-black text-[#16213e]">
+            Türkiye’nin Millî Teknoloji Ürünleri Panosu
+          </h4>
+        </div>
+
+        {/* 7. Poster Card 3 (CodeWeek 2026 Millî Teknoloji Ürünleri Panosu) */}
+        <div className="bg-white rounded-2xl overflow-hidden shadow-md border-2 border-purple-100 group">
+          <div className="p-3 bg-purple-50/60 border-b border-purple-100 flex items-center justify-between text-xs font-bold text-purple-900">
+            <span className="flex items-center gap-1.5">
+              🇹🇷 <strong>Afiş 3:</strong> CodeWeek 2026 &bull; Türkiye’nin Millî Teknoloji Ürünleri Panosu
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setActiveImageZoom({ src: poster3Src, title: 'CodeWeek 2026 Millî Teknoloji Ürünleri Panosu' })}
+                className="px-2.5 py-1 rounded-lg bg-white hover:bg-purple-100 text-purple-800 border border-purple-200 transition flex items-center gap-1 cursor-pointer"
+                title="Büyüt"
+              >
+                <ZoomIn className="w-3.5 h-3.5 text-rose-600" />
+                <span>Büyüt</span>
+              </button>
+              <button
+                onClick={() => handleDownloadImage(poster3Src, 'codeweek-2026-milli-teknoloji-panosu.jpg')}
+                className="px-2.5 py-1 rounded-lg bg-white hover:bg-purple-100 text-purple-800 border border-purple-200 transition flex items-center gap-1 cursor-pointer"
+                title="Panoyu İndir"
+              >
+                <Download className="w-3.5 h-3.5 text-purple-600" />
+                <span>İndir</span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            className="relative overflow-hidden cursor-pointer bg-slate-50 min-h-[340px] flex items-center justify-center"
+            onClick={() => setActiveImageZoom({ src: poster3Src, title: 'CodeWeek 2026 Millî Teknoloji Ürünleri Panosu' })}
+          >
+            <img
+              src={poster3Src}
+              alt="CodeWeek 2026 Millî Teknoloji Ürünleri Panosu"
+              className="w-full h-auto object-contain max-h-[640px] mx-auto transition duration-300 group-hover:scale-[1.01]"
+              referrerPolicy="no-referrer"
+              onError={() => {
+                if (!img3Error) setImg3Error(true);
+              }}
+            />
+            <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition flex items-center justify-center pointer-events-none">
+              <span className="bg-white/95 text-slate-800 text-xs font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-lg">
+                <ZoomIn className="w-4 h-4 text-purple-600" />
+                Panoyu Tam Ekran İncele
+              </span>
+            </div>
+          </div>
+
+          <div className="p-4 sm:p-5 text-xs sm:text-sm text-[#4a4a63] leading-relaxed border-t border-slate-100 bg-slate-50/50">
+            CodeWeek 2026 kapsamında hazırlanan panomuzda, Türkiye’nin millî teknoloji ürünleri ve bu ürünlerde kullanılan bilişim teknolojileri tanıtılmaktadır. Öğrencilerimizin teknolojiye yönelik meraklarını artırmak, yerli teknolojileri tanımalarını sağlamak ve bilişim teknolojilerinin günlük yaşamımızdaki önemine dikkat çekmek amaçlanmaktadır.
+          </div>
+        </div>
+
+        {/* 8. Info Box (Gold border-left matching the HTML) */}
         <div className="bg-white rounded-2xl p-5 border-l-4 border-[#ffc94b] shadow-xs text-xs sm:text-sm text-slate-800 leading-relaxed space-y-1">
           <div className="flex items-start gap-2.5">
             <span className="text-xl shrink-0">🔑</span>

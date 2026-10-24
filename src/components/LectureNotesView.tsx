@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LECTURE_NOTES } from '../data/lectureNotesData';
 import { FileText, Printer, Search, Sparkles, BookOpen, CheckCircle2, Lightbulb, ClipboardCheck, ArrowRight, Gamepad2, ExternalLink, Download } from 'lucide-react';
+import { ComputerSystemHierarchy } from './ComputerSystemHierarchy';
 
 interface LectureNotesViewProps {
   onSelectTab?: (tab: string) => void;
@@ -179,8 +180,11 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
               </div>
             )}
 
-            {/* Custom Structured Sections (BİT Kullanım Alanları, Beden / Göz / Ruh Sağlığı, Tablolar, Karşılaştırmalar) */}
-            {note.sections && note.sections.map((sec, secIdx) => (
+            {/* 6. Hafta Hiyerarşik Şeması veya Diğer Notların Bölümleri */}
+            {note.id === 'not-6-hafta-bilgisayar-sistemleri' ? (
+              <ComputerSystemHierarchy />
+            ) : (
+              note.sections && note.sections.map((sec, secIdx) => (
               <div key={secIdx} className="space-y-2.5 pt-2">
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <h4 className="text-xs sm:text-sm font-black uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
@@ -314,7 +318,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                   </ul>
                 )}
               </div>
-            ))}
+            )))}
 
             {/* BİT'in Faydaları Section */}
             {note.benefits && note.benefits.length > 0 && (
@@ -411,6 +415,69 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                     >
                       <FileText className="w-3.5 h-3.5 text-pink-300" />
                       <span>HTML Notu Aç / Yazdır</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 6. Hafta Donanım Avcısı Eğitsel Oyun ve Web Sitesi Bağlantı Alanı */}
+            {note.id === 'not-6-hafta-bilgisayar-sistemleri' && (
+              <div className="bg-gradient-to-r from-sky-900 via-indigo-900 to-teal-950 text-white p-5 rounded-2xl shadow-md border border-cyan-400/30 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-400 text-slate-950">
+                        🎮 6. Hafta Eğitsel Ders Oyunu
+                      </span>
+                      <span className="text-xs text-cyan-200 font-bold">BTY.5.1.5 Kazanımı</span>
+                    </div>
+                    <h4 className="text-base sm:text-lg font-black text-white">
+                      Donanım Avcısı: İç ve Dış Donanım Macerası
+                    </h4>
+                    <p className="text-xs text-slate-300">
+                      İç donanım parçalarını tanı, görevlerini eşleştir ve giriş-çıkış birimlerini sürükle-bırak kategorilerine ayır!
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    {onSelectTab && (
+                      <button
+                        onClick={() => onSelectTab('oyunlar')}
+                        className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-400 to-cyan-500 hover:opacity-95 text-slate-950 font-black text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Gamepad2 className="w-4 h-4" />
+                        <span>Oyunu Başlat</span>
+                      </button>
+                    )}
+                    <a
+                      href="/oyun-6-hafta-donanim-avcisi.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
+                      title="Orijinal Donanım Avcısı HTML dosyasını yeni sekmede aç"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-cyan-300" />
+                      <span>Web Sitesinde Oyna</span>
+                    </a>
+                    <a
+                      href="/ders-notu-6-hafta-bilgisayar-sistemleri.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
+                      title="6. Hafta Defter Notunu HTML Belgesi Olarak Aç / Yazdır"
+                    >
+                      <FileText className="w-3.5 h-3.5 text-pink-300" />
+                      <span>HTML Notu Aç / Yazdır</span>
+                    </a>
+                    <a
+                      href="/assets/aistudio/6.Hafta_Ders_Notu__1__107d93b2.pdf"
+                      download="6.Hafta_Ders_Notu_BTY_5_1_5.pdf"
+                      className="px-3.5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-bold text-xs transition flex items-center gap-1.5"
+                      title="Orijinal PDF Belgesini İndir"
+                    >
+                      <Download className="w-3.5 h-3.5 text-emerald-300" />
+                      <span>PDF İndir</span>
                     </a>
                   </div>
                 </div>

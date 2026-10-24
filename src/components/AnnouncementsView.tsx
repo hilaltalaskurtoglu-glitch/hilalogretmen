@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Bell, Megaphone, Play, ExternalLink, Copy, CheckCircle2, ShieldCheck, HelpCircle, Calendar, User, Video, Info, Sparkles, BookOpen } from 'lucide-react';
+import { Megaphone, Play, ExternalLink, Copy, CheckCircle2, Calendar, Video } from 'lucide-react';
 import { CodeWeekAnnouncementCard } from './CodeWeekAnnouncementCard';
+import { HardwareSimulationRecommendationCard } from './HardwareSimulationRecommendationCard';
 
 export const AnnouncementsView: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState(false);
@@ -29,6 +30,17 @@ export const AnnouncementsView: React.FC = () => {
   };
 
   const otherAnnouncements = [
+    {
+      id: 'd-donanim-simulasyon',
+      category: 'ogrenci',
+      title: 'Tavsiye Web Sitesi: Donanım Simülasyonu (donanim.vercel.app)',
+      date: '2026-10-24',
+      author: 'Hilal KURTOĞLU',
+      summary: 'Öğrencilerimizin iç ve dış donanım birimlerini etkileşimli olarak deneyimlemesi için Mücahit Bozok öğretmenimiz tarafından hazırlanan donanim.vercel.app donanım simülasyon sitesini tavsiye ediyoruz. Bu kıymetli çalışmasından ve bilişim eğitimine katkılarından dolayı öğretmenimize teşekkür eder, şükranlarımızı sunarız.',
+      tag: 'Tavsiye Web Sitesi',
+      link: 'https://donanim.vercel.app',
+      linkText: 'donanim.vercel.app Sitesine Git'
+    },
     {
       id: 'd-codeweek',
       category: 'ogrenci',
@@ -106,7 +118,10 @@ export const AnnouncementsView: React.FC = () => {
       {/* 2. ÖNE ÇIKAN ETKİNLİK DUYURUSU: AVRUPA KOD HAFTASI 2026 (EU CODE WEEK) & KODLABÜYÜ */}
       <CodeWeekAnnouncementCard />
 
-      {/* 3. ÖNE ÇIKAN VİDEO KILAVUZ: EBA VELİ ŞİFRE KILAVUZU */}
+      {/* 3. TAVSİYE WEB SİTESİ: DONANIM SİMÜLASYONU (donanim.vercel.app - MÜCAHİT BOZOK) */}
+      <HardwareSimulationRecommendationCard />
+
+      {/* 4. ÖNE ÇIKAN VİDEO KILAVUZ: EBA VELİ ŞİFRE KILAVUZU */}
       <section className="bg-white border-2 border-pink-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 relative overflow-hidden">
         
         {/* Top Badges & Date */}
@@ -328,6 +343,20 @@ export const AnnouncementsView: React.FC = () => {
                 <p className="text-xs text-slate-600 leading-relaxed">
                   {ann.summary}
                 </p>
+
+                {'link' in ann && ann.link && (
+                  <div className="pt-1">
+                    <a
+                      href={ann.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 text-cyan-900 font-extrabold text-xs border border-cyan-200 transition"
+                    >
+                      <span>{'linkText' in ann ? (ann.linkText as string) : 'Bağlantıyı Aç'}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-cyan-700" />
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="pt-2 border-t border-pink-100 flex items-center justify-between text-[11px] text-slate-500">

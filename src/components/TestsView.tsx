@@ -17,7 +17,8 @@ import {
   Award
 } from 'lucide-react';
 import { YapayZekaGame } from './YapayZekaGame';
-import { DigitalIdentityGame } from './DigitalIdentityGame';
+import { DigitalIdentityTest } from './DigitalIdentityTest';
+import { GirisCikisKlavyeFareTest } from './GirisCikisKlavyeFareTest';
 
 interface TestItem {
   id: string;
@@ -35,6 +36,26 @@ interface TestItem {
 }
 
 export const TESTS_LIST: TestItem[] = [
+  {
+    id: 'giris-cikis-klavye-fare',
+    title: 'Giriş-Çıkış Birimleri, Klavye ve Fare Testi',
+    subtitle: '1. Dönem · 6. Hafta Konu Değerlendirme Testi',
+    weekTag: '6. Hafta Testi',
+    questionCount: 16,
+    outcomeCode: 'BTY.5.1.5',
+    outcomeDesc: 'Bilgisayar sistemlerinin donanım, giriş/çıkış birimleri ve klavye-fare tuş işlevlerini ayırt edebilme',
+    description: 'Klavye, fare tuşları, dokunmatik ekran, monitör, yazıcı, tarayıcı, mikrofon, modem ve klavye özel tuşları (Shift, Caps Lock, Backspace, Space) üzerine 16 sorudan oluşan resimli değerlendirme testi.',
+    icon: '⌨️',
+    color: 'teal',
+    htmlUrl: '/giris-cikis-klavye-fare-testi.html',
+    features: [
+      '16 Özgün Resimli Soru ve Her Soru İçin Anında Açıklamalı Dönüt',
+      'Klavye (Shift, Caps Lock, Backspace, Space) ve Fare Tuşları Analizi',
+      'Giriş, Çıkış ve Hem Giriş Hem Çıkış Birimlerini Ayırt Etme',
+      'Akıllı Tekrar Modu: Yanlış Yapılan Soruları Öğrenerek Pekiştirme',
+      'Seçil GÖKÇE ve Hilal KURTOĞLU Ders Materyalleriyle %100 Uyumlu'
+    ]
+  },
   {
     id: 'yapay-zeka',
     title: 'Yapay Zekâ Temelleri – Bilgini Ölç Testi',
@@ -66,29 +87,12 @@ export const TESTS_LIST: TestItem[] = [
     description: 'Dijital kimlik, arama motorlarındaki kalıcılık, kişisel verilerin korunması ve e-Devlet/EBA uygulamalarının güvenli kullanımı üzerine 10 soruluk test.',
     icon: '🆔',
     color: 'teal',
+    htmlUrl: '/test-3-hafta-dijital-kimlik.html',
     features: [
       'Dijital Kimlik ve Sosyal Medya Paylaşımları',
       'Arama Motorlarında İz Silinmezliği Analizi',
       'Güçlü Şifre Oluşturma ve Hesap Güvenliği',
       'e-Devlet, EBA ve MHRS Hizmet Bilgisi'
-    ]
-  },
-  {
-    id: 'saglik-ergonomi',
-    title: 'Bilişim Teknolojileri ve Ergonomi Testi',
-    subtitle: '1. Dönem · 2. Hafta Konu Değerlendirme Testi',
-    weekTag: '2. Hafta Testi',
-    questionCount: 10,
-    outcomeCode: 'BTY.5.1.2',
-    outcomeDesc: 'Bilişim teknolojilerini kullanırken sağlığı koruma kurallarını uygulayabilme',
-    description: 'Doğru oturuş, ekran mesafesi, 20-20-20 dinlenme kuralı ve bilgisayar başında sağlıklı çalışma alışkanlıkları üzerine test.',
-    icon: '🖥️',
-    color: 'emerald',
-    features: [
-      'İdeal Oturuş ve Koltuk Ayarları',
-      'Ekran Uzaklığı ve 20-20-20 Göz Kuralı',
-      'Klavye & Fare Tutuş Pozisyonları',
-      'Laboratuvar Güvenlik Kuralları'
     ]
   }
 ];
@@ -102,10 +106,16 @@ interface TestsViewProps {
 export const TestsView: React.FC<TestsViewProps> = ({
   onBackToHome,
   onNavigateToMaterials,
-  initialTestId = 'yapay-zeka'
+  initialTestId = 'giris-cikis-klavye-fare'
 }) => {
   const [activeTestId, setActiveTestId] = useState<string>(initialTestId);
   const [isFullscreenActive, setIsFullscreenActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialTestId) {
+      setActiveTestId(initialTestId);
+    }
+  }, [initialTestId]);
 
   const activeTest = TESTS_LIST.find(t => t.id === activeTestId) || TESTS_LIST[0];
 
@@ -160,7 +170,7 @@ export const TestsView: React.FC<TestsViewProps> = ({
       </div>
 
       {/* 2. TEST SEÇİM SEKMELERİ (TEST SELECTOR CARDS) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {TESTS_LIST.map((t) => {
           const isSelected = activeTestId === t.id;
           return (
@@ -271,10 +281,12 @@ export const TestsView: React.FC<TestsViewProps> = ({
 
         {/* İnteraktif Test Çözücü Bileşeni */}
         <div className="pt-2">
-          {activeTestId === 'yapay-zeka' ? (
+          {activeTestId === 'giris-cikis-klavye-fare' ? (
+            <GirisCikisKlavyeFareTest />
+          ) : activeTestId === 'yapay-zeka' ? (
             <YapayZekaGame />
           ) : (activeTestId === 'dijital-vatandaslik' || activeTestId === 'dijital-kimlik') ? (
-            <DigitalIdentityGame />
+            <DigitalIdentityTest />
           ) : (
             <div className="p-8 text-center bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 space-y-4">
               <div className="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl mx-auto">

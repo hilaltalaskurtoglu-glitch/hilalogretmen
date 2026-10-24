@@ -262,5 +262,74 @@ export const LECTURE_NOTES: LectureNote[] = [
     term: "1. Dönem",
     recommendedWeek: "4. Hafta",
     icon: "🤖"
+  },
+  {
+    id: "not-6-hafta-bilgisayar-sistemleri",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    title: "5. Sınıf Ders Notu: Bilgisayar Sistemlerini Çözümleyebilme (BTY.5.1.5)",
+    subtitle: "5. Sınıf Bilişim Teknolojileri ve Yazılım • 6. Hafta Ders Notu",
+    summary: "Bir bilgisayar sistemi iki temel kısımdan oluşur: Donanım ve Yazılım.",
+    sections: [
+      {
+        heading: "a) Bilgisayar Sistemlerinin Temel Bileşenleri",
+        icon: "🖥️",
+        badge: "BTY.5.1.5",
+        description: "Bir bilgisayar sistemi iki temel kısımdan oluşur: Donanım ve Yazılım.",
+        items: [
+          {
+            label: "1. Donanım (Fiziksel Bileşenler)",
+            text: "Bilgisayarın dokunabildiğimiz, gözle görülen fiziksel parçalarıdır."
+          },
+          {
+            label: "İç Donanım",
+            text: "Kasanın içinde yer alan ve sistemin çalışmasını sağlayan hayati parçalardır (İşlemci, Ana Kart, RAM Bellek, Sabit Disk/SSD, Güç Kaynağı)."
+          },
+          {
+            label: "Dış Donanım",
+            text: "Kasanın dışına bağlı olan ve bilgisayarla iletişim kurmamızı sağlayan birimlerdir:"
+          },
+          {
+            label: "Giriş Birimleri",
+            text: "Bilgisayara veri göndermemizi sağlar (Klavye, Fare, Mikrofon)."
+          },
+          {
+            label: "Çıkış Birimleri",
+            text: "Bilgisayarın işlediği bilgileri bize sunar (Monitör, Yazıcı, Hoparlör)."
+          },
+          {
+            label: "Hem Giriş Hem Çıkış Birimleri",
+            text: "Dokunmatik Ekran, modem, usb bellek, taşınabilir harddisk, sd kart."
+          },
+          {
+            label: "2. Yazılım (Mantıksal Bileşenler)",
+            text: "Dokunamadığımız, ekran üzerinde gördüğümüz ve donanımın çalışmasını sağlayan programlar bütünüdür."
+          },
+          {
+            label: "İşletim Sistemi Yazılımları",
+            text: "Bilgisayarın açılmasını sağlayan ve diğer tüm programların çalışması için zemin hazırlayan temel yazılımdır (Windows, macOS, Linux, Android, iOS, Pardus)."
+          },
+          {
+            label: "Uygulama Yazılımları",
+            text: "Belirli bir işi yapmak veya eğlenmek için kullandığımız programlardır (İnternet tarayıcıları, oyunlar, ofis programları)."
+          }
+        ]
+      },
+      {
+        heading: "b) Bilgisayar Sistemlerinin Temel Bileşenleri Arasındaki İlişkiler",
+        icon: "⚙️",
+        badge: "Veri Akış İlişkisi & Uyum",
+        description: "Bilgisayar sistemleri, donanım ve yazılımın uyum içinde çalışmasıyla görevini yerine getirir.",
+        points: [
+          "Donanım ve Yazılımın Birbirine Bağımlılığı: Donanım (kasa, ekran, işlemci) olmadan yazılım çalışamaz; yazılım (işletim sistemi) olmadan da donanım tek başına hiçbir şey yapamaz. Tıpkı insan bedenine (donanım) ruh ve akıl (yazılım) verilmesi gibi birbirini tamamlarlar.",
+          "Veri Akış İlişkisi - 1: Kullanıcı, giriş birimleri (klavye, fare) aracılığıyla bilgisayara komut ve veri gönderir.",
+          "Veri Akış İlişkisi - 2: Gönderilen bu veriler işlemci tarafından yorumlanır ve RAM bellekte geçici olarak işlenir.",
+          "Veri Akış İlişkisi - 3: İşlenen sonuçlar kalıcı olarak sabit diskte saklanabilir veya çıkış birimleri (ekran, hoparlör) aracılığıyla kullanıcıya sunulur.",
+          "Veri Akış İlişkisi - 4: Tüm bu donanım birimlerinin birbiriyle haberleşmesini ve uyumlu çalışmasını ana kart ile işletim sistemi yazılımı sağlar."
+        ]
+      }
+    ],
+    term: "1. Dönem",
+    recommendedWeek: "6. Hafta",
+    icon: "💻"
   }
 ];

@@ -12,6 +12,23 @@ export interface GameItem {
 
 export const GAMES_REGISTRY: GameItem[] = [
   {
+    id: 'donanim-avcisi',
+    title: 'Donanım Avcısı',
+    subtitle: '5. Sınıf · 6. Hafta – İç ve Dış Donanım Birimleri Macerası',
+    weekTag: '6. Hafta',
+    description: 'Bilgisayar sisteminin iç donanım parçalarını tanı, görevlerini eşleştir! Dış donanım birimlerini Giriş, Çıkış ve Hem Giriş Hem Çıkış kutularına sürükle-bırak yöntemiyle yerleştir, donanım uzmanı rozetini kazan!',
+    icon: '💻',
+    accentColor: 'teal',
+    tags: ['Donanım Avcısı', 'İç Donanım', 'Dış Donanım', 'Giriş-Çıkış', '6. Hafta', 'BTY.5.1.5', 'Akıllı Tahta'],
+    features: [
+      '1. Bölüm: İç Donanım Parçaları Tanıma Testi (Anakart, CPU, RAM, SSD, GPU, Güç Kaynağı, Fan)',
+      '2. Bölüm: Dış Donanım Sürükle-Bırak Eşleştirme (Giriş, Çıkış, Hem Giriş-Çıkış)',
+      '10 Giriş-Çıkış Donanımı: Klavye, Fare, Tarayıcı, Mikrofon, Monitör, Yazıcı, Hoparlör, Kulaklık, Dokunmatik Ekran, Modem',
+      'Dokunmatik akıllı tahta ve tabletlerle %100 uyumlu',
+      '🏅 Donanım Uzmanı Başarı Madalyası ve Değerlendirme Karnesi'
+    ]
+  },
+  {
     id: 'yapay-zeka-kasifleri',
     title: 'Yapay Zekâ Kaşifleri',
     subtitle: '5. Sınıf · 4. Hafta – 5 Görevli Yapay Zekâ Macerası',

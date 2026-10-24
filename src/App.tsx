@@ -12,6 +12,7 @@ import { AnnouncementsView } from './components/AnnouncementsView';
 import { HomeworkView } from './components/HomeworkView';
 import { GamesView } from './components/GamesView';
 import { TestsView } from './components/TestsView';
+import { PostersView } from './components/PostersView';
 import { BilisimKahramaniGame } from './components/BilisimKahramaniGame';
 import { MaterialDetailModal } from './components/MaterialDetailModal';
 import { AddMaterialModal } from './components/AddMaterialModal';
@@ -237,6 +238,11 @@ export default function App() {
               onBackToHome={() => handleSelectTab('anasayfa')}
               onNavigateToMaterials={() => handleSelectTab('materyaller')}
             />
+          )}
+
+          {/* TAB 11: POSTERLER (EĞİTSEL POSTERLER & 6. HAFTA BİLGİSAYAR SİSTEMLERİ KULLANIMI AFİŞİ) */}
+          {activeTab === 'posterler' && (
+            <PostersView onSelectTab={handleSelectTab} />
           )}
 
         </main>

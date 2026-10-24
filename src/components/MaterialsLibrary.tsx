@@ -3,7 +3,7 @@ import { Material, MaterialType } from '../types';
 import { downloadMaterialFile } from '../utils/downloadHelper';
 import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain } from 'lucide-react';
 import { YapayZekaGame } from './YapayZekaGame';
-import { DigitalIdentityGame } from './DigitalIdentityGame';
+import { DigitalIdentityTest } from './DigitalIdentityTest';
 
 interface MaterialsLibraryProps {
   materials: Material[];
@@ -12,6 +12,7 @@ interface MaterialsLibraryProps {
   onPlayGame: (gameKey?: string) => void;
   initialSelectedType?: string;
   initialTestId?: string | null;
+  onNavigateToTests?: () => void;
 }
 
 export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
@@ -305,16 +306,34 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
               <span className="font-semibold">
                 📌 10 Soru &bull; Dijital Kimlik, Siber Ayak İzi ve e-Vatandaşlık &bull; Kazanım: BTY.5.1.3
               </span>
-              <span className="text-teal-300 font-bold">
-                Hilal KURTOĞLU &bull; 3. Hafta Değerlendirmesi
-              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href="/test-3-hafta-dijital-kimlik.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-teal-500/30 hover:bg-teal-500/40 border border-teal-400/40 text-teal-200 font-bold transition flex items-center gap-1.5"
+                  title="Testi ayrı pencerede aç"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Ayrı Sekmede Aç</span>
+                </a>
+                <a
+                  href="/test-3-hafta-dijital-kimlik.html"
+                  download="3_Hafta_Dijital_Kimlik_Testi.html"
+                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold transition flex items-center gap-1.5"
+                  title="Test dosyasını bilgisayara indir"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>İndir</span>
+                </a>
+              </div>
             </div>
           )}
 
           {/* Seçili Test Bileşeni Gövdesi */}
           <div className="bg-white rounded-3xl p-3 sm:p-6 text-slate-900 shadow-lg">
             {activeInteractiveTestId === 'dijital-kimlik' ? (
-              <DigitalIdentityGame />
+              <DigitalIdentityTest />
             ) : (
               <YapayZekaGame />
             )}

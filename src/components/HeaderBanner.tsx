@@ -105,14 +105,14 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => setActiveTab('oyunlar')}
-              className={`px-4 py-2 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center gap-2 border-2 ${
+              className={`px-4 py-2 rounded-2xl font-bold text-xs sm:text-sm transition flex items-center gap-2 border-2 cursor-pointer ${
                 activeTab === 'oyunlar'
-                  ? 'bg-gradient-to-r from-[#EC4899] via-[#8B5CF6] to-[#3B82F6] text-white border-transparent shadow-xs'
-                  : 'bg-gradient-to-r from-pink-50 to-blue-50 text-purple-900 border-pink-200 hover:border-pink-300'
+                  ? 'bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-600 text-white border-transparent shadow-xs'
+                  : 'bg-gradient-to-r from-teal-50 to-sky-50 text-teal-900 border-teal-200 hover:border-teal-300'
               }`}
             >
-              <Gamepad2 className="w-4 h-4 text-[#EC4899]" />
-              <span>🎮 Bilişim Kahramanı Oyunu</span>
+              <Gamepad2 className="w-4 h-4 text-teal-600" />
+              <span>🎮 6. Hafta: Donanım Avcısı Oyunu</span>
             </button>
           </div>
 
@@ -177,6 +177,7 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({
           >
             <span>📝 Ders Notları</span>
           </button>
+
 
           <button
             onClick={() => setActiveTab('odev')}

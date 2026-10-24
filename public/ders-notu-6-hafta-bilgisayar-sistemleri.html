@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5. Sınıf Ders Notu: Bilgisayar Sistemlerini Çözümleyebilme (BTY.5.1.5)</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --navy: #0f172a;
+    --card-bg: #ffffff;
+    --border: #bfdbfe;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Trebuchet MS', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    background: #f8fafc;
+    color: var(--navy);
+    padding: 30px 16px 60px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 36px 40px;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+    border: 2px solid var(--border);
+  }
+  header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .badge-tag {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 1.45rem;
+    color: #0f172a;
+    margin: 0;
+    font-weight: 800;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn {
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-print { background: #e0f2fe; color: #0284c7; }
+  .btn-print:hover { background: #bae6fd; }
+  .btn-pdf { background: #dcfce7; color: #166534; }
+  .btn-pdf:hover { background: #bbf7d0; }
+
+  .intro-callout {
+    background: #eff6ff;
+    border: 2px solid #bfdbfe;
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1e3a8a;
+  }
+
+  .section-h {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 28px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* HİYERARŞİK BLOKLAR (DONANIM VE YAZILIM) */
+  .hierarchy-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .hierarchy-card.hardware { border-color: #93c5fd; }
+  .hierarchy-card.software { border-color: #d8b4fe; }
+
+  .split-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+  @media (max-width: 768px) {
+    .split-row { flex-direction: column; }
+  }
+
+  /* Sol Ana Başlık Kutusu */
+  .parent-col {
+    flex: 0 0 280px;
+    padding: 22px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .parent-col.hardware { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .parent-col.software { background: linear-gradient(135deg, #7c3aed, #9333ea); }
+  
+  .parent-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 4px;
+  }
+  .parent-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .parent-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.95;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    padding-top: 12px;
+    margin: 0;
+  }
+
+  /* Yanında Yer Alan Kolon */
+  .child-col {
+    flex: 1;
+    padding: 16px 20px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sub-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+  }
+  .sub-box-title {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sub-box-desc {
+    font-size: 0.9rem;
+    color: #334155;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .chips-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .unit-card {
+    background: #f1f5f9;
+    border-radius: 10px;
+    padding: 10px 12px;
+    border-left: 4px solid #2563eb;
+  }
+  .unit-card.green { border-left-color: #10b981; }
+  .unit-card.blue { border-left-color: #3b82f6; }
+  .unit-card.purple { border-left-color: #8b5cf6; }
+
+  .unit-card strong {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+    color: #0f172a;
+  }
+  .unit-card span {
+    font-size: 0.8rem;
+    color: #475569;
+    display: block;
+  }
+
+  /* VERİ AKIŞ İLİŞKİSİ KARTI */
+  .flow-container {
+    background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    color: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 24px;
+  }
+  .flow-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin: 0 0 10px;
+    color: #38bdf8;
+  }
+  .flow-intro {
+    font-size: 0.92rem;
+    color: #cbd5e1;
+    margin-bottom: 16px;
+  }
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .flow-item {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .flow-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+  .flow-text {
+    font-size: 0.88rem;
+    color: #f1f5f9;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .dependency-callout {
+    margin-top: 16px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    color: #fef3c7;
+    line-height: 1.5;
+  }
+
+  footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
+    .actions { display: none; }
+    .split-row { display: flex; flex-direction: row; }
+    .flow-container { background: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div>
+      <span class="badge-tag">5. Sınıf • BTY.5.1.5 • 6. Hafta</span>
+      <h1>Bilgisayar Sistemlerini Çözümleyebilme</h1>
+    </div>
+    <div class="actions">
+      <a href="/assets/aistudio/6.Hafta_Ders_Notu__1__107d93b2.pdf" download class="btn btn-pdf">📥 Orijinal PDF</a>
+      <button class="btn btn-print" onclick="window.print()">🖨️ Yazdır</button>
+    </div>
+  </header>
+
+  <div class="section-h">a) Bilgisayar Sistemlerinin Temel Bileşenleri</div>
+  <div class="intro-callout">
+    Bir bilgisayar sistemi iki temel kısımdan oluşur: <strong>Donanım</strong> ve <strong>Yazılım</strong>.
+  </div>
+
+  <!-- 1. DONANIM -->
+  <div class="hierarchy-card hardware">
+    <div class="split-row">
+      <div class="parent-col hardware">
+        <div>
+          <div class="parent-title">1. Donanım</div>
+          <span class="parent-subtitle">(Fiziksel Bileşenler)</span>
+        </div>
+        <p class="parent-desc">
+          Bilgisayarın dokunabildiğimiz, gözle görülen fiziksel parçalarıdır.
+        </p>
+      </div>
+
+      <div class="child-col">
+        <!-- Yanında: İç Donanım -->
+        <div class="sub-box">
+          <div class="sub-box-title" style="color: #1e40af;">
+            <span>İç Donanım</span>
+            <span style="font-size: 0.75rem; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 6px;">Kasa İçi Parçalar</span>
+          </div>
+          <p class="sub-box-desc">
+            Kasanın içinde yer alan ve sistemin çalışmasını sağlayan hayati parçalardır 
+            <strong>(İşlemci, Ana Kart, RAM Bellek, Sabit Disk/SSD, Güç Kaynağı).</strong>
+          </p>
+        </div>
+
+        <!-- Onun Altına: Dış Donanım -->
+        <div class="sub-box">
+          <div class="sub-box-title" style="color: #0284c7;">
+            <span>Dış Donanım</span>
+            <span style="font-size: 0.75rem; background: #e0f2fe; color: #0284c7; padding: 2px 8px; border-radius: 6px;">İletişim &amp; Çevre Birimleri</span>
+          </div>
+          <p class="sub-box-desc">
+            Kasanın dışına bağlı olan ve bilgisayarla iletişim kurmamızı sağlayan birimlerdir:
+          </p>
+          
+          <!-- Dış donanımın altına: Giriş, Çıkış, Hem Giriş Hem Çıkış Birimleri -->
+          <div class="chips-container">
+            <div class="unit-card green">
+              <strong>Giriş Birimleri:</strong>
+              <span>Bilgisayara veri göndermemizi sağlar (Klavye, Fare, Mikrofon).</span>
+            </div>
+            <div class="unit-card blue">
+              <strong>Çıkış Birimleri:</strong>
+              <span>Bilgisayarın işlediği bilgileri bize sunar (Monitör, Yazıcı, Hoparlör).</span>
+            </div>
+            <div class="unit-card purple">
+              <strong>Hem Giriş Hem Çıkış Birimleri:</strong>
+              <span>Dokunmatik Ekran, modem, usb bellek, taşınabilir harddisk, sd kart.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. YAZILIM -->
+  <div class="hierarchy-card software">
+    <div class="split-row">
+      <div class="parent-col software">
+        <div>
+          <div class="parent-title">2. Yazılım</div>
+          <span class="parent-subtitle">(Mantıksal Bileşenler)</span>
+        </div>
+        <p class="parent-desc">
+          Dokunamadığımız, ekran üzerinde gördüğümüz ve donanımın çalışmasını sağlayan programlar bütünüdür.
+        </p>
+      </div>
+
+      <div class="child-col">
+        <!-- Yanında: İşletim Sistemi Yazılımları -->
+        <div class="sub-box">
+          <div class="sub-box-title" style="color: #6b21a8;">
+            <span>İşletim Sistemi Yazılımları</span>
+            <span style="font-size: 0.75rem; background: #f3e8ff; color: #6b21a8; padding: 2px 8px; border-radius: 6px;">Temel Sistem</span>
+          </div>
+          <p class="sub-box-desc">
+            Bilgisayarın açılmasını sağlayan ve diğer tüm programların çalışması için zemin hazırlayan temel yazılımdır 
+            <strong>(Windows, macOS, Linux, Android, iOS, Pardus).</strong>
+          </p>
+        </div>
+
+        <!-- Onun Altına: Uygulama Yazılımları -->
+        <div class="sub-box">
+          <div class="sub-box-title" style="color: #be185d;">
+            <span>Uygulama Yazılımları</span>
+            <span style="font-size: 0.75rem; background: #fce7f3; color: #be185d; padding: 2px 8px; border-radius: 6px;">Özel Görevler</span>
+          </div>
+          <p class="sub-box-desc">
+            Belirli bir işi yapmak veya eğlenmek için kullandığımız programlardır 
+            <strong>(İnternet tarayıcıları, oyunlar, ofis programları).</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- b) BİLEŞENLER ARASINDAKİ İLİŞKİLER VE VERİ AKIŞ İLİŞKİSİ -->
+  <div class="section-h">b) Bilgisayar Sistemlerinin Temel Bileşenleri Arasındaki İlişkiler</div>
+
+  <div class="flow-container">
+    <div class="flow-title">⚙️ Veri Akış İlişkisi</div>
+    <p class="flow-intro">
+      Bilgisayar sistemleri, donanım ve yazılımın uyum içinde çalışmasıyla görevini yerine getirir:
+    </p>
+
+    <div class="flow-grid">
+      <div class="flow-item">
+        <div class="flow-num">1</div>
+        <p class="flow-text">
+          Kullanıcı, <strong>giriş birimleri</strong> (klavye, fare) aracılığıyla bilgisayara komut ve veri gönderir.
+        </p>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-num">2</div>
+        <p class="flow-text">
+          Gönderilen bu veriler <strong>işlemci</strong> tarafından yorumlanır ve <strong>RAM bellekte</strong> geçici olarak işlenir.
+        </p>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-num">3</div>
+        <p class="flow-text">
+          İşlenen sonuçlar kalıcı olarak <strong>sabit diskte</strong> saklanabilir veya <strong>çıkış birimleri</strong> (ekran, hoparlör) aracılığıyla kullanıcıya sunulur.
+        </p>
+      </div>
+
+      <div class="flow-item">
+        <div class="flow-num">4</div>
+        <p class="flow-text">
+          Tüm bu donanım birimlerinin birbiriyle haberleşmesini ve uyumlu çalışmasını <strong>ana kart</strong> ile <strong>işletim sistemi yazılımı</strong> sağlar.
+        </p>
+      </div>
+    </div>
+
+    <div class="dependency-callout">
+      💡 <strong>Donanım ve Yazılımın Birbirine Bağımlılığı:</strong> Donanım (kasa, ekran, işlemci) olmadan yazılım çalışamaz; yazılım (işletim sistemi) olmadan da donanım tek başına hiçbir şey yapamaz. Tıpkı insan bedenine (donanım) ruh ve akıl (yazılım) verilmesi gibi birbirini tamamlarlar.
+    </div>
+  </div>
+
+  <footer>
+    <span>Hilal KURTOĞLU &bull; Bilgisayar ve Öğretim Teknolojileri Öğretmeni</span>
+    <span>Ahi Evran Ortaokulu &bull; 5. Sınıf BTY Dersi</span>
+  </footer>
+</div>
+</body>
+</html>

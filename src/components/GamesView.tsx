@@ -19,6 +19,7 @@ import { GAMES_REGISTRY, GameItem } from '../data/gamesData';
 import { DigitalIdentityGame } from './DigitalIdentityGame';
 import { BilisimKahramaniGame } from './BilisimKahramaniGame';
 import { YapayZekaKasifleriGame } from './YapayZekaKasifleriGame';
+import { DonanimAvcisiGame } from './DonanimAvcisiGame';
 
 interface GamesViewProps {
   onBackToHome?: () => void;
@@ -187,6 +188,30 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <Maximize2 className="w-3.5 h-3.5 ml-auto opacity-70" />
                   </button>
 
+                  {game.id === 'donanim-avcisi' && (
+                    <div className="flex items-center gap-1.5">
+                      <a
+                        href="/oyun-6-hafta-donanim-avcisi.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
+                        title="Donanım Avcısı web oyunu olarak yeni sekmede aç"
+                      >
+                        <ExternalLink className="w-3 h-3 text-cyan-300" />
+                        <span>Web Sitesinde Aç</span>
+                      </a>
+                      <a
+                        href="/oyun-6-hafta-donanim-avcisi.html"
+                        download="6_Hafta_Donanim_Avcisi_Oyunu.html"
+                        className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
+                        title="HTML dosyasını bilgisayara indir"
+                      >
+                        <Download className="w-3 h-3 text-cyan-300" />
+                        <span>İndir</span>
+                      </a>
+                    </div>
+                  )}
+
                   {game.id === 'yapay-zeka-kasifleri' && (
                     <div className="flex items-center gap-1.5">
                       <a
@@ -250,6 +275,30 @@ export const GamesView: React.FC<GamesViewProps> = ({
             {/* Oyun Değiştirici ve Kapatma Butonu */}
             <div className="flex items-center gap-2">
               {/* Web sitesi / HTML aç seçeneği */}
+              {activeFullscreenGameId === 'donanim-avcisi' && (
+                <div className="hidden sm:flex items-center gap-1.5">
+                  <a
+                    href="/oyun-6-hafta-donanim-avcisi.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/30 text-cyan-200 text-xs font-bold transition"
+                    title="Bağımsız Web Sitesi Olarak Aç"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Ayrı Sekmede Aç</span>
+                  </a>
+                  <a
+                    href="/oyun-6-hafta-donanim-avcisi.html"
+                    download="6_Hafta_Donanim_Avcisi_Oyunu.html"
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
+                    title="HTML Dosyasını İndir"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>İndir</span>
+                  </a>
+                </div>
+              )}
+
               {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
                 <div className="hidden sm:flex items-center gap-1.5">
                   <a
@@ -308,6 +357,10 @@ export const GamesView: React.FC<GamesViewProps> = ({
           {/* Modal Oyun Alanı (Scrollable / Full-Height Container) */}
           <div className="flex-1 overflow-y-auto p-2 sm:p-6 flex items-center justify-center">
             <div className="w-full max-w-5xl my-auto">
+              {activeFullscreenGameId === 'donanim-avcisi' && (
+                <DonanimAvcisiGame onBackToHome={() => setActiveFullscreenGameId(null)} />
+              )}
+
               {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
                 <YapayZekaKasifleriGame onBackToHome={() => setActiveFullscreenGameId(null)} />
               )}
