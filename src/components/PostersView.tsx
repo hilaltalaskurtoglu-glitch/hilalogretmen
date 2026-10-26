@@ -61,54 +61,6 @@ export const POSTERS_DATA: PosterItem[] = [
     date: '2026-10-20',
     isFeatured: true,
     authorCredit: 'Seçil Gökçe hocamıza hazırladığı materyaller için teşekkür ederiz.'
-  },
-  {
-    id: 'poster-6-hafta-bilgisayar-sistemleri',
-    title: '6. HAFTA Bilgisayar Sistemlerinin Kullanımı',
-    category: 'mufredat',
-    week: '6. Hafta',
-    badge: '6. Hafta • BTY.5.1.5',
-    badgeColor: 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white',
-    imageSrc: '/poster_6_hafta_bilgisayar_sistemleri.png',
-    pdfSrc: '/assets/aistudio/6.Hafta_Ders_Notu__1__107d93b2.pdf',
-    description: '5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi 6. Hafta "Bilgisayar Sistemlerini Çözümleyebilme" kazanımı için hazırlanan resmi ders posteri ve pano afişi. Donanım (iç donanım, dış donanım, giriş/çıkış/çift yönlü birimler) ve Yazılım (işletim sistemleri, uygulama yazılımları) ile bileşenler arasındaki veri akış ilişkisini içerir.',
-    outcome: 'BTY.5.1.5. Bilgisayar sistemlerinin temel bileşenlerini ve aralarındaki ilişkileri açıklar.',
-    date: '2026-10-18',
-    isFeatured: true
-  },
-  {
-    id: 'poster-milli-teknoloji-panosu',
-    title: 'CodeWeek 2026: Türkiye’nin Millî Teknoloji Ürünleri Panosu',
-    category: 'pano',
-    week: 'Özel Hafta',
-    badge: 'CodeWeek 2026 Panosu',
-    badgeColor: 'bg-gradient-to-r from-red-600 to-rose-600 text-white',
-    imageSrc: '/milli_teknoloji_panosu.jpg',
-    description: 'CodeWeek 2026 kapsamında hazırlanan panomuzda, Türkiye’nin millî teknoloji ürünleri ve bu ürünlerde kullanılan bilişim teknolojileri tanıtılmaktadır. Öğrencilerimizin teknolojiye yönelik meraklarını artırmak, yerli teknolojileri tanımalarını sağlamak ve bilişim teknolojilerinin günlük yaşamımızdaki önemine dikkat çekmek amaçlanmaktadır.',
-    date: '2026-10-14',
-    isFeatured: true
-  },
-  {
-    id: 'poster-codeweek-2026',
-    title: 'Avrupa Kod Haftası 2026 (EU Code Week) Afişi',
-    category: 'etkinlik',
-    week: 'Etkinlik',
-    badge: 'CodeWeek 2026',
-    badgeColor: 'bg-gradient-to-r from-amber-500 to-orange-500 text-white',
-    imageSrc: '/codeweek2026.jpg',
-    description: 'Avrupa Kod Haftası kapsamında okulumuzda düzenlenen kodlama, algoritma ve dijital tasarım atölyelerine davet afişi.',
-    date: '2026-10-08'
-  },
-  {
-    id: 'poster-kodlabuyu-ai',
-    title: 'KodlaBüyü ile Yapay Zekâ ve Kodlama Posteri',
-    category: 'etkinlik',
-    week: 'Etkinlik',
-    badge: 'KodlaBüyü & YZ',
-    badgeColor: 'bg-gradient-to-r from-teal-600 to-emerald-600 text-white',
-    imageSrc: '/kodlabuyu_ai_poster.jpg',
-    description: 'KodlaBüyü platformu destekli blok tabanlı kodlama ve yapay zekâ kaşifleri atölye tanıtım posteri.',
-    date: '2026-10-05'
   }
 ];
 
@@ -121,7 +73,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
   const [activeCategory, setActiveCategory] = useState<'all' | 'mufredat' | 'pano' | 'etkinlik'>('all');
   const [zoomLevel, setZoomLevel] = useState(1);
 
-  const featuredPoster = POSTERS_DATA.find(p => p.id === 'poster-6-hafta-bilgisayar-sistemleri') || POSTERS_DATA[0];
+  const featuredPoster = POSTERS_DATA[0];
 
   const filteredPosters = POSTERS_DATA.filter(p => {
     if (activeCategory === 'all') return true;
@@ -137,6 +89,52 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
   const handleZoomOut = () => setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
   const handleResetZoom = () => setZoomLevel(1);
 
+  // Robust Blob Download helper
+  const handleDownloadFile = async (url: string, filename: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      window.open(url, '_blank');
+    }
+  };
+
+  // Robust Print helper
+  const handlePrintPoster = (url: string, title: string) => {
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>${title} - Yazdır</title>
+            <style>
+              body { margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; background: #fff; font-family: sans-serif; }
+              img { max-width: 100%; height: auto; object-fit: contain; page-break-inside: avoid; }
+              h2 { margin-bottom: 15px; color: #1e293b; text-align: center; }
+              @media print {
+                body { padding: 0; }
+                button { display: none; }
+              }
+            </style>
+          </head>
+          <body>
+            <h2>${title}</h2>
+            <img src="${url}" alt="${title}" onload="window.print(); window.close();" />
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
       
@@ -148,10 +146,10 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-pink-100 to-blue-100 border border-pink-200 text-xs font-black text-purple-950 uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5 text-[#EC4899]" />
-              <span>Görsel Öğrenme &bull; Pano &amp; Ders Afişleri</span>
+              <span>Görsel Öğrenme &bull; Seçil Gökçe Eğitsel Posterleri</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">
-              Eğitsel Posterler &amp; Pano Çalışmaları
+              Seçil Gökçe Öğretmenimizin Posterleri &amp; Pano Çalışmaları
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl">
               Bilişim Teknolojileri ve Yazılım dersi kazanımlarını destekleyen, sınıf panolarında ve akıllı tahtada kullanabileceğiniz yüksek çözünürlüklü ders posterleri.
@@ -161,10 +159,10 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
           <div className="flex items-center gap-2 self-start md:self-auto">
             <button
               onClick={() => openLightbox(featuredPoster)}
-              className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-xs cursor-pointer"
+              className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-teal-600 via-emerald-600 to-purple-600 hover:opacity-95 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-xs cursor-pointer"
             >
               <Maximize2 className="w-4 h-4" />
-              <span>6. Hafta Afişini Büyüt</span>
+              <span>Giriş-Çıkış Afişini Büyüt</span>
             </button>
           </div>
         </div>
@@ -175,7 +173,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
             onClick={() => setActiveCategory('all')}
             className={`px-4 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition ${
               activeCategory === 'all'
-                ? 'bg-gradient-to-r from-[#EC4899] to-[#3B82F6] text-white shadow-xs'
+                ? 'bg-gradient-to-r from-teal-600 to-pink-600 text-white shadow-xs'
                 : 'bg-pink-50/70 text-slate-700 hover:bg-pink-100/70'
             }`}
           >
@@ -190,26 +188,6 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
             }`}
           >
             Müfredat &amp; 6. Hafta
-          </button>
-          <button
-            onClick={() => setActiveCategory('pano')}
-            className={`px-4 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition ${
-              activeCategory === 'pano'
-                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
-                : 'bg-pink-50/70 text-slate-700 hover:bg-pink-100/70'
-            }`}
-          >
-            Okul Panoları &bull; CodeWeek
-          </button>
-          <button
-            onClick={() => setActiveCategory('etkinlik')}
-            className={`px-4 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition ${
-              activeCategory === 'etkinlik'
-                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-xs'
-                : 'bg-pink-50/70 text-slate-700 hover:bg-pink-100/70'
-            }`}
-          >
-            Etkinlik Afişleri
           </button>
         </div>
       </div>
@@ -237,201 +215,25 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
         </div>
       </div>
 
-      {/* 1. ÖNE ÇIKAN BAŞLIK: 6. HAFTA Bilgisayar Sistemlerinin Kullanımı */}
-      <section className="bg-gradient-to-br from-blue-50/80 via-white to-indigo-50/80 border-2 border-blue-200 rounded-3xl p-6 sm:p-8 shadow-sm">
-        <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
-          
-          {/* Sol: Poster Önizleme Kartı (Tıklanınca Büyür) */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center">
-            <div 
-              onClick={() => openLightbox(featuredPoster)}
-              className="relative w-full max-w-md bg-white rounded-2xl p-3 border-2 border-blue-300 shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer overflow-hidden"
-              title="Resmi tam ekran incelemek için tıklayın"
-            >
-              <div className="relative overflow-hidden rounded-xl bg-slate-50 border border-slate-200">
-                <img
-                  src={featuredPoster.imageSrc}
-                  alt={featuredPoster.title}
-                  className="w-full h-auto object-contain max-h-[520px] mx-auto group-hover:scale-102 transition-transform duration-300"
-                />
-                
-                {/* Hover overlay hint */}
-                <div className="absolute inset-0 bg-blue-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 text-white font-bold backdrop-blur-2xs">
-                  <div className="p-3 bg-white/20 rounded-full border border-white/40 shadow-lg">
-                    <ZoomIn className="w-8 h-8 text-white" />
-                  </div>
-                  <span className="text-sm bg-black/60 px-3 py-1 rounded-full">
-                    🔍 Tam Ekran İncele / Büyüt
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-3 flex items-center justify-between text-xs text-slate-500 font-semibold px-1">
-                <span>📄 A4 Formatında Hazırlandı</span>
-                <span className="text-blue-600 font-bold group-hover:underline flex items-center gap-1">
-                  Büyütmek için tıklayın &rarr;
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Sağ: Bilgi & İndirme / Yazdırma Araçları */}
-          <div className="w-full lg:w-1/2 space-y-4">
-            <div className="space-y-2">
-              <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider inline-block ${featuredPoster.badgeColor} shadow-2xs`}>
-                {featuredPoster.badge}
-              </span>
-              
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
-                {featuredPoster.title}
-              </h1>
-
-              {featuredPoster.outcome && (
-                <div className="p-3 rounded-xl bg-blue-100/60 border border-blue-200 text-xs font-bold text-blue-900">
-                  🎯 <strong>Kazanım:</strong> {featuredPoster.outcome}
-                </div>
-              )}
-            </div>
-
-            <p className="text-sm text-slate-700 leading-relaxed">
-              {featuredPoster.description}
-            </p>
-
-            {/* Poster Özellikleri */}
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-white border border-blue-100 shadow-2xs space-y-1">
-                <span className="text-slate-400 font-semibold block">Bileşenler</span>
-                <span className="font-extrabold text-slate-800">Donanım &amp; Yazılım</span>
-              </div>
-              <div className="p-3 rounded-xl bg-white border border-blue-100 shadow-2xs space-y-1">
-                <span className="text-slate-400 font-semibold block">Dış Donanım</span>
-                <span className="font-extrabold text-slate-800">Giriş / Çıkış / Çift Yönlü</span>
-              </div>
-              <div className="p-3 rounded-xl bg-white border border-blue-100 shadow-2xs space-y-1">
-                <span className="text-slate-400 font-semibold block">Yazılım Türleri</span>
-                <span className="font-extrabold text-slate-800">İşletim Sistemi &amp; Uygulama</span>
-              </div>
-              <div className="p-3 rounded-xl bg-white border border-blue-100 shadow-2xs space-y-1">
-                <span className="text-slate-400 font-semibold block">Veri Akışı</span>
-                <span className="font-extrabold text-slate-800">4 Aşamalı Sistem Uyum</span>
-              </div>
-            </div>
-
-            {/* Düğmeler */}
-            <div className="pt-2 flex flex-wrap gap-2.5">
-              <button
-                onClick={() => openLightbox(featuredPoster)}
-                className="flex-1 min-w-[140px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-              >
-                <Maximize2 className="w-4 h-4" />
-                <span>Tam Ekran Gör</span>
-              </button>
-
-              <a
-                href={featuredPoster.imageSrc}
-                download="6-hafta-bilgisayar-sistemlerinin-kullanimi-posteri.png"
-                className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border-2 border-blue-300 text-blue-900 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-2xs"
-                title="Posterin yüksek çözünürlüklü PNG resmini indir"
-              >
-                <Download className="w-4 h-4 text-blue-600" />
-                <span>Resmi İndir (PNG)</span>
-              </a>
-
-              {featuredPoster.pdfSrc && (
-                <a
-                  href={featuredPoster.pdfSrc}
-                  download="6.Hafta_Ders_Notu_BTY_5_1_5.pdf"
-                  className="px-4 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 border-2 border-rose-300 text-rose-900 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-2xs"
-                  title="Orijinal PDF dökümanını indir"
-                >
-                  <FileText className="w-4 h-4 text-rose-600" />
-                  <span>PDF İndir</span>
-                </a>
-              )}
-
-              <button
-                onClick={() => {
-                  const printWin = window.open(featuredPoster.imageSrc, '_blank');
-                  if (printWin) {
-                    printWin.onload = () => printWin.print();
-                  }
-                }}
-                className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1.5"
-                title="Afişi yazdır"
-              >
-                <Printer className="w-4 h-4" />
-                <span>Yazdır</span>
-              </button>
-            </div>
-
-            {/* Hızlı Bağlantılar */}
-            <div className="pt-3 border-t border-blue-100 flex flex-wrap items-center gap-2 text-xs">
-              <span className="text-slate-500 font-semibold">İlgili 6. Hafta İçerikleri:</span>
-              {onSelectTab && (
-                <>
-                  <button
-                    onClick={() => onSelectTab('ders-notlari')}
-                    className="px-3 py-1 rounded-lg bg-pink-100 hover:bg-pink-200 text-purple-900 font-bold transition flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>📝 6. Hafta Defter Notu</span>
-                  </button>
-                  <button
-                    onClick={() => onSelectTab('oyunlar')}
-                    className="px-3 py-1 rounded-lg bg-teal-100 hover:bg-teal-200 text-teal-900 font-bold transition flex items-center gap-1 cursor-pointer"
-                  >
-                    <span>🎮 Donanım Avcısı Oyunu</span>
-                  </button>
-                </>
-              )}
-            </div>
-
-          </div>
-
-        </div>
-      </section>
- 
-      {/* 6. Hafta Hiyerarşik Yapı ve Veri Akış Şeması Kartı */}
-      <div className="bg-white border-2 border-indigo-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-100 pb-4">
-          <div>
-            <span className="text-xs font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
-              Ders Materyali &bull; Akıllı Tahta Şeması
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-800 mt-2">
-              Bilgisayar Sistemlerinin Temel Bileşenleri &amp; Veri Akış İlişkisi
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-              1. Donanım (İç Donanım &amp; Dış Donanım Birimleri) ve 2. Yazılım (İşletim Sistemi &amp; Uygulama Yazılımları) arasındaki 4 adımlı veri akış mekanizması.
-            </p>
-          </div>
-        </div>
-
-        <ComputerSystemHierarchy />
-      </div>
-
-      {/* 2. DİĞER POSTERLER VE PANO ÇALIŞMALARI LİSTESİ */}
-      <div className="space-y-4">
+      {/* SEÇİL GÖKÇE POSTERLERİ LISTESİ (BAŞTA GÖRÜNSÜN) */}
+      <div className="space-y-6">
         <div className="flex items-center justify-between border-b border-pink-100 pb-2">
           <div className="flex items-center gap-2">
             <span className="text-xl">🖼️</span>
             <h3 className="text-lg sm:text-xl font-black text-slate-800">
-              Tüm Eğitsel Posterler &amp; Pano Görselleri
+              Seçil Gökçe Öğretmenimizin Eğitsel Posterleri
             </h3>
           </div>
-          <span className="text-xs font-bold text-slate-500">
-            {filteredPosters.length} Poster Listeleniyor
+          <span className="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
+            {filteredPosters.length} Afiş Hazır
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredPosters.map((poster) => (
             <div
               key={poster.id}
-              className={`bg-white rounded-3xl border-2 transition-all duration-300 hover:shadow-lg flex flex-col overflow-hidden group ${
-                poster.id === 'poster-6-hafta-bilgisayar-sistemleri'
-                  ? 'border-blue-300 ring-2 ring-blue-100'
-                  : 'border-pink-100 hover:border-purple-300'
-              }`}
+              className="bg-white rounded-3xl border-2 border-teal-300 ring-2 ring-teal-100 transition-all duration-300 hover:shadow-lg flex flex-col overflow-hidden group"
             >
               {/* Resim alanı */}
               <div 
@@ -482,30 +284,47 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
                     <span>İncele</span>
                   </button>
 
-                  <a
-                    href={poster.imageSrc}
-                    download={`${poster.id}.png`}
-                    className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center justify-center shadow-2xs"
+                  <button
+                    onClick={() => handleDownloadFile(poster.imageSrc, `${poster.id}.png`)}
+                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
                     title="Resmi İndir"
                   >
-                    <Download className="w-4 h-4" />
-                  </a>
+                    <Download className="w-3.5 h-3.5" />
+                    <span>İndir</span>
+                  </button>
 
-                  {poster.pdfSrc && (
-                    <a
-                      href={poster.pdfSrc}
-                      download
-                      className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition flex items-center justify-center shadow-2xs"
-                      title="PDF Dökümanını İndir"
-                    >
-                      <FileText className="w-4 h-4" />
-                    </a>
-                  )}
+                  <button
+                    onClick={() => handlePrintPoster(poster.imageSrc, poster.title)}
+                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    title="Yazdır"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    <span>Yazdır</span>
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
+      </div>
+ 
+      {/* 6. Hafta Hiyerarşik Yapı ve Veri Akış Şeması Kartı */}
+      <div className="bg-white border-2 border-indigo-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-100 pb-4">
+          <div>
+            <span className="text-xs font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
+              Ders Materyali &bull; Akıllı Tahta Şeması
+            </span>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-800 mt-2">
+              Bilgisayar Sistemlerinin Temel Bileşenleri &amp; Veri Akış İlişkisi
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
+              1. Donanım (İç Donanım &amp; Dış Donanım Birimleri) ve 2. Yazılım (İşletim Sistemi &amp; Uygulama Yazılımları) arasındaki 4 adımlı veri akış mekanizması.
+            </p>
+          </div>
+        </div>
+
+        <ComputerSystemHierarchy />
       </div>
 
       {/* LIGHTBOX / FULLSCREEN MODAL */}
@@ -540,7 +359,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
               <div className="flex items-center gap-1 bg-white/10 rounded-xl p-1 border border-white/10">
                 <button
                   onClick={handleZoomOut}
-                  className="p-1.5 rounded-lg hover:bg-white/20 transition text-white"
+                  className="p-1.5 rounded-lg hover:bg-white/20 transition text-white cursor-pointer"
                   title="Uzaklaştır"
                 >
                   <ZoomOut className="w-4 h-4" />
@@ -550,14 +369,14 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
                 </span>
                 <button
                   onClick={handleZoomIn}
-                  className="p-1.5 rounded-lg hover:bg-white/20 transition text-white"
+                  className="p-1.5 rounded-lg hover:bg-white/20 transition text-white cursor-pointer"
                   title="Yakınlaştır"
                 >
                   <ZoomIn className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleResetZoom}
-                  className="p-1.5 rounded-lg hover:bg-white/20 transition text-white text-xs font-bold"
+                  className="p-1.5 rounded-lg hover:bg-white/20 transition text-white text-xs font-bold cursor-pointer"
                   title="Sıfırla"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -565,25 +384,21 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
               </div>
 
               {/* Download */}
-              <a
-                href={selectedPoster.imageSrc}
-                download={`${selectedPoster.id}.png`}
-                className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm"
+              <button
+                onClick={() => handleDownloadFile(selectedPoster.imageSrc, `${selectedPoster.id}.png`)}
+                className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">İndir</span>
-              </a>
+              </button>
 
-              {selectedPoster.pdfSrc && (
-                <a
-                  href={selectedPoster.pdfSrc}
-                  download
-                  className="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm"
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">PDF</span>
-                </a>
-              )}
+              <button
+                onClick={() => handlePrintPoster(selectedPoster.imageSrc, selectedPoster.title)}
+                className="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Yazdır</span>
+              </button>
 
               {/* Close */}
               <button

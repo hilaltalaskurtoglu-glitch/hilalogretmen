@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Material, MaterialType } from '../types';
 import { downloadMaterialFile } from '../utils/downloadHelper';
-import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain } from 'lucide-react';
+import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain, Image as ImageIcon } from 'lucide-react';
 import { YapayZekaGame } from './YapayZekaGame';
 import { DigitalIdentityTest } from './DigitalIdentityTest';
+import { PostersView } from './PostersView';
 
 interface MaterialsLibraryProps {
   materials: Material[];
@@ -13,6 +14,8 @@ interface MaterialsLibraryProps {
   initialSelectedType?: string;
   initialTestId?: string | null;
   onNavigateToTests?: () => void;
+  initialSection?: 'materyaller' | 'posterler' | 'testler';
+  onSelectTab?: (tab: string) => void;
 }
 
 export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
@@ -21,12 +24,22 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
   onOpenAddModal,
   onPlayGame,
   initialSelectedType = 'all',
-  initialTestId = null
+  initialTestId = null,
+  initialSection = 'materyaller',
+  onSelectTab,
+  onNavigateToTests
 }) => {
+  const [subSection, setSubSection] = useState<'materyaller' | 'posterler' | 'testler'>(initialSection || 'materyaller');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>(initialSelectedType || 'all');
   const [selectedUnit, setSelectedUnit] = useState<string>('all');
   const [activeInteractiveTestId, setActiveInteractiveTestId] = useState<string>('yapay-zeka');
+
+  useEffect(() => {
+    if (initialSection) {
+      setSubSection(initialSection);
+    }
+  }, [initialSection]);
 
   useEffect(() => {
     if (initialSelectedType) {
@@ -121,8 +134,65 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
           </div>
         </div>
 
-        {/* Search & Filters Bar */}
-        <div className="pt-4 border-t border-pink-100 space-y-4">
+        {/* ALT BÖLÜM SEÇİCİ BAŞLIKLARI: MATERYAL LİSTESİ | POSTERLER & PANOLAR | TESTLER */}
+        <div className="pt-2 border-t border-pink-100">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button
+              onClick={() => setSubSection('materyaller')}
+              className={`p-3 rounded-2xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer border-2 ${
+                subSection === 'materyaller'
+                  ? 'bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white border-transparent shadow-md shadow-pink-500/20'
+                  : 'bg-pink-50/50 hover:bg-pink-100/70 text-slate-700 border-pink-200/60'
+              }`}
+            >
+              <span>📚 Ders Materyalleri Deposu</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                subSection === 'materyaller' ? 'bg-white/20 text-white' : 'bg-pink-200/60 text-purple-900'
+              }`}>
+                {materials.length} Dosya
+              </span>
+            </button>
+
+            <button
+              onClick={() => setSubSection('posterler')}
+              className={`p-3 rounded-2xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer border-2 ${
+                subSection === 'posterler'
+                  ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white border-transparent shadow-md shadow-purple-500/20'
+                  : 'bg-purple-50/50 hover:bg-purple-100/70 text-slate-700 border-purple-200/60'
+              }`}
+            >
+              <span>🖼️ Posterler &amp; Pano Çalışmaları</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                subSection === 'posterler' ? 'bg-white/20 text-white' : 'bg-purple-200/60 text-purple-900'
+              }`}>
+                Seçil Gökçe &bull; 6. Hafta
+              </span>
+            </button>
+
+            <button
+              onClick={() => {
+                if (onNavigateToTests) {
+                  onNavigateToTests();
+                } else if (onSelectTab) {
+                  onSelectTab('testler');
+                } else {
+                  setSelectedType('test');
+                  setSubSection('materyaller');
+                }
+              }}
+              className="p-3 rounded-2xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer border-2 bg-indigo-50/50 hover:bg-indigo-100/70 text-slate-700 border-indigo-200/60"
+            >
+              <span>📝 Online Testler Bölümü</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-indigo-200/60 text-indigo-900">
+                Giriş-Çıkış &bull; YZ
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Search & Filters Bar (Only shown in 'materyaller' sub-section) */}
+        {subSection === 'materyaller' && (
+        <div className="pt-2 border-t border-pink-100 space-y-4">
           {/* Top filter row: Type pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
             <button
@@ -225,8 +295,17 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
             </div>
           </div>
         </div>
+        )}
       </div>
 
+      {/* 1. EĞER POSTERLER SEKMESİ SEÇİLDİYSE: SEÇİL GÖKÇE VE 6. HAFTA POSTERLERİ */}
+      {subSection === 'posterler' && (
+        <PostersView onSelectTab={onSelectTab} />
+      )}
+
+      {/* 2. EĞER DERS MATERYALLERİ SEÇİLDİYSE: MATERYAL KARTLARI VE TEST SAHNESİ */}
+      {subSection === 'materyaller' && (
+        <>
       {/* İNTERAKTİF TEST ÇÖZÜCÜ SAHNESİ (TESTLER FİLTRESİ AKTİFKEN GÖSTERİLİR) */}
       {selectedType === 'test' && (
         <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 border-2 border-indigo-400/50 rounded-3xl p-5 sm:p-7 text-white shadow-md space-y-5 animate-in fade-in duration-200">
@@ -467,6 +546,8 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
             Filtreleri Temizle
           </button>
         </div>
+      )}
+        </>
       )}
     </div>
   );

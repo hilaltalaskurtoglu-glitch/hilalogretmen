@@ -483,7 +483,7 @@ export const DonanimAvcisiGame: React.FC<DonanimAvcisiGameProps> = () => {
                         <img 
                           src={getHardwareImageSrc(p.item.k)} 
                           alt={p.item.n} 
-                          className="w-5 h-5 object-contain bg-white rounded p-0.5" 
+                          className="w-6 h-6 sm:w-7 sm:h-7 object-contain bg-white rounded-md p-0.5 shadow-2xs" 
                         />
                         <span>{p.item.n}</span>
                         <span>{p.isCorrect ? '✓' : '✗'}</span>
@@ -530,7 +530,7 @@ export const DonanimAvcisiGame: React.FC<DonanimAvcisiGameProps> = () => {
                         : 'bg-white/10 hover:bg-white/20 text-white border-white/20 font-bold'
                     }`}
                   >
-                    <div className="w-7 h-7 rounded-lg bg-white p-0.5 flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white p-1 flex items-center justify-center shrink-0 shadow-xs border border-white/40">
                       <img src={getHardwareImageSrc(item.k)} alt={item.n} className="w-full h-full object-contain" />
                     </div>
                     <span className="text-xs sm:text-sm">{item.n}</span>

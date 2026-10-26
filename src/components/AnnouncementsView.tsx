@@ -31,17 +31,6 @@ export const AnnouncementsView: React.FC = () => {
 
   const otherAnnouncements = [
     {
-      id: 'd-donanim-simulasyon',
-      category: 'ogrenci',
-      title: 'Tavsiye Web Sitesi: Donanım Simülasyonu (donanim.vercel.app)',
-      date: '2026-10-24',
-      author: 'Hilal KURTOĞLU',
-      summary: 'Öğrencilerimizin iç ve dış donanım birimlerini etkileşimli olarak deneyimlemesi için Mücahit Bozok öğretmenimiz tarafından hazırlanan donanim.vercel.app donanım simülasyon sitesini tavsiye ediyoruz. Bu kıymetli çalışmasından ve bilişim eğitimine katkılarından dolayı öğretmenimize teşekkür eder, şükranlarımızı sunarız.',
-      tag: 'Tavsiye Web Sitesi',
-      link: 'https://donanim.vercel.app',
-      linkText: 'donanim.vercel.app Sitesine Git'
-    },
-    {
       id: 'd-codeweek',
       category: 'ogrenci',
       title: "Okulumuz Avrupa Kod Haftası 2026'ya Katılıyor! (EU Code Week)",
@@ -115,11 +104,11 @@ export const AnnouncementsView: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. ÖNE ÇIKAN ETKİNLİK DUYURUSU: AVRUPA KOD HAFTASI 2026 (EU CODE WEEK) & KODLABÜYÜ */}
-      <CodeWeekAnnouncementCard />
-
-      {/* 3. TAVSİYE WEB SİTESİ: DONANIM SİMÜLASYONU (donanim.vercel.app - MÜCAHİT BOZOK) */}
+      {/* 2. EN BAŞTA YAYINLANAN SON DUYURU: TAVSİYE WEB SİTESİ: DONANIM SİMÜLASYONU (donanim.vercel.app - MÜCAHİT BOZOK) */}
       <HardwareSimulationRecommendationCard />
+
+      {/* 3. ÖNE ÇIKAN ETKİNLİK DUYURUSU: AVRUPA KOD HAFTASI 2026 (EU CODE WEEK) & KODLABÜYÜ */}
+      <CodeWeekAnnouncementCard />
 
       {/* 4. ÖNE ÇIKAN VİDEO KILAVUZ: EBA VELİ ŞİFRE KILAVUZU */}
       <section className="bg-white border-2 border-pink-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 relative overflow-hidden">
@@ -271,7 +260,7 @@ export const AnnouncementsView: React.FC = () => {
 
       </section>
 
-      {/* 3. DİĞER DERS VE OKUL DUYURULARI */}
+      {/* 5. DİĞER DERS VE OKUL DUYURULARI */}
       <section className="space-y-4 pt-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -343,20 +332,6 @@ export const AnnouncementsView: React.FC = () => {
                 <p className="text-xs text-slate-600 leading-relaxed">
                   {ann.summary}
                 </p>
-
-                {'link' in ann && ann.link && (
-                  <div className="pt-1">
-                    <a
-                      href={ann.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 text-cyan-900 font-extrabold text-xs border border-cyan-200 transition"
-                    >
-                      <span>{'linkText' in ann ? (ann.linkText as string) : 'Bağlantıyı Aç'}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-cyan-700" />
-                    </a>
-                  </div>
-                )}
               </div>
 
               <div className="pt-2 border-t border-pink-100 flex items-center justify-between text-[11px] text-slate-500">

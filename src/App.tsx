@@ -162,9 +162,11 @@ export default function App() {
           )}
 
           {/* TAB 2: MATERYALLER KÜTÜPHANESİ */}
-          {activeTab === 'materyaller' && (
+          {/* TAB 2: MATERYALLER KÜTÜPHANESİ & POSTERLER ALT BÖLÜMÜ */}
+          {(activeTab === 'materyaller' || activeTab === 'posterler') && (
             <MaterialsLibrary
               materials={materials}
+              initialSection={activeTab === 'posterler' ? 'posterler' : 'materyaller'}
               onOpenMaterial={mat => setSelectedMaterial(mat)}
               onOpenAddModal={() => {
                 setModalDefaultWeek(undefined);
@@ -181,6 +183,7 @@ export default function App() {
                 setActiveTab('testler');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
+              onSelectTab={handleSelectTab}
             />
           )}
 
@@ -240,10 +243,6 @@ export default function App() {
             />
           )}
 
-          {/* TAB 11: POSTERLER (EĞİTSEL POSTERLER & 6. HAFTA BİLGİSAYAR SİSTEMLERİ KULLANIMI AFİŞİ) */}
-          {activeTab === 'posterler' && (
-            <PostersView onSelectTab={handleSelectTab} />
-          )}
 
         </main>
 
