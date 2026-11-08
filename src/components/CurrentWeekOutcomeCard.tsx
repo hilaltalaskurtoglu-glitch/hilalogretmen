@@ -16,26 +16,59 @@ export const CurrentWeekOutcomeCard: React.FC<CurrentWeekOutcomeCardProps> = ({
   onOpenAddModal,
   materials = []
 }) => {
-  // Determine current active week based on current calendar date
+  // Determine current active week based on current calendar date (MEB 2026-2027 İş Takvimi)
   const getInitialWeekNumber = () => {
     const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth(); // 8 is September
-    const date = now.getDate();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const isoDate = `${y}-${m}-${d}`;
 
-    if (year === 2026 && month === 8) {
-      if (date < 21) return 1;
-      if (date <= 27) return 2;
-      return 3;
-    }
-    if (year === 2026 && month === 9) {
-      if (date <= 4) return 3;
-      if (date <= 11) return 4;
-      if (date <= 18) return 5;
-      if (date <= 25) return 6;
-      return 7;
-    }
-    return 2;
+    // Haftalık takvim tarih aralıkları (Pazartesi başlangıç - Pazar bitiş)
+    const academicWeekRanges = [
+      { week: 1, start: '2026-09-14', end: '2026-09-20' }, // 14–18 Eylül
+      { week: 2, start: '2026-09-21', end: '2026-09-27' }, // 21–25 Eylül
+      { week: 3, start: '2026-09-28', end: '2026-10-04' }, // 28 Eylül – 2 Ekim
+      { week: 4, start: '2026-10-05', end: '2026-10-11' }, // 5–9 Ekim
+      { week: 5, start: '2026-10-12', end: '2026-10-18' }, // 12–16 Ekim
+      { week: 6, start: '2026-10-19', end: '2026-10-25' }, // 19–23 Ekim
+      { week: 7, start: '2026-10-26', end: '2026-11-01' }, // 26–30 Ekim
+      { week: 8, start: '2026-11-02', end: '2026-11-08' }, // 2–6 Kasım
+      { week: 9, start: '2026-11-09', end: '2026-11-15' }, // 9–13 Kasım
+      { week: 10, start: '2026-11-16', end: '2026-11-29' }, // 1. Ara Tatil (16–20 Kasım) & 23–27 Kasım
+      { week: 11, start: '2026-11-30', end: '2026-12-06' }, // 30 Kasım – 4 Aralık
+      { week: 12, start: '2026-12-07', end: '2026-12-13' }, // 7–11 Aralık
+      { week: 13, start: '2026-12-14', end: '2026-12-20' }, // 14–18 Aralık
+      { week: 14, start: '2026-12-21', end: '2026-12-27' }, // 21–25 Aralık
+      { week: 15, start: '2026-12-28', end: '2027-01-03' }, // 28 Aralık – 1 Ocak
+      { week: 16, start: '2027-01-04', end: '2027-01-10' }, // 4–8 Ocak
+      { week: 17, start: '2027-01-11', end: '2027-01-17' }, // 11–15 Ocak
+      { week: 18, start: '2027-01-18', end: '2027-02-07' }, // 18–22 Ocak & Yarıyıl Tatili (25 Ocak – 5 Şubat)
+      { week: 19, start: '2027-02-08', end: '2027-02-14' }, // 8–12 Şubat (2. Dönem Başlangıcı)
+      { week: 20, start: '2027-02-15', end: '2027-02-21' }, // 15–19 Şubat
+      { week: 21, start: '2027-02-22', end: '2027-02-28' }, // 22–26 Şubat
+      { week: 22, start: '2027-03-01', end: '2027-03-14' }, // 1–5 Mart & 2. Ara Tatil (8–12 Mart)
+      { week: 23, start: '2027-03-15', end: '2027-03-21' }, // 15–19 Mart
+      { week: 24, start: '2027-03-22', end: '2027-03-28' }, // 22–26 Mart
+      { week: 25, start: '2027-03-29', end: '2027-04-04' }, // 29 Mart – 2 Nisan
+      { week: 26, start: '2027-04-05', end: '2027-04-11' }, // 5–9 Nisan
+      { week: 27, start: '2027-04-12', end: '2027-04-18' }, // 12–16 Nisan
+      { week: 28, start: '2027-04-19', end: '2027-04-25' }, // 19–23 Nisan
+      { week: 29, start: '2027-04-26', end: '2027-05-02' }, // 26–30 Nisan
+      { week: 30, start: '2027-05-03', end: '2027-05-09' }, // 3–7 Mayıs
+      { week: 31, start: '2027-05-10', end: '2027-05-16' }, // 10–14 Mayıs
+      { week: 32, start: '2027-05-17', end: '2027-05-23' }, // 20–21 Mayıs
+      { week: 33, start: '2027-05-24', end: '2027-05-30' }, // 24–28 Mayıs
+      { week: 34, start: '2027-05-31', end: '2027-06-06' }, // 31 Mayıs – 4 Haziran
+      { week: 35, start: '2027-06-07', end: '2027-06-13' }, // 7–11 Haziran
+      { week: 36, start: '2027-06-14', end: '2027-06-20' }, // 14–18 Haziran
+      { week: 37, start: '2027-06-21', end: '2027-06-27' }, // 21–25 Haziran (Yıl Sonu)
+    ];
+
+    const matched = academicWeekRanges.find(r => isoDate >= r.start && isoDate <= r.end);
+    if (matched) return matched.week;
+    if (isoDate < '2026-09-14') return 1;
+    return 37;
   };
 
   const defaultWeekNumber = getInitialWeekNumber();

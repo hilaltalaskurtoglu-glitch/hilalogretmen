@@ -83,4 +83,8 @@ export interface LectureNote {
   term: '1. Dönem' | '2. Dönem';
   recommendedWeek: string;
   icon: string;
+  downloadUrl?: string;
+  downloadName?: string;
+  imageSrc?: string;
+  pdfSrc?: string;
 }

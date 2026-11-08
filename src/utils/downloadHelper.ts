@@ -1,6 +1,30 @@
 import { Material } from '../types';
 
 /**
+ * Downloads a file via binary fetch to Blob to prevent SPA html routing corruption
+ */
+export async function downloadBinaryBlob(url: string, filename: string): Promise<{ success: boolean; message: string }> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const blob = await res.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+    return { success: true, message: `"${filename}" başarıyla bilgisayarınıza indirildi!` };
+  } catch (err) {
+    console.error('Blob download error:', err);
+    window.open(url, '_blank');
+    return { success: true, message: 'Dosya yeni sekmede açıldı!' };
+  }
+}
+
+/**
  * Handles real downloading of any material (user uploaded Data URLs, external links, or generated document packages)
  */
 export function downloadMaterialFile(material: Material): { success: boolean; message: string } {
@@ -13,7 +37,6 @@ export function downloadMaterialFile(material: Material): { success: boolean; me
       if (win) {
         return { success: true, message: 'Bağlantı yeni sekmede açıldı ve indirme başlatıldı!' };
       }
-      // Fallback: programmatic anchor click
       const a = document.createElement('a');
       a.href = material.downloadUrl;
       a.target = '_blank';
@@ -23,6 +46,18 @@ export function downloadMaterialFile(material: Material): { success: boolean; me
       a.click();
       document.body.removeChild(a);
       return { success: true, message: 'İndirme bağlantısı açıldı!' };
+    }
+
+    // 1.5. If it's a direct local asset or document file in the portal (/assets, /dosya.html, /dosya.jpg, /dosya.pdf)
+    const localAssetUrl = (material.downloadUrl && (material.downloadUrl.startsWith('/') || material.downloadUrl.startsWith('./')))
+      ? material.downloadUrl
+      : (material.previewUrl && (material.previewUrl.startsWith('/') || material.previewUrl.startsWith('./')))
+        ? material.previewUrl
+        : null;
+
+    if (localAssetUrl) {
+      downloadBinaryBlob(localAssetUrl, fileName || material.fileName || 'materyal_dosyasi');
+      return { success: true, message: `"${fileName}" başarıyla bilgisayarınıza indirildi!` };
     }
 
     // Special: 4. Hafta Defter Notu HTML Dosyası

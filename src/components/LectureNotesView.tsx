@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LECTURE_NOTES } from '../data/lectureNotesData';
-import { FileText, Printer, Search, Sparkles, BookOpen, CheckCircle2, Lightbulb, ClipboardCheck, ArrowRight, Gamepad2, ExternalLink, Download } from 'lucide-react';
+import { FileText, Printer, Search, Sparkles, BookOpen, CheckCircle2, Lightbulb, ClipboardCheck, ArrowRight, Gamepad2, ExternalLink, Download, Eye, Maximize2, X } from 'lucide-react';
 import { ComputerSystemHierarchy } from './ComputerSystemHierarchy';
 
 interface LectureNotesViewProps {
@@ -11,6 +11,27 @@ interface LectureNotesViewProps {
 export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab, selectedNoteId }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [termFilter, setTermFilter] = useState<'all' | '1. Dönem' | '2. Dönem'>('all');
+  const [previewImage, setPreviewImage] = useState<{ src: string; title: string } | null>(null);
+
+  // Reliable Binary Blob Download to prevent SPA HTML fallback corruption
+  const handleDownloadBlob = async (url: string, filename: string) => {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const blob = await res.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+    } catch (err) {
+      console.error('Download error, falling back:', err);
+      window.open(url, '_blank');
+    }
+  };
 
   // If a note was selected from the dropdown menu, smoothly scroll to it
   React.useEffect(() => {
@@ -484,6 +505,128 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
               </div>
             )}
 
+            {/* İndirilebilir / Görüntülenebilir Görsel Ders Notu (Örn: 7. Hafta Klavye Tuşları ve Görevleri) */}
+            {note.imageSrc && (
+              <div className="bg-gradient-to-r from-violet-900 via-purple-900 to-indigo-950 text-white p-5 rounded-2xl shadow-md border border-purple-400/30 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-pink-400 text-slate-950">
+                        🖼️ İndirilebilir &amp; Görsel Ders Notu
+                      </span>
+                      <span className="text-xs text-purple-200 font-bold">{note.recommendedWeek}</span>
+                    </div>
+                    <h4 className="text-base sm:text-lg font-black text-white">
+                      {note.title}
+                    </h4>
+                    <p className="text-xs text-slate-300">
+                      Öğrencilerimiz için hazırlanan renkli şematik klavye ve fare görev şeması. İndirebilir, yazdırabilir ve defterinize yapıştırabilirsiniz.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewImage({ src: note.imageSrc!, title: note.title })}
+                      className="px-3.5 py-2.5 rounded-xl bg-purple-500/30 hover:bg-purple-500/50 border border-purple-300/40 text-purple-100 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Eye className="w-4 h-4 text-pink-300" />
+                      <span>Büyüt &amp; İncele</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadBlob(note.imageSrc!, note.downloadName || 'Klavye_Tuslari_ve_Gorevleri_Ders_Notu.jpg')}
+                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-95 text-white font-black text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer"
+                      title="Görseli orijinal JPEG olarak bilgisayarına indir"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Görsel Notu İndir (JPG)</span>
+                    </button>
+                    <a
+                      href={note.imageSrc}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-cyan-300" />
+                      <span>Yeni Sekmede Aç</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Resim Önizleme Thumbnail */}
+                <div
+                  onClick={() => setPreviewImage({ src: note.imageSrc!, title: note.title })}
+                  className="relative group rounded-xl overflow-hidden border border-white/20 bg-slate-900/60 cursor-pointer max-h-72 flex items-center justify-center"
+                >
+                  <img
+                    src={note.imageSrc}
+                    alt={note.title}
+                    className="w-full h-auto object-contain max-h-72 transition duration-300 group-hover:scale-102"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                    <span className="px-4 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-lg flex items-center gap-1.5">
+                      <Maximize2 className="w-4 h-4 text-purple-600" />
+                      Büyük Boyutta İncelemek İçin Tıklayın
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* İndirilebilir ve Tarayıcıda Görüntülenebilir Orijinal PDF Ders Notu */}
+            {note.pdfSrc && (
+              <div className="bg-gradient-to-r from-indigo-950 via-slate-900 to-rose-950 text-white p-5 rounded-2xl shadow-md border border-rose-400/30 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500 text-white">
+                        📕 PDF Ders Notu &bull; Orijinal Belge
+                      </span>
+                      <span className="text-xs text-rose-200 font-bold">{note.recommendedWeek}</span>
+                    </div>
+                    <h4 className="text-base sm:text-lg font-black text-white">
+                      {note.title}
+                    </h4>
+                    <p className="text-xs text-slate-300">
+                      Öğretmenimiz tarafından hazırlanan orijinal PDF ders notu belgesi. Aşağıdaki butonlardan dosyayı indirebilir veya doğrudan tarayıcıda açabilirsiniz.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadBlob(note.pdfSrc!, note.downloadName || '7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf')}
+                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 hover:opacity-95 text-white font-black text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer"
+                      title="PDF dosyasını bilgisayarına indir"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>PDF Notu İndir</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => window.open(note.pdfSrc, '_blank')}
+                      className="px-3.5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
+                      title="PDF belgesini yeni sekmede tam ekran görüntüle"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-rose-300" />
+                      <span>Tarayıcıda Görüntüle</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sayfa İçi Canlı PDF Önizleme Penceresi */}
+                <div className="rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-lg">
+                  <iframe
+                    src={note.pdfSrc}
+                    title={note.title}
+                    className="w-full h-[650px] border-none bg-white"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Teacher Tip */}
             {note.tip && (
               <div className="bg-gradient-to-r from-pink-50 via-purple-50/40 to-blue-50 border border-pink-200 p-3.5 rounded-2xl text-xs md:text-sm text-purple-900 font-medium flex items-center gap-2">
@@ -510,6 +653,52 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
           </div>
         )}
       </div>
+
+      {/* Büyük Görsel İnceleme Modalı */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div
+            className="relative max-w-4xl max-h-[92vh] w-full bg-slate-900 rounded-3xl p-4 sm:p-6 overflow-hidden flex flex-col shadow-2xl border border-white/20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-white/10 text-white">
+              <div className="flex items-center gap-2">
+                <span className="text-pink-400 font-black">🖼️</span>
+                <h3 className="font-bold text-sm sm:text-base truncate">{previewImage.title}</h3>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleDownloadBlob(previewImage.src, 'Klavye_Tuslari_ve_Gorevleri_Ders_Notu.jpg')}
+                  className="px-3 py-1.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                  title="Görseli orijinal JPEG olarak bilgisayarına indir"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>JPG İndir</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewImage(null)}
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-auto p-2 flex items-center justify-center">
+              <img
+                src={previewImage.src}
+                alt={previewImage.title}
+                className="max-h-[75vh] w-auto object-contain rounded-xl shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

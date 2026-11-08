@@ -331,5 +331,67 @@ export const LECTURE_NOTES: LectureNote[] = [
     term: "1. Dönem",
     recommendedWeek: "6. Hafta",
     icon: "💻"
+  },
+  {
+    id: "not-7-hafta-klavye-tuslari-ve-gorevleri",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    title: "Klavye Tuşları ve Görevleri Ders Notu",
+    subtitle: "5. Sınıf Bilişim Teknolojileri ve Yazılım • 7. Hafta Ders Notu",
+    summary: "Klavyedeki tuşların işlevleri, silme tuşları (Backspace vs Delete), kısayol tuşları (Ctrl, Alt, Alt Gr, Shift), onay tuşu Enter, boşluk tuşu Space ve fonksiyon tuşları rehberi.",
+    icon: "⌨️",
+    term: "1. Dönem",
+    recommendedWeek: "7. Hafta",
+    imageSrc: "/klavye_tuslari_ve_gorevleri.jpg",
+    downloadUrl: "/klavye_tuslari_ve_gorevleri.jpg",
+    downloadName: "7_Hafta_Klavye_Tuslari_ve_Gorevleri_Ders_Notu.jpg",
+    keyPoints: [
+      "ESC: Mevcut işlemi iptal eder veya pencereyi kapatır.",
+      "BACKSPACE (←): İmlecin solundaki (gerisindeki) karakterleri siler.",
+      "DELETE: İmlecin sağındaki (ilerisindeki) karakterleri veya seçili ögeleri siler.",
+      "SPACE (Boşluk Tuşu): Klavyedeki en uzun tuştur. Kelimeler arasında boşluk bırakmayı sağlar.",
+      "CAPS LOCK: Büyük/küçük harf kilidi. Işığı yanıyorsa harf tuşları sürekli BÜYÜK harf yazar.",
+      "SHIFT: Basılı tutularak harfe basıldığında büyük yazar; sayı tuşlarının üstündeki karakterleri (+, ?, %, & vb.) çıkarır.",
+      "ALT GR: Tuşların sağ altındaki 3. özel karakterleri (@, #, £, $, { } vb.) yazmayı sağlar.",
+      "ENTER: Komutları onaylar veya metin yazarken yeni bir alt satıra geçer.",
+      "TAB: İmleci ileri kaydırır veya form alanlarında sonraki kutucuğa geçer.",
+      "F1 - F12: Fonksiyon Tuşları. Özel görevler üstlenir (Örn: F5 sayfayı yeniler, F1 yardım açar).",
+      "PRT SCN (Print Screen): Ekranın o anki görüntüsünü kopyalar.",
+      "YÖN TUŞLARI: İmleci veya sayfayı yukarı, aşağı, sola ve sağa hareket ettirir."
+    ],
+    sections: [
+      {
+        heading: "Klavyedeki Tuş Grupları ve İşlevleri",
+        icon: "📋",
+        badge: "Tuş Tablosu",
+        table: {
+          headers: ["Tuş Adı", "Görevi / İşlevi", "Kullanım Örneği"],
+          rows: [
+            ["Backspace (←)", "İmlecin solundaki karakteri siler", "Hatalı yazılan harfi geri doğru silerken"],
+            ["Delete", "İmlecin sağındaki karakteri siler", "Metin içinde imlecin önündeki karakteri silerken"],
+            ["Space (Boşluk)", "Kelimeler arasında standart boşluk bırakır", "Cümlelerde iki kelimeyi ayırırken"],
+            ["Caps Lock", "Büyük harf kilidini açıp kapatır", "Tüm metni BÜYÜK HARFLE yazarken"],
+            ["Shift", "Geçici büyük harf ve tuşların üst karakterlerini yazar", "Cümle başı büyük harf veya soru işareti (?) için"],
+            ["Alt Gr", "Tuşların sağ altındaki 3. karakterleri yazar", "@ (et işareti), # (kare), {} yazarken"],
+            ["Enter", "Komut onaylama veya alt satıra geçme", "Form tamamlama veya paragraf geçişi"],
+            ["ESC", "İşlem iptal etme veya tam ekrandan çıkma", "Açık menüyü kapatma veya oyundan çıkma"],
+            ["Ctrl / Alt", "Kısayol komutları oluşturur", "Ctrl+C (Kopyala), Ctrl+V (Yapıştır)"]
+          ]
+        }
+      }
+    ],
+    tip: "💡 Klavyede hızlı ve hatasız yazabilmek için işaret parmaklarınızı F ve J tuşlarındaki çıkıntılara yerleştirip doğru oturuş pozisyonunu koruyun."
+  },
+  {
+    id: "not-7-hafta-yazilim-ve-isletim-sistemi",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    title: "7. Hafta Yazılım ve İşletim Sistemi Ders Notu",
+    subtitle: "5. Sınıf Bilişim Teknolojileri ve Yazılım • Orijinal PDF Ders Notu",
+    summary: "7. Hafta Yazılım ve İşletim Sistemi ders notu öğretmenimiz tarafından PDF belgesi olarak hazırlanmıştır. Aşağıdaki butonları kullanarak ders notunu doğrudan tarayıcınızda açabilir veya PDF olarak indirebilirsiniz.",
+    icon: "💻",
+    term: "1. Dönem",
+    recommendedWeek: "7. Hafta",
+    pdfSrc: "/7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
+    downloadUrl: "/7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
+    downloadName: "7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf"
   }
 ];

@@ -188,6 +188,30 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <Maximize2 className="w-3.5 h-3.5 ml-auto opacity-70" />
                   </button>
 
+                  {game.iframeUrl && (
+                    <div className="flex items-center gap-1.5">
+                      <a
+                        href={game.iframeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
+                        title="Web oyunu olarak yeni sekmede aç"
+                      >
+                        <ExternalLink className="w-3 h-3 text-cyan-300" />
+                        <span>Web Sitesinde Aç</span>
+                      </a>
+                      <a
+                        href={game.iframeUrl}
+                        download={`${game.id}.html`}
+                        className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
+                        title="HTML dosyasını bilgisayara indir"
+                      >
+                        <Download className="w-3 h-3 text-cyan-300" />
+                        <span>İndir</span>
+                      </a>
+                    </div>
+                  )}
+
                   {game.id === 'donanim-avcisi' && (
                     <div className="flex items-center gap-1.5">
                       <a
@@ -274,6 +298,31 @@ export const GamesView: React.FC<GamesViewProps> = ({
 
             {/* Oyun Değiştirici ve Kapatma Butonu */}
             <div className="flex items-center gap-2">
+              {/* Web sitesi / HTML aç seçeneği for games with iframeUrl */}
+              {activeGameItem.iframeUrl && (
+                <div className="hidden sm:flex items-center gap-1.5">
+                  <a
+                    href={activeGameItem.iframeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/30 text-cyan-200 text-xs font-bold transition"
+                    title="Bağımsız Web Sitesi Olarak Aç"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Ayrı Sekmede Aç</span>
+                  </a>
+                  <a
+                    href={activeGameItem.iframeUrl}
+                    download={`${activeGameItem.id}.html`}
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
+                    title="HTML Dosyasını İndir"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>İndir</span>
+                  </a>
+                </div>
+              )}
+
               {/* Web sitesi / HTML aç seçeneği */}
               {activeFullscreenGameId === 'donanim-avcisi' && (
                 <div className="hidden sm:flex items-center gap-1.5">
@@ -355,24 +404,34 @@ export const GamesView: React.FC<GamesViewProps> = ({
           </div>
 
           {/* Modal Oyun Alanı (Scrollable / Full-Height Container) */}
-          <div className="flex-1 overflow-y-auto p-2 sm:p-6 flex items-center justify-center">
-            <div className="w-full max-w-5xl my-auto">
-              {activeFullscreenGameId === 'donanim-avcisi' && (
-                <DonanimAvcisiGame onBackToHome={() => setActiveFullscreenGameId(null)} />
-              )}
+          <div className="flex-1 overflow-y-auto p-2 sm:p-4 flex items-center justify-center">
+            {activeGameItem.iframeUrl ? (
+              <div className="w-full h-[85vh] max-w-6xl bg-white rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-700 flex flex-col">
+                <iframe
+                  src={activeGameItem.iframeUrl}
+                  title={activeGameItem.title}
+                  className="w-full h-full border-0"
+                />
+              </div>
+            ) : (
+              <div className="w-full max-w-5xl my-auto">
+                {activeFullscreenGameId === 'donanim-avcisi' && (
+                  <DonanimAvcisiGame onBackToHome={() => setActiveFullscreenGameId(null)} />
+                )}
 
-              {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
-                <YapayZekaKasifleriGame onBackToHome={() => setActiveFullscreenGameId(null)} />
-              )}
+                {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
+                  <YapayZekaKasifleriGame onBackToHome={() => setActiveFullscreenGameId(null)} />
+                )}
 
-              {activeFullscreenGameId === 'dijital-kimlik' && (
-                <DigitalIdentityGame onBackToHome={() => setActiveFullscreenGameId(null)} />
-              )}
+                {activeFullscreenGameId === 'dijital-kimlik' && (
+                  <DigitalIdentityGame onBackToHome={() => setActiveFullscreenGameId(null)} />
+                )}
 
-              {activeFullscreenGameId === 'bilisim-kahramani' && (
-                <BilisimKahramaniGame onBackToHome={() => setActiveFullscreenGameId(null)} />
-              )}
-            </div>
+                {activeFullscreenGameId === 'bilisim-kahramani' && (
+                  <BilisimKahramaniGame onBackToHome={() => setActiveFullscreenGameId(null)} />
+                )}
+              </div>
+            )}
           </div>
 
         </div>

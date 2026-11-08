@@ -5,23 +5,83 @@ import { Material } from '../types';
 // materyaller ilgili haftalara ve orta bölümdeki "Son Yüklenenler" alanına eklenecektir.
 export const INITIAL_MATERIALS: Material[] = [
   {
-    id: "mat-poster-6-hafta-bilgisayar-sistemleri",
-    title: "6. HAFTA Bilgisayar Sistemlerinin Kullanımı (Afiş & Poster)",
+    id: "mat-poster-secil-gokce-giris-cikis",
+    title: "Bilgisayar İçin Giriş-Çıkış Birimleri (Seçil GÖKÇE)",
     grade: "5. Sınıf",
     unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
     term: "1. Dönem",
     period: "1. Ara",
     week: 6,
     type: "dokuman",
-    fileFormat: "PNG",
-    fileSize: "A4 Ders Posteri",
-    dateAdded: "2026-10-18",
-    description: "6. HAFTA Bilgisayar Sistemlerinin Kullanımı ders afişi ve panosu. Donanım (iç-dış, giriş-çıkış-çift yönlü) ve Yazılım (işletim sistemleri, uygulama programları) bileşenleri ile veri akış ilişkisi.",
+    fileFormat: "JPG",
+    fileSize: "A4 İnfografik Poster",
+    dateAdded: "2026-10-20",
+    description: "Klavye, fare, dokunmatik ekran, monitör, yazıcı, tarayıcı, hoparlör, kulaklık, mikrofon ve modem gibi giriş-çıkış birimleri afişi. Hazırlayan: Seçil GÖKÇE.",
+    author: "Seçil GÖKÇE",
+    tags: ["Poster", "Giriş-Çıkış", "6. Hafta", "Seçil Gökçe", "BTY.5.1.5"],
+    downloadUrl: "/bilgisayar_icin_giris_cikis_birimleri.jpg",
+    previewUrl: "/bilgisayar_icin_giris_cikis_birimleri.jpg",
+    fileName: "Bilgisayar_Icin_Giris_Cikis_Birimleri_Posteri.jpg",
+    isFeatured: true
+  },
+  {
+    id: "mat-poster-secil-gokce-klavye-fare",
+    title: "Klavye Tuşları ve Fare Kullanım Rehberi (Seçil GÖKÇE)",
+    grade: "5. Sınıf",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 6,
+    type: "dokuman",
+    fileFormat: "JPG",
+    fileSize: "A4 İnfografik Poster",
+    dateAdded: "2026-10-20",
+    description: "Klavyenin bölümleri, tuşların görevleri, klavye kısayolları ve farenin kullanımı infografik rehber posteri. Hazırlayan: Seçil GÖKÇE.",
+    author: "Seçil GÖKÇE",
+    tags: ["Poster", "Klavye", "Fare", "6. Hafta", "Seçil Gökçe", "BTY.5.1.5"],
+    downloadUrl: "/fare-klavye.jpg",
+    previewUrl: "/fare-klavye.jpg",
+    fileName: "Klavye_Tuslari_ve_Fare_Kullanim_Rehberi_Posteri.jpg",
+    isFeatured: true
+  },
+  {
+    id: "mat-poster-6-hafta-temel-bilesenler",
+    title: "6. Hafta-Bilgisayar sistemlerinin temel bileşenleri",
+    grade: "5. Sınıf",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 6,
+    type: "dokuman",
+    fileFormat: "JPG",
+    fileSize: "A4 Renkli Poster",
+    dateAdded: "2026-10-25",
+    description: "Donanım (iç-dış, giriş-çıkış-çift yönlü) ve Yazılım (işletim sistemi, uygulama yazılımları) bileşenleri ile veri akış ilişkisini gösteren 6. hafta ders posteri.",
+    author: "Hilal KURTOĞLU & Mücahit BOZOK",
+    tags: ["Poster", "6. Hafta", "Bilgisayar Sistemleri", "BTY.5.1.5", "Pano"],
+    downloadUrl: "/bilgisayar_sistemlerinin_temel_bilesenleri.jpg",
+    previewUrl: "/bilgisayar_sistemlerinin_temel_bilesenleri.jpg",
+    fileName: "6_Hafta_Bilgisayar_Sistemlerinin_Temel_Bilesenleri_Posteri.jpg",
+    isFeatured: true
+  },
+  {
+    id: "mat-etkinlik-7-hafta-donanim-yazilim-bosluk-doldurma",
+    title: "7. Hafta Donanım ve Yazılım Kavramları Etkinlik Kağıdı",
+    grade: "5. Sınıf",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 7,
+    type: "etkinlik",
+    fileFormat: "HTML5 / A4",
+    fileSize: "İnteraktif & Yazdırılabilir A4",
+    dateAdded: "2026-10-25",
+    description: "Donanım ve yazılım kavramları, iç donanım birimleri, işletim sistemleri ve Pardus üzerine 13 soruluk kelime havuzlu interaktif boşluk doldurma çalışma kâğıdı. Çözülebilir ve A4 olarak yazdırılabilir.",
     author: "Hilal KURTOĞLU",
-    tags: ["Poster", "Afiş", "6. Hafta", "Bilgisayar Sistemleri", "BTY.5.1.5", "Pano"],
-    downloadUrl: "/poster_6_hafta_bilgisayar_sistemleri.png",
-    previewUrl: "/poster_6_hafta_bilgisayar_sistemleri.png",
-    fileName: "poster_6_hafta_bilgisayar_sistemleri.png",
+    tags: ["Etkinlik Kâğıdı", "7. Hafta", "Boşluk Doldurma", "Donanım", "Yazılım", "Pardus", "BTY.5.1.5"],
+    downloadUrl: "/bosluk-doldurma-etkinlik-kagidi.html",
+    previewUrl: "/bosluk-doldurma-etkinlik-kagidi.html",
+    fileName: "bosluk-doldurma-etkinlik-kagidi.html",
     isFeatured: true
   },
   {
@@ -171,7 +231,7 @@ export const INITIAL_MATERIALS: Material[] = [
   }
 ];
 
-export const STORAGE_KEY_MATERIALS = "hilal_bty_materials_v3_clean_weeks";
+export const STORAGE_KEY_MATERIALS = "hilal_bty_materials_v6_full_pack";
 
 export function loadStoredMaterials(): Material[] {
   try {

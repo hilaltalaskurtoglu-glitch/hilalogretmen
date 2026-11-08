@@ -37,8 +37,17 @@ interface HomeworkViewProps {
 }
 
 export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
-  // Seçili ödev haftası (Varsayılan: 4. Hafta - Yapay Zekânın Temelleri)
-  const [activeHomeworkWeek, setActiveHomeworkWeek] = useState<4 | 3>(4);
+  // Seçili ödev haftası (Varsayılan: 8. Hafta - Açık Uçlu Sorular)
+  const [activeHomeworkWeek, setActiveHomeworkWeek] = useState<8 | 4 | 3>(8);
+
+  // 8. Hafta Açık Uçlu Sorular Form State (localStorage destekli)
+  const [week8Answers, setWeek8Answers] = useState<Record<number, string>>(() => {
+    const saved: Record<number, string> = {};
+    for (let i = 1; i <= 10; i++) {
+      saved[i] = localStorage.getItem(`bty_homework_w8_q${i}`) || '';
+    }
+    return saved;
+  });
 
   // 4. Hafta Öğrenci Form State (localStorage destekli)
   const [studentName, setStudentName] = useState(() => localStorage.getItem('bty_homework_name') || '');
@@ -51,6 +60,132 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
 
   // 3. Hafta Dijital Vatandaşlık Boyut Seçimi
   const [selectedDimension, setSelectedDimension] = useState<number | null>(null);
+
+  // 8. Hafta Soruları Veri Seti (İpuçsuz, sade açık uçlu sorular)
+  const week8Questions = [
+    { num: 1, question: "Silme işlemi yapan tuşların adlarını yazınız." },
+    { num: 2, question: "ESC tuşu ne işe yarar?" },
+    { num: 3, question: "Klavyedeki en uzun tuşun adını ve görevini yazınız." },
+    { num: 4, question: "CapsLock ışığı yanıyorsa klavyedeki harf tuşları nasıl yazar?" },
+    { num: 5, question: "Shift ve AltGr tuşlarının yazım açısından kullanılması hakkında bilgi veriniz." },
+    { num: 6, question: "Farenin tekerleği ne işe yarar?" },
+    { num: 7, question: "İşletim sistemi hakkında bilgi veriniz." },
+    { num: 8, question: "Mobil işletim sistemlerinden 2 tanesinin adını yazınız." },
+    { num: 9, question: "İşletim sisteminin görevlerinden 3 tanesini yazınız." },
+    { num: 10, question: "Pardus işletim sistemi hakkında araştırma yapınız ve hakkında 4 ayrı bilgi veriniz." }
+  ];
+
+  const escapeHtml = (text: string) => {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+
+  // 8. Hafta Kusursuz A4 Yazdırma Fonksiyonu
+  const handlePrintWeek8 = () => {
+    handleSaveWeek8();
+
+    const printWin = window.open('', '_blank');
+    if (printWin) {
+      const qHtml = week8Questions.map(q => {
+        const studentAns = week8Answers[q.num]?.trim();
+        return `
+          <div style="border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 12px; page-break-inside: avoid; background: #fff;">
+            <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+              <span style="background: #4f46e5; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 10pt; font-weight: bold; flex-shrink: 0;">${q.num}</span>
+              <span style="font-size: 11pt; font-weight: bold; color: #0f172a; line-height: 1.4;">${q.num}. Soru: ${q.question}</span>
+            </div>
+            <div style="margin-left: 32px; min-height: 60px;">
+              ${studentAns ? `
+                <div style="background: #f8fafc; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; font-size: 10.5pt; color: #1e293b; white-space: pre-wrap; line-height: 1.5;">${escapeHtml(studentAns)}</div>
+              ` : `
+                <div style="border: 1px dashed #cbd5e1; border-radius: 6px; padding: 8px 12px;">
+                  <div style="border-bottom: 1px solid #e2e8f0; height: 24px;"></div>
+                  <div style="border-bottom: 1px solid #e2e8f0; height: 24px;"></div>
+                  <div style="border-bottom: 1px solid #e2e8f0; height: 24px;"></div>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      printWin.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>8. Hafta Ödevi Açık Uçlu Sorular - Hilal KURTOĞLU</title>
+          <style>
+            @page { size: A4 portrait; margin: 12mm 10mm; }
+            body { font-family: system-ui, -apple-system, sans-serif; color: #0f172a; margin: 0; padding: 12px; background: #fff; }
+            @media print {
+              .no-print { display: none !important; }
+              body { padding: 0; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="margin-bottom: 15px; text-align: center;">
+            <button onclick="window.print()" style="padding: 10px 24px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 12pt; cursor: pointer;">
+              🖨️ Yazdır / PDF Olarak Kaydet
+            </button>
+          </div>
+          <div style="border: 2px solid #4f46e5; border-radius: 12px; padding: 14px; margin-bottom: 14px; background: #f8fafc;">
+            <h1 style="font-size: 15pt; font-weight: 800; color: #3730a3; margin: 0 0 4px 0; text-align: center;">5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi</h1>
+            <div style="font-size: 11pt; font-weight: 700; color: #4338ca; text-align: center; margin-bottom: 10px;">8. Hafta Ödevi: Açık Uçlu Sorular &bull; Öğretmen: Hilal KURTOĞLU</div>
+            <div style="display: flex; justify-content: space-between; border-top: 1px dashed #cbd5e1; padding-top: 8px; font-size: 10pt; font-weight: bold; color: #1e293b; flex-wrap: wrap; gap: 8px;">
+              <span>Öğrenci: ${studentName ? escapeHtml(studentName) : '...................................................'}</span>
+              <span>Sınıf: ${studentClass ? escapeHtml(studentClass) : '..........'}</span>
+              <span>No: ${studentNumber ? escapeHtml(studentNumber) : '..........'}</span>
+              <span>Tarih: ${new Date().toLocaleDateString('tr-TR')}</span>
+            </div>
+          </div>
+          <div style="background: #fef3c7; border: 1.5px solid #f59e0b; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 10pt; font-weight: bold; color: #92400e;">
+            ⚠️ Önemli Not: Öğrencilerin soruları defterlerine çözmeleri ya da site üzerinde cevaplayarak çıktı almaları ve derse getirmeleri gerekmektedir.
+          </div>
+          ${qHtml}
+          <div style="text-align: center; font-size: 9pt; color: #64748b; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 8px;">
+            Ahi Evran Ortaokulu &bull; Bilişim Teknolojileri ve Yazılım &bull; Hilal KURTOĞLU
+          </div>
+          <script>
+            window.onload = function() {
+              setTimeout(function() { window.print(); }, 350);
+            };
+          </script>
+        </body>
+        </html>
+      `);
+      printWin.document.close();
+    } else {
+      window.print();
+    }
+  };
+
+  // 8. Hafta Otomatik / Manuel Kaydetme
+  const handleSaveWeek8 = () => {
+    localStorage.setItem('bty_homework_name', studentName);
+    localStorage.setItem('bty_homework_class', studentClass);
+    localStorage.setItem('bty_homework_no', studentNumber);
+    Object.entries(week8Answers).forEach(([k, v]) => {
+      localStorage.setItem(`bty_homework_w8_q${k}`, v);
+    });
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 2500);
+  };
+
+  const handleClearWeek8 = () => {
+    if (window.confirm('8. Hafta cevaplarınızı temizlemek istediğinize emin misiniz?')) {
+      const empty: Record<number, string> = {};
+      for (let i = 1; i <= 10; i++) {
+        empty[i] = '';
+        localStorage.removeItem(`bty_homework_w8_q${i}`);
+      }
+      setWeek8Answers(empty);
+    }
+  };
 
   // Otomatik / Manuel Kaydetme
   const handleSaveDraft = () => {
@@ -262,6 +397,21 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
           {/* HAFTA SEÇİCİ SEKMELER */}
           <div className="pt-3 flex flex-wrap items-center gap-2.5">
             <button
+              onClick={() => setActiveHomeworkWeek(8)}
+              className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-black transition-all flex items-center gap-2 shadow-sm cursor-pointer ${
+                activeHomeworkWeek === 8
+                  ? 'bg-white text-purple-950 ring-2 ring-white/80 shadow-md scale-102'
+                  : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'
+              }`}
+            >
+              <span>⌨️</span>
+              <span>8. Hafta Ödevi: Açık Uçlu Sorular</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider">
+                GÜNCEL &bull; AKTİF
+              </span>
+            </button>
+
+            <button
               onClick={() => setActiveHomeworkWeek(4)}
               className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-black transition-all flex items-center gap-2 shadow-sm cursor-pointer ${
                 activeHomeworkWeek === 4
@@ -270,10 +420,7 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
               }`}
             >
               <span>🧠</span>
-              <span>4. Hafta Ödevi: Yapay Zekânın Temelleri</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider">
-                GÜNCEL &bull; AKTİF
-              </span>
+              <span>4. Hafta Ödevi: Yapay Zekâ</span>
             </button>
 
             <button
@@ -285,14 +432,247 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
               }`}
             >
               <span>🎨</span>
-              <span>3. Hafta Ödevi: Dijital Vatandaşlık (Afiş)</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-white/30 text-white text-[10px] font-bold">
-                Arşiv
-              </span>
+              <span>3. Hafta Ödevi: Dijital Vatandaşlık</span>
             </button>
           </div>
         </div>
       </div>
+
+      {/* ========================================================================= */}
+      {/* 8. HAFTA ÖDEVİ: AÇIK UÇLU SORULAR                                         */}
+      {/* ========================================================================= */}
+      {activeHomeworkWeek === 8 && (
+        <section className="bg-white border-2 border-purple-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-6">
+          
+          {/* Başlık Çubuğu ve Yazdırma / Kaydetme Eylemleri */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-purple-100">
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-gradient-to-r from-purple-100 via-pink-100 to-indigo-100 text-purple-950 border border-purple-300">
+                  ⭐ 8. Hafta Aktif Ödevi
+                </span>
+                <span className="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full">
+                  1. Dönem &bull; 8. Hafta
+                </span>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                  Açık Uçlu Defter Soruları
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 mt-2 flex items-center gap-2.5">
+                <span>⌨️</span>
+                <span>8. HAFTA ÖDEVİ: AÇIK UÇLU SORULAR</span>
+              </h3>
+              <p className="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
+                Klavye Tuşları, Fare Kullanımı, İşletim Sistemleri ve Pardus Araştırması
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap print:hidden">
+              <button
+                onClick={handleSaveWeek8}
+                className="py-2 px-3.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 font-bold text-xs transition flex items-center gap-1.5 shadow-2xs cursor-pointer"
+                title="Yazdıklarınızı tarayıcıda saklar"
+              >
+                {isSaved ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Save className="w-3.5 h-3.5 text-emerald-600" />}
+                <span>{isSaved ? 'Kaydedildi!' : 'Taslağı Kaydet'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePrintWeek8}
+                className="py-2 px-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white font-black text-xs transition flex items-center gap-1.5 shadow-xs cursor-pointer"
+                title="Yazdırma veya PDF olarak kaydetme penceresini açar"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Ödevi Yazdır / PDF Al</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ÖĞRETMENİN ÖDEV TALİMATI VE ZORUNLU NOT KUTUSU */}
+          <div className="bg-gradient-to-r from-amber-100 via-yellow-100 to-amber-200 border-2 border-amber-400/90 p-5 rounded-2xl shadow-xs space-y-2.5 text-slate-900">
+            <div className="flex items-center gap-2">
+              <span className="w-7 h-7 rounded-xl bg-amber-900 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs">
+                📌
+              </span>
+              <span className="text-xs font-black uppercase tracking-wider text-amber-950">
+                Öğretmenin Ödev Talimatı &bull; Hilal KURTOĞLU
+              </span>
+            </div>
+            <p className="text-sm sm:text-base md:text-lg font-black leading-snug text-slate-950">
+              Sevgili öğrenciler, bu hafta dersimizde Klavye Tuşları ve Görevleri, Fare Kullanımı, İşletim Sistemi kavramı ve yerli işletim sistemimiz Pardus'u öğrendik. Aşağıdaki 10 açık uçlu soruyu dikkatlice okuyup cevaplayınız.
+            </p>
+            <div className="p-3 bg-amber-300/60 rounded-xl border border-amber-400 flex items-center gap-2 text-xs sm:text-sm font-black text-amber-950">
+              <span className="text-base">⚠️</span>
+              <span>Önemli Not: Öğrencilerin soruları defterlerine çözmeleri ya da site üzerinde cevaplayarak çıktı almaları ve derse getirmeleri gerekmektedir.</span>
+            </div>
+          </div>
+
+          {/* 10 AÇIK UÇLU SORU LİSTESİ - İPUÇSUZ, ALT ALTA TEK CEVAP KUTUSU */}
+          <div className="space-y-4">
+            {week8Questions.map((q) => (
+              <div
+                key={q.num}
+                className="bg-slate-50/70 border-2 border-purple-100 hover:border-purple-300 rounded-2xl p-5 space-y-3.5 transition"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="w-8 h-8 rounded-xl bg-purple-700 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs mt-0.5">
+                    {q.num}
+                  </span>
+                  <div className="space-y-1 flex-1">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full inline-block">
+                      Açık Uçlu Soru
+                    </span>
+                    <h4 className="text-sm sm:text-base md:text-lg font-black text-slate-900 leading-snug">
+                      {q.num}. {q.question}
+                    </h4>
+                  </div>
+                </div>
+
+                {/* Tek Cevaplama Kutusu - İpucu Yok */}
+                <div className="space-y-1.5">
+                  <label htmlFor={`w8-q${q.num}`} className="block text-xs font-black text-slate-800">
+                    ✍️ {q.num}. Soru Cevabı:
+                  </label>
+                  <textarea
+                    id={`w8-q${q.num}`}
+                    rows={3}
+                    value={week8Answers[q.num] || ''}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setWeek8Answers(prev => ({ ...prev, [q.num]: val }));
+                    }}
+                    placeholder="Cevabınızı buraya yazınız..."
+                    className="w-full p-3 rounded-xl border border-slate-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none text-xs sm:text-sm text-slate-800 leading-relaxed bg-white transition"
+                  />
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+                    <span>Defterinize veya bu kutucuğa yazıp çıktı alabilirsiniz.</span>
+                    <span>{(week8Answers[q.num] || '').length} karakter</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ÖĞRENCİ BİLGİLERİ VE TESLİM FORMU KARTI */}
+          <div className="bg-gradient-to-br from-purple-50/70 via-indigo-50/50 to-pink-50/70 p-5 sm:p-6 rounded-2xl border-2 border-purple-200/80 space-y-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-purple-700 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-2xs">
+                  📝
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
+                    Öğrenci Bilgileri &amp; Ödev Çıktı Formu
+                  </h4>
+                  <p className="text-xs text-slate-600">
+                    Çıktı almak isterseniz adınızı, sınıfınızı ve numaranızı yazınız.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 print:hidden">
+                <button
+                  type="button"
+                  onClick={handleClearWeek8}
+                  className="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Temizle</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveWeek8}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1 shadow-2xs cursor-pointer"
+                >
+                  <Save className="w-3 h-3" />
+                  <span>{isSaved ? 'Kaydedildi!' : 'Cevapları Sakla'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Öğrenci Bilgi Girişleri */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                  Adın ve Soyadın:
+                </label>
+                <input
+                  type="text"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  placeholder="Örn: Mehmet Demir"
+                  className="w-full p-2.5 rounded-xl border border-purple-200 bg-white text-xs font-bold text-slate-900 outline-none focus:ring-2 focus:ring-purple-300"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                  Sınıfın ve Şuben:
+                </label>
+                <input
+                  type="text"
+                  value={studentClass}
+                  onChange={(e) => setStudentClass(e.target.value)}
+                  placeholder="Örn: 5-B"
+                  className="w-full p-2.5 rounded-xl border border-purple-200 bg-white text-xs font-bold text-slate-900 outline-none focus:ring-2 focus:ring-purple-300"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                  Okul Numaran:
+                </label>
+                <input
+                  type="text"
+                  value={studentNumber}
+                  onChange={(e) => setStudentNumber(e.target.value)}
+                  placeholder="Örn: 254"
+                  className="w-full p-2.5 rounded-xl border border-purple-200 bg-white text-xs font-bold text-slate-900 outline-none focus:ring-2 focus:ring-purple-300"
+                />
+              </div>
+            </div>
+
+            {/* Büyük Yazdırma Butonu ve Defter Hatırlatması */}
+            <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-purple-200/80">
+              <div className="text-xs text-slate-700 space-y-0.5">
+                <span className="font-black text-amber-900 block">
+                  ⚠️ Önemli Not: Öğrencilerin soruları defterlerine çözmeleri ya da site üzerinde cevaplayarak çıktı almaları ve derse getirmeleri gerekmektedir.
+                </span>
+                <span className="text-[11px] text-slate-500 block">
+                  Öğretmen: Hilal KURTOĞLU &bull; Değerlendirme: Defter Kontrolü ve Derste Sözlü Yanıtlama
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 print:hidden">
+                <button
+                  type="button"
+                  onClick={handlePrintWeek8}
+                  className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white font-black text-xs sm:text-sm transition flex items-center gap-2 shadow-sm cursor-pointer"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>Ödev Sorularını Yazdır / PDF Al</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* DERS NOTLARINA HIZLI GEÇİŞ LİNKİ */}
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 font-semibold border-t border-purple-100 gap-2 print:hidden">
+            <span>💡 Cevapları ararken 7. Hafta Klavye Tuşları &amp; Yazılım ve İşletim Sistemi ders notlarına göz atabilirsiniz.</span>
+            {onSelectTab && (
+              <button
+                onClick={() => onSelectTab('ders-notlari')}
+                className="text-purple-700 hover:underline font-bold flex items-center gap-1 cursor-pointer shrink-0"
+              >
+                <span>7. Hafta Ders Notlarını Aç</span>
+                <span>&rarr;</span>
+              </button>
+            )}
+          </div>
+
+        </section>
+      )}
 
       {/* ========================================================================= */}
       {/* 2. AKTİF ÖDEV KARTI: 4. HAFTA - YAPAY ZEKÂNIN TEMELLERİ                    */}

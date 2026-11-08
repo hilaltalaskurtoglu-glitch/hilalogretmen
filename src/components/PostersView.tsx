@@ -15,7 +15,6 @@ import {
   Layers,
   Award
 } from 'lucide-react';
-import { ComputerSystemHierarchy } from './ComputerSystemHierarchy';
 
 export interface PosterItem {
   id: string;
@@ -25,6 +24,7 @@ export interface PosterItem {
   badge: string;
   badgeColor: string;
   imageSrc: string;
+  fileName?: string;
   pdfSrc?: string;
   description: string;
   outcome?: string;
@@ -41,7 +41,8 @@ export const POSTERS_DATA: PosterItem[] = [
     week: '6. Hafta',
     badge: 'Hazırlayan: Seçil GÖKÇE',
     badgeColor: 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white',
-    imageSrc: '/assets/aistudio/bilgisayar_i_in_giri____k___birimleri_87619813.jpg',
+    imageSrc: '/bilgisayar_icin_giris_cikis_birimleri.jpg',
+    fileName: 'Bilgisayar_Icin_Giris_Cikis_Birimleri_Posteri.jpg',
     description: 'Klavye, fare, dokunmatik ekran, monitör, yazıcı, tarayıcı, hoparlör, kulaklık, mikrofon ve modem gibi tüm giriş, çıkış ve çift yönlü birimleri açıklayan eğitsel infografik ders afişi. Hazırlayan: Seçil GÖKÇE.',
     outcome: 'BTY.5.1.5. Bilgisayar sistemlerinin temel bileşenlerini ve aralarındaki ilişkileri açıklar.',
     date: '2026-10-20',
@@ -55,12 +56,58 @@ export const POSTERS_DATA: PosterItem[] = [
     week: '6. Hafta',
     badge: 'Hazırlayan: Seçil GÖKÇE',
     badgeColor: 'bg-gradient-to-r from-purple-600 to-pink-600 text-white',
-    imageSrc: '/assets/aistudio/fare-klavye_73015f07.jpg',
+    imageSrc: '/fare-klavye.jpg',
+    fileName: 'Klavye_Tuslari_ve_Fare_Kullanim_Rehberi_Posteri.jpg',
     description: 'Klavyenin 5 temel bölümü, tuşların görevleri (Shift, Caps Lock, Space, Backspace, Delete vb.), klavye kısayolları ve farenin bölümleri ile tıklama-sürükleme işlemlerini gösteren görsel kılavuz posteri. Hazırlayan: Seçil GÖKÇE.',
     outcome: 'BTY.5.1.5. Giriş-çıkış birimlerini ve klavye-fare işlevlerini doğru biçimde kullanır.',
     date: '2026-10-20',
     isFeatured: true,
     authorCredit: 'Seçil Gökçe hocamıza hazırladığı materyaller için teşekkür ederiz.'
+  },
+  {
+    id: 'poster-secil-gokce-yazilim-nedir',
+    title: 'Yazılım Nedir? - Yazılım Türleri',
+    category: 'mufredat',
+    week: '7. Hafta',
+    badge: 'Hazırlayan: Seçil GÖKÇE',
+    badgeColor: 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white',
+    imageSrc: '/yazilim_nedir_yazilim_turleri_secil_gokce.jpg',
+    fileName: 'Yazilim_Nedir_Yazilim_Turleri_Posteri.jpg',
+    description: '1. Yazılım Nedir?, 2. Yazılım Türleri (İşletim Sistemi, Uygulama Yazılımı, Programlama Dilleri), 3. İşletim Sistemi Nedir?, 4. İşletim Sisteminin 4 Temel Görevi, 5. Windows İşletim Sistemi, 6. Pardus İşletim Sistemi, 7. Uygulama Yazılımı Nedir?, 8. Programlama Dilleri Nedir? konularını içeren renkli infografik ders afişi. Hazırlayan: Seçil GÖKÇE.',
+    outcome: 'BTY.5.1.5. Yazılım kavramını, işletim sistemi ve uygulama yazılımlarını ayırt eder.',
+    date: '2026-10-28',
+    isFeatured: true,
+    authorCredit: 'Seçil Gökçe hocamıza hazırladığı materyaller için teşekkür ederiz.'
+  },
+  {
+    id: 'poster-secil-gokce-dosya-klasor',
+    title: 'Dosya ve Klasör Yönetimi',
+    category: 'mufredat',
+    week: '8. Hafta',
+    badge: 'Hazırlayan: Seçil GÖKÇE',
+    badgeColor: 'bg-gradient-to-r from-amber-600 to-orange-600 text-white',
+    imageSrc: '/dosya_ve_klasor_yonetimi_secil_gokce.jpg',
+    fileName: 'Dosya_ve_Klasor_Yonetimi_Posteri.jpg',
+    description: '1. Dosya Nedir?, 2. Klasör Nedir?, 3. Önemli Dosya Uzantıları ve Türleri (Görsel, Ses, Video, Ofis, Kurulum, Sıkıştırma) ve 4. Doğru-Yanlış Etkinliğini içeren renkli infografik ders afişi. Hazırlayan: Seçil GÖKÇE.',
+    outcome: 'BTY.5.1.6. Dosya ve klasör yönetimini uygular, dosya uzantılarını ve kapasite birimlerini kavrar.',
+    date: '2026-11-01',
+    isFeatured: true,
+    authorCredit: 'Seçil Gökçe hocamıza hazırladığı materyaller için teşekkür ederiz.'
+  },
+  {
+    id: 'poster-6-hafta-bilgisayar-sistemlerinin-temel-bilesenleri',
+    title: '6. Hafta-Bilgisayar sistemlerinin temel bileşenleri',
+    category: 'mufredat',
+    week: '6. Hafta',
+    badge: '6. Hafta &bull; Temel Bileşenler Posteri',
+    badgeColor: 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white',
+    imageSrc: '/bilgisayar_sistemlerinin_temel_bilesenleri.jpg',
+    fileName: '6_Hafta_Bilgisayar_Sistemlerinin_Temel_Bilesenleri_Posteri.jpg',
+    description: '1. Donanım (İç Donanım: İşlemci, RAM, Ekran kartı; Dış Donanım: Klavye, Fare, Mikrofon, Web kamera, Tarayıcı, Oyun konsolu) ve 2. Yazılım (İşletim Sistemi: Windows 11, Android, Pardus; Uygulama Yazılımı: Word, Excel, Paint, WhatsApp, Chrome); Veri akışındaki görevlere göre donanımlar (Giriş birimi, Hem giriş hem çıkış birimi, Çıkış birimi).',
+    outcome: 'BTY.5.1.5. Bilgisayar sistemlerinin temel bileşenlerini ve aralarındaki ilişkileri açıklar.',
+    date: '2026-10-25',
+    isFeatured: true,
+    authorCredit: 'Mücahit Bozok öğretmenimizin hazırladığı çalışma afişi.'
   }
 ];
 
@@ -203,14 +250,14 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
               Özel Teşekkür &bull; Seçil GÖKÇE
             </span>
             <span className="text-xs font-bold text-teal-800">
-              6. Hafta Eğitsel Posterleri
+              Bilişim Teknolojileri Eğitsel Afişleri
             </span>
           </div>
           <h3 className="text-base sm:text-lg font-black text-slate-800">
             Seçil Gökçe hocamıza hazırladığı materyaller için teşekkür ederiz.
           </h3>
           <p className="text-xs text-slate-600 leading-relaxed max-w-3xl">
-            Öğrencilerimizin görsel öğrenmelerini destekleyen harika <strong>Klavye Tuşları ve Fare</strong> ile <strong>Giriş-Çıkış Birimleri</strong> infografik afişleri için Seçil GÖKÇE öğretmenimize emeklerinden ötürü sonsuz teşekkürlerimizi sunarız.
+            Öğrencilerimizin görsel öğrenmelerini destekleyen harika <strong>Klavye Tuşları ve Fare</strong>, <strong>Giriş-Çıkış Birimleri</strong>, <strong>Yazılım Nedir? - Yazılım Türleri</strong> ve <strong>Dosya ve Klasör Yönetimi</strong> infografik afişleri için Seçil GÖKÇE öğretmenimize emeklerinden ötürü sonsuz teşekkürlerimizi sunarız.
           </p>
         </div>
       </div>
@@ -221,7 +268,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
           <div className="flex items-center gap-2">
             <span className="text-xl">🖼️</span>
             <h3 className="text-lg sm:text-xl font-black text-slate-800">
-              Seçil Gökçe Öğretmenimizin Eğitsel Posterleri
+              Eğitsel Ders Posterleri &amp; Pano Çalışmaları
             </h3>
           </div>
           <span className="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
@@ -285,46 +332,30 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
                   </button>
 
                   <button
-                    onClick={() => handleDownloadFile(poster.imageSrc, `${poster.id}.png`)}
-                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                    title="Resmi İndir"
+                    onClick={() => {
+                      const cleanName = poster.fileName || `${poster.title.replace(/[^a-zA-Z0-9_-]/g, '_')}.jpg`;
+                      handleDownloadFile(poster.imageSrc, cleanName);
+                    }}
+                    className="py-2 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    title="Afişi JPG Resmi Olarak İndir"
                   >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>İndir</span>
+                    <Download className="w-3.5 h-3.5 text-purple-700" />
+                    <span>JPG İndir</span>
                   </button>
 
                   <button
                     onClick={() => handlePrintPoster(poster.imageSrc, poster.title)}
                     className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                    title="Yazdır"
+                    title="A4 Yazdır veya PDF Olarak Kaydet"
                   >
-                    <Printer className="w-3.5 h-3.5" />
-                    <span>Yazdır</span>
+                    <Printer className="w-3.5 h-3.5 text-slate-700" />
+                    <span>Yazdır / PDF</span>
                   </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
- 
-      {/* 6. Hafta Hiyerarşik Yapı ve Veri Akış Şeması Kartı */}
-      <div className="bg-white border-2 border-indigo-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-100 pb-4">
-          <div>
-            <span className="text-xs font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
-              Ders Materyali &bull; Akıllı Tahta Şeması
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-800 mt-2">
-              Bilgisayar Sistemlerinin Temel Bileşenleri &amp; Veri Akış İlişkisi
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-              1. Donanım (İç Donanım &amp; Dış Donanım Birimleri) ve 2. Yazılım (İşletim Sistemi &amp; Uygulama Yazılımları) arasındaki 4 adımlı veri akış mekanizması.
-            </p>
-          </div>
-        </div>
-
-        <ComputerSystemHierarchy />
       </div>
 
       {/* LIGHTBOX / FULLSCREEN MODAL */}
@@ -385,19 +416,24 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
 
               {/* Download */}
               <button
-                onClick={() => handleDownloadFile(selectedPoster.imageSrc, `${selectedPoster.id}.png`)}
-                className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+                onClick={() => {
+                  const cleanName = selectedPoster.fileName || `${selectedPoster.title.replace(/[^a-zA-Z0-9_-]/g, '_')}.jpg`;
+                  handleDownloadFile(selectedPoster.imageSrc, cleanName);
+                }}
+                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+                title="Afişi JPG formatında indir"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">İndir</span>
+                <span>JPG İndir</span>
               </button>
 
               <button
                 onClick={() => handlePrintPoster(selectedPoster.imageSrc, selectedPoster.title)}
                 className="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+                title="Yazdır veya PDF olarak kaydet"
               >
                 <Printer className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Yazdır</span>
+                <span>Yazdır / PDF</span>
               </button>
 
               {/* Close */}

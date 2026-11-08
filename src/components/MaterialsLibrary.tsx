@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Material, MaterialType } from '../types';
 import { downloadMaterialFile } from '../utils/downloadHelper';
-import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain, Image as ImageIcon } from 'lucide-react';
+import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain, Image as ImageIcon, Eye } from 'lucide-react';
 import { YapayZekaGame } from './YapayZekaGame';
 import { DigitalIdentityTest } from './DigitalIdentityTest';
 import { PostersView } from './PostersView';
@@ -134,22 +134,25 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
           </div>
         </div>
 
-        {/* ALT BÖLÜM SEÇİCİ BAŞLIKLARI: MATERYAL LİSTESİ | POSTERLER & PANOLAR | TESTLER */}
+        {/* ALT BÖLÜM SEÇİCİ BAŞLIKLARI: MATERYALLER | POSTERLER | ETKİNLİK KÂĞITLARI | TESTLER */}
         <div className="pt-2 border-t border-pink-100">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             <button
-              onClick={() => setSubSection('materyaller')}
+              onClick={() => {
+                setSubSection('materyaller');
+                setSelectedType('all');
+              }}
               className={`p-3 rounded-2xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer border-2 ${
-                subSection === 'materyaller'
+                subSection === 'materyaller' && selectedType !== 'etkinlik'
                   ? 'bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white border-transparent shadow-md shadow-pink-500/20'
                   : 'bg-pink-50/50 hover:bg-pink-100/70 text-slate-700 border-pink-200/60'
               }`}
             >
-              <span>📚 Ders Materyalleri Deposu</span>
+              <span>📚 Tüm Materyaller</span>
               <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
-                subSection === 'materyaller' ? 'bg-white/20 text-white' : 'bg-pink-200/60 text-purple-900'
+                subSection === 'materyaller' && selectedType !== 'etkinlik' ? 'bg-white/20 text-white' : 'bg-pink-200/60 text-purple-900'
               }`}>
-                {materials.length} Dosya
+                {materials.length}
               </span>
             </button>
 
@@ -161,11 +164,30 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                   : 'bg-purple-50/50 hover:bg-purple-100/70 text-slate-700 border-purple-200/60'
               }`}
             >
-              <span>🖼️ Posterler &amp; Pano Çalışmaları</span>
+              <span>🖼️ Posterler &amp; Panolar</span>
               <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
                 subSection === 'posterler' ? 'bg-white/20 text-white' : 'bg-purple-200/60 text-purple-900'
               }`}>
                 Seçil Gökçe &bull; 6. Hafta
+              </span>
+            </button>
+
+            <button
+              onClick={() => {
+                setSubSection('materyaller');
+                setSelectedType('etkinlik');
+              }}
+              className={`p-3 rounded-2xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer border-2 ${
+                subSection === 'materyaller' && selectedType === 'etkinlik'
+                  ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white border-transparent shadow-md shadow-teal-500/20'
+                  : 'bg-emerald-50/50 hover:bg-emerald-100/70 text-slate-700 border-emerald-200/60'
+              }`}
+            >
+              <span>🧩 Etkinlik Kâğıtları</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                subSection === 'materyaller' && selectedType === 'etkinlik' ? 'bg-white/20 text-white' : 'bg-emerald-200/60 text-emerald-950'
+              }`}>
+                Tam Sayfa &bull; İndir
               </span>
             </button>
 
@@ -455,13 +477,21 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                   </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-lg font-extrabold text-slate-800 group-hover:text-purple-700 leading-snug">
-                  {mat.title}
+                {/* Title (Clickable to open full page) */}
+                <h3 
+                  onClick={() => onOpenMaterial(mat)}
+                  className="text-lg font-extrabold text-slate-800 group-hover:text-purple-700 leading-snug cursor-pointer transition flex items-center justify-between gap-1"
+                  title="Tam Sayfa Görüntülemek İçin Tıklayın"
+                >
+                  <span>{mat.title}</span>
+                  <ExternalLink className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-purple-600 transition shrink-0" />
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs md:text-sm text-slate-600 mt-2 line-clamp-3 leading-relaxed">
+                <p 
+                  onClick={() => onOpenMaterial(mat)}
+                  className="text-xs md:text-sm text-slate-600 mt-2 line-clamp-3 leading-relaxed cursor-pointer"
+                >
                   {mat.description}
                 </p>
 
@@ -482,49 +512,77 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                   <span>{mat.dateAdded}</span>
                 </div>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   {mat.type === 'test' ? (
-                    <button
-                      onClick={() => {
-                        setSelectedType('test');
-                        if (mat.interactiveGameKey) {
-                          setActiveInteractiveTestId(mat.interactiveGameKey);
-                        }
-                        window.scrollTo({ top: 300, behavior: 'smooth' });
-                      }}
-                      className="px-3.5 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-95 text-white text-xs font-black rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
-                    >
-                      <Play className="w-3.5 h-3.5 fill-current" />
-                      <span>Testi Çöz</span>
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => onOpenMaterial(mat)}
+                        className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+                        title="Testi Tam Sayfa İncele"
+                      >
+                        <Eye className="w-3.5 h-3.5 text-indigo-600" />
+                        <span>Tam Sayfa</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedType('test');
+                          if (mat.interactiveGameKey) {
+                            setActiveInteractiveTestId(mat.interactiveGameKey);
+                          }
+                          window.scrollTo({ top: 300, behavior: 'smooth' });
+                        }}
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-95 text-white text-xs font-black rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Çöz</span>
+                      </button>
+                    </div>
                   ) : isGame ? (
-                    <button
-                      onClick={() => onPlayGame(mat.interactiveGameKey)}
-                      className="px-3.5 py-1.5 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] hover:opacity-95 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-xs"
-                    >
-                      <Play className="w-3.5 h-3.5 fill-current" />
-                      <span>Oyunu Oyna</span>
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => onOpenMaterial(mat)}
+                        className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+                      >
+                        <Eye className="w-3.5 h-3.5 text-purple-600" />
+                        <span>Tam Sayfa</span>
+                      </button>
+                      <button
+                        onClick={() => onPlayGame(mat.interactiveGameKey)}
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] hover:opacity-95 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Oyna</span>
+                      </button>
+                    </div>
                   ) : (
                     <>
+                      <button
+                        onClick={() => onOpenMaterial(mat)}
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white font-bold text-xs rounded-xl flex items-center gap-1 transition shadow-xs cursor-pointer"
+                        title="Materyali Tam Sayfada Aç ve İncele"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Tam Sayfa Aç</span>
+                      </button>
+
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           downloadMaterialFile(mat);
                         }}
-                        className="px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-95 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-2xs"
+                        className="px-3 py-1.5 bg-pink-50 hover:bg-pink-100 text-purple-900 border border-pink-200 text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-2xs cursor-pointer"
                         title="Dosyayı doğrudan bilgisayarına indir"
                       >
-                        <Download className="w-3.5 h-3.5" />
-                        <span>İndir</span>
-                      </button>
-
-                      <button
-                        onClick={() => onOpenMaterial(mat)}
-                        className="px-3 py-1.5 bg-pink-50 hover:bg-pink-100 text-purple-900 border border-pink-200 text-xs font-bold rounded-xl flex items-center gap-1 transition shadow-xs"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span>Detay</span>
+                        <Download className="w-3.5 h-3.5 text-pink-600" />
+                        <span>
+                          {mat.fileFormat === 'JPG' || mat.fileFormat === 'PNG' || (mat.downloadUrl && /\.(jpg|png)$/i.test(mat.downloadUrl))
+                            ? 'JPG İndir'
+                            : mat.fileFormat === 'PDF' || (mat.downloadUrl && mat.downloadUrl.endsWith('.pdf'))
+                            ? 'PDF İndir'
+                            : mat.fileFormat?.includes('HTML') || (mat.downloadUrl && mat.downloadUrl.endsWith('.html'))
+                            ? 'HTML İndir'
+                            : 'İndir'}
+                        </span>
                       </button>
                     </>
                   )}

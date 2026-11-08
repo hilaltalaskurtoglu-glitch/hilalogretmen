@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dosya Uzantısı Avcısı</title>
+<style>
+:root{--blue:#1e88c7;--teal:#2bb3b1;--text:#16384f;--ok:#d9f4e6;--okb:#2e9e6b;--no:#fde4e4;--nob:#e05a5a}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI','Trebuchet MS',Arial,sans-serif;background:linear-gradient(160deg,#dff2fa,#f2fbfd);color:var(--text);padding:20px;display:flex;justify-content:center;min-height:100vh}
+.app{width:100%;max-width:1250px}
+header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+h1{margin:0;font-size:2.2rem;color:var(--blue)}.sub{font-size:1.15rem;color:#4b7a94}
+.stats{display:flex;gap:12px;align-items:center}
+.pill{font-size:1.5rem;font-weight:bold;background:#fff;padding:8px 20px;border-radius:30px;border:3px solid var(--teal)}
+.bar{height:14px;background:#cfe9f3;border-radius:10px;overflow:hidden;margin-bottom:16px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--blue));transition:width .4s}
+.card{background:#fff;border-radius:24px;padding:26px 32px;box-shadow:0 12px 30px rgba(30,136,199,.15);position:relative}
+.target{background:#e6f5fc;border:4px solid #8ccaee;border-radius:20px;padding:14px 22px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.target .t1{font-size:2rem;font-weight:bold}.target .t1 b{color:var(--blue);background:#fff3c4;padding:2px 16px;border-radius:12px}
+.target .t2{font-size:1.3rem;color:#4b7a94;margin-top:4px}
+.found{font-size:2.2rem;font-weight:bold;color:var(--okb);white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.file{background:#f6fbfe;border:4px solid #bfe0ee;border-radius:18px;padding:16px 10px 14px;text-align:center;cursor:pointer;font-family:inherit;color:var(--text);transition:transform .15s}
+.file:hover:not([disabled]){transform:translateY(-4px);border-color:var(--blue)}
+.file .ext{display:inline-block;font-size:1.7rem;font-weight:900;background:var(--blue);color:#fff;padding:2px 16px;border-radius:10px;letter-spacing:1px}
+.file .nm{display:block;font-size:1.45rem;font-weight:bold;margin-top:12px;word-break:break-all}
+.file.good{background:var(--ok);border-color:var(--okb);animation:pop .4s}
+.file.bad{background:var(--no);border-color:var(--nob);animation:shake .4s}
+.file[disabled]{cursor:default}
+@keyframes pop{50%{transform:scale(1.1)}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.toast{min-height:52px;margin-top:14px;font-size:1.5rem;font-weight:bold;text-align:center;line-height:1.4}
+.toast.no{color:var(--nob)}.toast.ok{color:var(--okb)}
+.over{position:absolute;inset:0;background:rgba(240,250,255,.97);border-radius:24px;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;z-index:5}
+.over.show{display:flex}
+.over h2{font-size:2.4rem;margin:0 0 12px;color:var(--okb)}
+.over .ex{font-size:2rem;margin:0 0 8px;line-height:1.6}
+.over .ex b{background:#fff3c4;color:var(--blue);padding:2px 12px;border-radius:10px;margin:0 4px;display:inline-block}
+.over p{font-size:1.5rem;margin:6px 0 20px}
+.btn{font-size:1.7rem;font-weight:bold;padding:15px 42px;border:none;border-radius:16px;background:var(--blue);color:#fff;cursor:pointer;font-family:inherit}
+.medal{font-size:5.5rem}.big{font-size:3.4rem;font-weight:bold;color:var(--blue)}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+ <header>
+  <div><h1>🔎 Dosya Uzantısı Avcısı</h1><div class="sub">5. Sınıf · Bilişim Teknolojileri ve Yazılım · Dosya Türleri ve Uzantıları</div></div>
+  <div class="stats"><div class="pill" id="round"></div><div class="pill" id="lives"></div><div class="pill" id="score"></div></div>
+ </header>
+ <div class="bar"><div class="fill" id="fill"></div></div>
+ <div class="card">
+  <div class="target"><div><div class="t1" id="t1"></div><div class="t2" id="t2"></div></div><div class="found" id="found"></div></div>
+  <div class="grid" id="grid"></div>
+  <div class="toast" id="toast"></div>
+  <div class="over" id="over"></div>
+ </div>
+</div>
+<script>
+const CATS=[
+ {ad:'GÖRSEL',ipucu:'Resim ve fotoğraf dosyaları',ext:'.jpg  .jpeg  .png  .gif  .bmp  .svg',f:['tatil.jpg','okul_logosu.png','kedi.gif','manzara.jpeg','resim1.bmp','ikon.svg','poster.png','profil_foto.jpg']},
+ {ad:'SES',ipucu:'Müzik ve ses kayıtları',ext:'.mp3  .wav  .ogg  .wma  .aac  .flac',f:['sarki.mp3','zil_sesi.wav','podcast.ogg','ders_kaydi.wma','melodi.aac','ses_efekti.flac','istiklal_marsi.mp3','alarm.wav']},
+ {ad:'VİDEO',ipucu:'Film ve video kayıtları',ext:'.mp4  .avi  .mkv  .mov  .wmv  .mpeg',f:['film.mp4','tanitim.avi','ders_videosu.mkv','animasyon.mov','kayit.wmv','klip.mp4','gezi.mpeg','robot.mp4']},
+ {ad:'BELGE',ipucu:'Yazı ve belge dosyaları',ext:'.docx  .doc  .txt  .pdf  .odt  .rtf',f:['odev.docx','okunacak.txt','kitap.pdf','dilekce.doc','notlar.odt','rapor.rtf','proje_raporu.docx','makale.pdf']},
+ {ad:'SUNUM',ipucu:'Slayt sunu dosyaları',ext:'.pptx  .ppt  .odp',f:['sunum.pptx','ders_slayti.ppt','tanitim.pptx','proje.odp','sinif_sunusu.pptx','konu_ozeti.odp']},
+ {ad:'ELEKTRONİK TABLO',ipucu:'Hesap tablosu dosyaları',ext:'.xlsx  .xls  .csv  .ods',f:['notlar.xlsx','butce.xls','liste.csv','puan_cizelgesi.ods','sayilar.xlsx','yoklama.csv']},
+ {ad:'SIKIŞTIRILMIŞ',ipucu:'Birden çok dosyayı tek pakette toplayan dosyalar',ext:'.zip  .rar  .7z  .tar',f:['yedek.zip','arsiv.rar','dosyalar.7z','projeler.zip','fotograflar.rar','paket.tar']},
+ {ad:'PROGRAM',ipucu:'Çalıştırılabilir program ve uygulama dosyaları',ext:'.exe  .msi  .apk  .bat',f:['kurulum.exe','oyun.exe','setup.msi','uygulama.apk','calistir.bat','program.exe']}
+];
+const NEED=4,TOTALCARDS=12,LIVES=5;
+const $=id=>document.getElementById(id);
+const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const split=n=>{const i=n.lastIndexOf('.');return [n.slice(0,i),n.slice(i)]};
+let rd,lives,score,found,cards;
+function start(){rd=0;lives=LIVES;score=0;$('over').classList.remove('show');round()}
+function hud(){$('round').textContent='Tur '+(rd+1)+' / '+CATS.length;$('lives').textContent='❤️'.repeat(lives)+'🖤'.repeat(LIVES-lives);$('score').textContent='⭐ '+score;$('fill').style.width=(rd/CATS.length*100)+'%'}
+function round(){
+ const c=CATS[rd];found=0;$('toast').textContent='';$('toast').className='toast';
+ const targets=sh(c.f).slice(0,NEED).map(n=>({n,cat:rd}));
+ const others=[];CATS.forEach((x,i)=>{if(i!==rd)x.f.forEach(n=>others.push({n,cat:i}))});
+ cards=sh(targets.concat(sh(others).slice(0,TOTALCARDS-NEED)));
+ $('t1').innerHTML='Bul: <b>'+c.ad+'</b> dosyaları!';$('t2').textContent=c.ipucu+' ('+NEED+' tane)';$('found').textContent='Bulunan: 0 / '+NEED;
+ const g=$('grid');g.innerHTML='';
+ cards.forEach(k=>{const [nm,ex]=split(k.n);const b=document.createElement('button');b.className='file';b.innerHTML='<span class="ext">'+ex+'</span><span class="nm">'+nm+'</span>';
+  b.onclick=()=>pick(b,k);g.appendChild(b)});
+ hud();
+}
+function pick(b,k){
+ if(k.cat===rd){b.classList.add('good');b.disabled=true;found++;score+=10;$('found').textContent='Bulunan: '+found+' / '+NEED;
+  $('toast').className='toast ok';$('toast').textContent='✔ Doğru! '+split(k.n)[1]+' bir '+CATS[rd].ad+' dosyasıdır.';hud();
+  if(found===NEED)setTimeout(done,700)}
+ else{b.classList.add('bad');b.disabled=true;lives--;
+  $('toast').className='toast no';$('toast').textContent='✘ '+split(k.n)[1]+' bir '+CATS[k.cat].ad+' dosyasıdır, '+CATS[rd].ad+' değil.';hud();
+  if(lives===0)setTimeout(end,900)}
+}
+function done(){
+ const c=CATS[rd];const last=rd===CATS.length-1;
+ $('over').innerHTML='<h2>🎉 Tur Tamam!</h2><div class="ex">'+c.ad+' dosyalarının uzantıları:</div><div class="ex">'+c.ext.split(/\s+/).map(e=>'<b>'+e+'</b>').join('')+'</div><p>Kalan can: '+'❤️'.repeat(lives)+'</p><button class="btn" id="nx">'+(last?'Sonucu Gör':'Sonraki Tur ▶')+'</button>';
+ $('over').classList.add('show');
+ $('nx').onclick=()=>{$('over').classList.remove('show');rd++;if(rd>=CATS.length)end(true);else round()};
+}
+function end(win){
+ const all=rd>=CATS.length;rd=Math.min(rd,CATS.length-1);hud();$('fill').style.width=(all?100:rd/CATS.length*100)+'%';
+ const e=all?(lives>=4?'🏅':'🌟'):'📘';
+ const m=all?(lives>=4?'Harika! Tam bir dosya uzantısı avcısısın!':'Çok iyi! Bütün turları tamamladın.'):'Canların bitti. Hadi uzantıları tekrar edip yeniden deneyelim!';
+ $('over').innerHTML='<div class="medal">'+e+'</div><div class="big">'+score+' puan</div><p>'+m+'</p><button class="btn" id="rs">Tekrar Oyna</button>';
+ $('over').classList.add('show');$('rs').onclick=start;
+}
+start();
+</script>
+</body>
+</html>

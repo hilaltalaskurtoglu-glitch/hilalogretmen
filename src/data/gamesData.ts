@@ -8,9 +8,44 @@ export interface GameItem {
   accentColor: 'teal' | 'purple' | 'amber' | 'blue' | 'rose';
   tags: string[];
   features: string[];
+  iframeUrl?: string;
 }
 
 export const GAMES_REGISTRY: GameItem[] = [
+  {
+    id: 'dosya-uzantisi-avcisi',
+    title: '8. Hafta Dosya Uzantısı Avcısı',
+    subtitle: '5. Sınıf · 8. Hafta – Dosya Türleri ve Uzantıları Avlama Oyunu',
+    weekTag: '8. Hafta',
+    description: 'Görsel, Ses, Video, Belge, Sunum, Elektronik Tablo, Sıkıştırılmış ve Program dosya uzantılarını (.jpg, .mp3, .mp4, .docx, .pptx, .xlsx, .zip, .exe) zamana ve canlara karşı avlayın!',
+    icon: '🔎',
+    accentColor: 'blue',
+    iframeUrl: '/dosya-uzantisi-avcisi.html',
+    tags: ['Dosya Uzantısı', 'Dosya Yönetimi', '8. Hafta', 'Eğitsel Oyun', 'Akıllı Tahta'],
+    features: [
+      '8 Farklı Dosya Kategorisi (Görsel, Ses, Video, Belge, Sunum, Tablo, Arşiv, Program)',
+      'Çoktan Seçmeli Hızlı Kart Eşleme & Puanlama Sistemi',
+      'Can Sayacı, Tur İlerleme Çubuğu ve Başarı Rozetleri',
+      'Dokunmatik akıllı tahta ve tabletlerle %100 uyumlu'
+    ]
+  },
+  {
+    id: 'donanim-bulmaca-cengel',
+    title: '6. Hafta Donanım Bulmacası Çengel Bulmaca',
+    subtitle: 'Donanım Bulmacası ve Boşluk Doldurma Etkinliği (Çengel Bulmaca & Kavram Eşleştirme)',
+    weekTag: '6. Hafta',
+    description: 'İç ve dış donanım parçaları, giriş-çıkış birimleri ve temel donanım kavramlarını içeren interaktif çengel bulmaca ve sürükle-bırak boşluk doldurma etkinliği.',
+    icon: '🧩',
+    accentColor: 'teal',
+    iframeUrl: '/donanim-bulmaca-bosluk-doldurma.html',
+    tags: ['Çengel Bulmaca', 'Donanım', 'Boşluk Doldurma', '6. Hafta', 'Akıllı Tahta'],
+    features: [
+      '1. Bölüm: İnteraktif Çengel Bulmaca (Sanal Klavye, Yatay & Dikey İpuçları, Anında Kontrol)',
+      '2. Bölüm: Sürükle-Bırak Boşluk Doldurma (Kelime Havuzu, Dokunmatik Eşleştirme)',
+      '13 Temel Donanım ve Yazılım Kavramı',
+      'Çözümü Göster ve Temizle Seçenekleri'
+    ]
+  },
   {
     id: 'donanim-avcisi',
     title: 'Donanım Avcısı',
