@@ -477,6 +477,27 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                   </span>
                 </div>
 
+                {/* Image Preview Thumbnail (for Posters & Visual Documents) */}
+                {mat.previewUrl && (mat.previewUrl.endsWith('.jpg') || mat.previewUrl.endsWith('.png')) && (
+                  <div
+                    onClick={() => onOpenMaterial(mat)}
+                    className="relative my-2.5 rounded-2xl overflow-hidden bg-slate-50 border border-pink-100 aspect-16/10 flex items-center justify-center cursor-pointer group/img"
+                  >
+                    <img
+                      src={mat.previewUrl}
+                      alt={mat.title}
+                      className="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-2xs">
+                      <span className="px-3 py-1.5 rounded-full bg-white text-slate-900 font-bold text-xs flex items-center gap-1.5 shadow-md">
+                        <Eye className="w-3.5 h-3.5 text-[#EC4899]" />
+                        <span>Tam Sayfa İncele</span>
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Title (Clickable to open full page) */}
                 <h3 
                   onClick={() => onOpenMaterial(mat)}

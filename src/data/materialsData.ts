@@ -85,23 +85,43 @@ export const INITIAL_MATERIALS: Material[] = [
     isFeatured: true
   },
   {
-    id: "mat-not-6-hafta-bilgisayar-sistemleri",
-    title: "6. Hafta Defter Notu: Bilgisayar Sistemlerini Çözümleyebilme",
+    id: "mat-poster-secil-gokce-yazilim-nedir",
+    title: "Yazılım Nedir? - Yazılım Türleri (Seçil GÖKÇE)",
     grade: "5. Sınıf",
     unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
     term: "1. Dönem",
     period: "1. Ara",
-    week: 6,
+    week: 7,
     type: "dokuman",
-    fileFormat: "PDF",
-    fileSize: "Defter Notu / Özet",
-    dateAdded: "2026-10-18",
-    description: "Donanım (iç donanım, dış donanım; giriş, çıkış ve çift yönlü birimler) ve yazılım (işletim sistemi, uygulama yazılımları) temel bileşenleri ve aralarındaki veri akış ilişkileri.",
-    author: "Hilal KURTOĞLU",
-    tags: ["Ders Notu", "Donanım", "Yazılım", "6. Hafta", "BTY.5.1.5", "Bilgisayar Sistemleri"],
-    downloadUrl: "/ders-notu-6-hafta-bilgisayar-sistemleri.html",
-    previewUrl: "/ders-notu-6-hafta-bilgisayar-sistemleri.html",
-    fileName: "ders-notu-6-hafta-bilgisayar-sistemleri.html",
+    fileFormat: "JPG",
+    fileSize: "A4 İnfografik Poster",
+    dateAdded: "2026-10-28",
+    description: "Yazılım kavramı, işletim sistemleri, uygulama yazılımları, programlama dilleri, işletim sisteminin 4 temel görevi, Windows ve Pardus infografik afişi. Hazırlayan: Seçil GÖKÇE.",
+    author: "Seçil GÖKÇE",
+    tags: ["Poster", "Yazılım Nedir", "İşletim Sistemi", "Pardus", "7. Hafta", "Seçil Gökçe", "BTY.5.1.5"],
+    downloadUrl: "/yazilim_nedir_yazilim_turleri_secil_gokce.jpg",
+    previewUrl: "/yazilim_nedir_yazilim_turleri_secil_gokce.jpg",
+    fileName: "Yazilim_Nedir_Yazilim_Turleri_Posteri.jpg",
+    isFeatured: true
+  },
+  {
+    id: "mat-poster-secil-gokce-dosya-klasor",
+    title: "Dosya ve Klasör Yönetimi (Seçil GÖKÇE)",
+    grade: "5. Sınıf",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    term: "1. Dönem",
+    period: "1. Ara",
+    week: 8,
+    type: "dokuman",
+    fileFormat: "JPG",
+    fileSize: "A4 İnfografik Poster",
+    dateAdded: "2026-11-01",
+    description: "Dosya ve klasör kavramları, görsel, ses, video, ofis, kurulum ve sıkıştırma dosya uzantıları ile doğru-yanlış etkinliğini içeren infografik ders afişi. Hazırlayan: Seçil GÖKÇE.",
+    author: "Seçil GÖKÇE",
+    tags: ["Poster", "Dosya ve Klasör", "Dosya Uzantıları", "8. Hafta", "Seçil Gökçe", "BTY.5.1.6"],
+    downloadUrl: "/dosya_ve_klasor_yonetimi_secil_gokce.jpg",
+    previewUrl: "/dosya_ve_klasor_yonetimi_secil_gokce.jpg",
+    fileName: "Dosya_ve_Klasor_Yonetimi_Posteri.jpg",
     isFeatured: true
   },
   {
@@ -123,23 +143,6 @@ export const INITIAL_MATERIALS: Material[] = [
     previewUrl: "/oyun-6-hafta-donanim-avcisi.html",
     fileName: "oyun-6-hafta-donanim-avcisi.html",
     interactiveGameKey: "donanim-avcisi",
-    isFeatured: true
-  },
-  {
-    id: "mat-not-4-hafta-yapay-zeka",
-    title: "4. Hafta Defter Notu: Yapay Zekâda Temel Kavram ve Özellikler",
-    grade: "5. Sınıf",
-    unit: "Bilişim Teknolojilerinin Hayatımızdaki Yeri",
-    term: "1. Dönem",
-    period: "1. Ara",
-    week: 4,
-    type: "dokuman",
-    fileFormat: "PDF",
-    fileSize: "Defter Notu / Özet",
-    dateAdded: "2026-10-11",
-    description: "Yapay zekâ tanımı, günlük hayattaki kullanım alanları, insan zekâsı ile karşılaştırılması, John McCarthy ve yapay zekânın doğuşu, yapay zekâ öncüleri (Ada Lovelace, Alan Turing, Cahit Arf) ve teknolojiyi bilinçli kullanma rehberi.",
-    author: "Hilal KURTOĞLU",
-    tags: ["Ders Notu", "Yapay Zekâ", "Defter Notu", "4. Hafta", "BTY.5.1.4"],
     isFeatured: true
   },
   {
@@ -231,23 +234,27 @@ export const INITIAL_MATERIALS: Material[] = [
   }
 ];
 
-export const STORAGE_KEY_MATERIALS = "hilal_bty_materials_v6_full_pack";
+export const STORAGE_KEY_MATERIALS = "hilal_bty_materials_v8_clean_portal";
+
+const REMOVED_MATERIAL_IDS = new Set([
+  'mat-not-6-hafta-bilgisayar-sistemleri',
+  'mat-not-4-hafta-yapay-zeka'
+]);
 
 export function loadStoredMaterials(): Material[] {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY_MATERIALS);
+    const saved = localStorage.getItem(STORAGE_KEY_MATERIALS) || localStorage.getItem("hilal_bty_materials_v6_full_pack");
     if (saved) {
-      const parsed = JSON.parse(saved);
+      let parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) {
-        // Ensure standard games from INITIAL_MATERIALS are present
+        // Strip out any removed defter notu items
+        parsed = parsed.filter((m: Material) => !REMOVED_MATERIAL_IDS.has(m.id));
+        // Ensure standard items from INITIAL_MATERIALS are present
         const existingIds = new Set(parsed.map((m: Material) => m.id));
         const missingDefaults = INITIAL_MATERIALS.filter(m => !existingIds.has(m.id));
-        if (missingDefaults.length > 0) {
-          const combined = [...missingDefaults, ...parsed];
-          localStorage.setItem(STORAGE_KEY_MATERIALS, JSON.stringify(combined));
-          return combined;
-        }
-        return parsed;
+        const combined = [...missingDefaults, ...parsed];
+        localStorage.setItem(STORAGE_KEY_MATERIALS, JSON.stringify(combined));
+        return combined;
       }
     }
   } catch (e) {

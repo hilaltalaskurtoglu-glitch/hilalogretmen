@@ -86,5 +86,6 @@ export interface LectureNote {
   downloadUrl?: string;
   downloadName?: string;
   imageSrc?: string;
+  previewPages?: string[];
   pdfSrc?: string;
 }

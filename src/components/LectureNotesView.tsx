@@ -505,8 +505,8 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
               </div>
             )}
 
-            {/* İndirilebilir / Görüntülenebilir Görsel Ders Notu (Örn: 7. Hafta Klavye Tuşları ve Görevleri) */}
-            {note.imageSrc && (
+            {/* İndirilebilir / Görüntülenebilir Görsel Ders Notu (Örn: 7. Hafta Klavye Tuşları ve Görevleri - Sadece Resim Olanlar) */}
+            {note.imageSrc && !note.pdfSrc && (
               <div className="bg-gradient-to-r from-violet-900 via-purple-900 to-indigo-950 text-white p-5 rounded-2xl shadow-md border border-purple-400/30 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="space-y-1">
@@ -520,7 +520,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       {note.title}
                     </h4>
                     <p className="text-xs text-slate-300">
-                      Öğrencilerimiz için hazırlanan renkli şematik klavye ve fare görev şeması. İndirebilir, yazdırabilir ve defterinize yapıştırabilirsiniz.
+                      {note.subtitle || "Öğrencilerimiz için hazırlanan renkli şematik ders görseli. İnceleyebilir, indirebilir ve defterinize yapıştırabilirsiniz."}
                     </p>
                   </div>
 
@@ -535,7 +535,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDownloadBlob(note.imageSrc!, note.downloadName || 'Klavye_Tuslari_ve_Gorevleri_Ders_Notu.jpg')}
+                      onClick={() => handleDownloadBlob(note.imageSrc!, note.downloadName?.replace(/\.pdf$/i, '.jpg') || `${note.id}.jpg`)}
                       className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-95 text-white font-black text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer"
                       title="Görseli orijinal JPEG olarak bilgisayarına indir"
                     >
@@ -554,15 +554,14 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                   </div>
                 </div>
 
-                {/* Resim Önizleme Thumbnail */}
                 <div
                   onClick={() => setPreviewImage({ src: note.imageSrc!, title: note.title })}
-                  className="relative group rounded-xl overflow-hidden border border-white/20 bg-slate-900/60 cursor-pointer max-h-72 flex items-center justify-center"
+                  className="relative group rounded-xl overflow-hidden border border-white/20 bg-slate-900/60 cursor-pointer max-h-96 flex items-center justify-center p-2"
                 >
                   <img
                     src={note.imageSrc}
                     alt={note.title}
-                    className="w-full h-auto object-contain max-h-72 transition duration-300 group-hover:scale-102"
+                    className="w-full h-auto object-contain max-h-96 transition duration-300 group-hover:scale-102"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
@@ -575,9 +574,9 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
               </div>
             )}
 
-            {/* İndirilebilir ve Tarayıcıda Görüntülenebilir Orijinal PDF Ders Notu */}
+            {/* İndirilebilir Görsel Sayfalı Orijinal PDF Ders Notu (7. Hafta Yazılım & 8. Hafta Dosya-Klasör) */}
             {note.pdfSrc && (
-              <div className="bg-gradient-to-r from-indigo-950 via-slate-900 to-rose-950 text-white p-5 rounded-2xl shadow-md border border-rose-400/30 space-y-4">
+              <div className="bg-gradient-to-r from-indigo-950 via-slate-900 to-rose-950 text-white p-5 sm:p-6 rounded-2xl shadow-md border border-rose-400/30 space-y-5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-4">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
@@ -590,14 +589,14 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       {note.title}
                     </h4>
                     <p className="text-xs text-slate-300">
-                      Öğretmenimiz tarafından hazırlanan orijinal PDF ders notu belgesi. Aşağıdaki butonlardan dosyayı indirebilir veya doğrudan tarayıcıda açabilirsiniz.
+                      {note.subtitle || "Öğretmenimiz tarafından hazırlanan orijinal ders notu belgesi."} Sayfalara tıklayarak tam ekran inceleyebilir, aşağıdaki düğmelerden PDF dosyasını indirebilir veya tarayıcıda açabilirsiniz.
                     </p>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
                     <button
                       type="button"
-                      onClick={() => handleDownloadBlob(note.pdfSrc!, note.downloadName || '7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf')}
+                      onClick={() => handleDownloadBlob(note.pdfSrc!, note.downloadName || `${note.title.replace(/[^a-zA-Z0-9_-]/g, '_')}.pdf`)}
                       className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 hover:opacity-95 text-white font-black text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer"
                       title="PDF dosyasını bilgisayarına indir"
                     >
@@ -616,14 +615,49 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                   </div>
                 </div>
 
-                {/* Sayfa İçi Canlı PDF Önizleme Penceresi */}
-                <div className="rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-lg">
-                  <iframe
-                    src={note.pdfSrc}
-                    title={note.title}
-                    className="w-full h-[650px] border-none bg-white"
-                  />
-                </div>
+                {/* Ekranda Görünen Ders Notu Sayfaları (Görsel Önizleme) */}
+                {note.previewPages && note.previewPages.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-xs text-rose-200">
+                      <span className="font-semibold flex items-center gap-1.5">
+                        <Eye className="w-3.5 h-3.5 text-pink-300" />
+                        Ders Notu Sayfa Önizlemeleri (Tam Ekran Büyütmek İçin Sayfaya Tıklayınız)
+                      </span>
+                      <span className="text-[11px] opacity-75">{note.previewPages.length} Sayfa</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {note.previewPages.map((pageSrc, pageIdx) => (
+                        <div
+                          key={pageIdx}
+                          onClick={() => setPreviewImage({ src: pageSrc, title: `${note.title} - Sayfa ${pageIdx + 1}` })}
+                          className="relative group rounded-xl overflow-hidden border border-white/20 bg-slate-900/80 cursor-pointer flex flex-col items-center justify-center p-2.5 hover:border-pink-400/60 transition shadow-md"
+                        >
+                          <div className="w-full flex items-center justify-between text-[11px] font-bold text-pink-300 mb-2 px-1">
+                            <span className="px-2 py-0.5 rounded bg-black/60 border border-white/10">
+                              📄 Sayfa {pageIdx + 1}
+                            </span>
+                            <span className="text-[10px] text-slate-300 group-hover:text-pink-200 flex items-center gap-1">
+                              <Maximize2 className="w-3 h-3 text-pink-400" /> Tam Ekran İncele
+                            </span>
+                          </div>
+                          <img
+                            src={pageSrc}
+                            alt={`${note.title} Sayfa ${pageIdx + 1}`}
+                            className="w-full h-auto object-contain max-h-[550px] rounded-lg transition duration-300 group-hover:scale-102 bg-white"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                            <span className="px-4 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-lg flex items-center gap-1.5">
+                              <Maximize2 className="w-4 h-4 text-purple-600" />
+                              Sayfayı Büyüt &amp; İncele
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -672,7 +706,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => handleDownloadBlob(previewImage.src, 'Klavye_Tuslari_ve_Gorevleri_Ders_Notu.jpg')}
+                  onClick={() => handleDownloadBlob(previewImage.src, `${previewImage.title.replace(/[^a-zA-Z0-9çğıöşüÇĞİÖŞÜ_-]/g, '_')}.jpg`)}
                   className="px-3 py-1.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer"
                   title="Görseli orijinal JPEG olarak bilgisayarına indir"
                 >

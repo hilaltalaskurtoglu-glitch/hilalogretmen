@@ -390,8 +390,29 @@ export const LECTURE_NOTES: LectureNote[] = [
     icon: "💻",
     term: "1. Dönem",
     recommendedWeek: "7. Hafta",
+    previewPages: [
+      "/7_hafta_yazilim_isletim_sistemi_sayfa-1.jpg",
+      "/7_hafta_yazilim_isletim_sistemi_sayfa-2.jpg"
+    ],
     pdfSrc: "/7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
     downloadUrl: "/7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
     downloadName: "7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf"
+  },
+  {
+    id: "not-8-hafta-dosya-ve-klasor-yonetimi",
+    unit: "Bilgisayar Sistemlerinin Kullanımı ve Yönetimi",
+    title: "8. Hafta: Dosya ve Klasör Yönetimi - Kapasite Birimleri Ders Notu",
+    subtitle: "5. Sınıf Bilişim Teknolojileri ve Yazılım • Orijinal PDF Ders Notu",
+    summary: "8. Hafta Dosya ve Klasör Yönetimi ile Kapasite Birimleri ders notu öğretmenimiz tarafından PDF belgesi olarak hazırlanmıştır. Aşağıdaki düğmeleri kullanarak ders notunu doğrudan tam sayfa açabilir veya PDF olarak indirebilirsiniz.",
+    icon: "📁",
+    term: "1. Dönem",
+    recommendedWeek: "8. Hafta",
+    previewPages: [
+      "/8_hafta_dosya_klasor_kapasite_sayfa-1.jpg",
+      "/8_hafta_dosya_klasor_kapasite_sayfa-2.jpg"
+    ],
+    pdfSrc: "/8_Hafta_Dosya_ve_Klasor_Yonetimi_Kapasite_Birimleri_Ders_Notu.pdf",
+    downloadUrl: "/8_Hafta_Dosya_ve_Klasor_Yonetimi_Kapasite_Birimleri_Ders_Notu.pdf",
+    downloadName: "Dosya_ve_Klasor_Yonetimi-Kapasite_Birimleri_Ders_Notu.pdf"
   }
 ];
