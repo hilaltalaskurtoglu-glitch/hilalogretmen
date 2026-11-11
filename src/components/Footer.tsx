@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
         <div className="bg-white/95 backdrop-blur-md border-2 border-pink-200 hover:border-purple-400 px-3 py-1.5 rounded-2xl shadow-md transition transform hover:-translate-y-0.5 text-right flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full overflow-hidden border border-pink-300 shadow-2xs shrink-0">
             <img
-              src="/teacher_logo.png"
+              src="./teacher_logo.png"
               alt="Hilal KURTOĞLU Logo"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl overflow-hidden border-2 border-pink-300 shadow-2xs shrink-0">
               <img
-                src="/teacher_logo.png"
+                src="./teacher_logo.png"
                 alt="Logo"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

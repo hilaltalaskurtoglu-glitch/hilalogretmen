@@ -335,7 +335,7 @@ export const RightSidebarPanel: React.FC<RightSidebarPanelProps> = ({ smartboard
         <div className="flex items-center gap-3">
           <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-pink-300 shadow-sm shrink-0 bg-pink-50 p-0.5 ring-2 ring-purple-100">
             <img
-              src="/teacher_logo.png"
+              src="./teacher_logo.png"
               alt="Hilal KURTOĞLU BTY Portalı"
               className="w-full h-full object-cover rounded-xl"
               referrerPolicy="no-referrer"

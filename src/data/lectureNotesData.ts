@@ -341,8 +341,8 @@ export const LECTURE_NOTES: LectureNote[] = [
     icon: "⌨️",
     term: "1. Dönem",
     recommendedWeek: "7. Hafta",
-    imageSrc: "/klavye_tuslari_ve_gorevleri.jpg",
-    downloadUrl: "/klavye_tuslari_ve_gorevleri.jpg",
+    imageSrc: "./klavye_tuslari_ve_gorevleri.jpg",
+    downloadUrl: "./klavye_tuslari_ve_gorevleri.jpg",
     downloadName: "7_Hafta_Klavye_Tuslari_ve_Gorevleri_Ders_Notu.jpg",
     keyPoints: [
       "ESC: Mevcut işlemi iptal eder veya pencereyi kapatır.",
@@ -391,11 +391,11 @@ export const LECTURE_NOTES: LectureNote[] = [
     term: "1. Dönem",
     recommendedWeek: "7. Hafta",
     previewPages: [
-      "/7_hafta_yazilim_isletim_sistemi_sayfa-1.jpg",
-      "/7_hafta_yazilim_isletim_sistemi_sayfa-2.jpg"
+      "./7_hafta_yazilim_isletim_sistemi_sayfa-1.jpg",
+      "./7_hafta_yazilim_isletim_sistemi_sayfa-2.jpg"
     ],
-    pdfSrc: "/7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
-    downloadUrl: "/7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
+    pdfSrc: "./7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
+    downloadUrl: "./7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf",
     downloadName: "7_Hafta_Yazilim_ve_Isletim_Sistemi_Ders_Notu.pdf"
   },
   {
@@ -408,11 +408,11 @@ export const LECTURE_NOTES: LectureNote[] = [
     term: "1. Dönem",
     recommendedWeek: "8. Hafta",
     previewPages: [
-      "/8_hafta_dosya_klasor_kapasite_sayfa-1.jpg",
-      "/8_hafta_dosya_klasor_kapasite_sayfa-2.jpg"
+      "./8_hafta_dosya_klasor_kapasite_sayfa-1.jpg",
+      "./8_hafta_dosya_klasor_kapasite_sayfa-2.jpg"
     ],
-    pdfSrc: "/8_Hafta_Dosya_ve_Klasor_Yonetimi_Kapasite_Birimleri_Ders_Notu.pdf",
-    downloadUrl: "/8_Hafta_Dosya_ve_Klasor_Yonetimi_Kapasite_Birimleri_Ders_Notu.pdf",
+    pdfSrc: "./8_Hafta_Dosya_ve_Klasor_Yonetimi_Kapasite_Birimleri_Ders_Notu.pdf",
+    downloadUrl: "./8_Hafta_Dosya_ve_Klasor_Yonetimi_Kapasite_Birimleri_Ders_Notu.pdf",
     downloadName: "Dosya_ve_Klasor_Yonetimi-Kapasite_Birimleri_Ders_Notu.pdf"
   }
 ];

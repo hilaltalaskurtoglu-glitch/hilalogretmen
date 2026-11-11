@@ -20,7 +20,7 @@ export const GAMES_REGISTRY: GameItem[] = [
     description: 'Görsel, Ses, Video, Belge, Sunum, Elektronik Tablo, Sıkıştırılmış ve Program dosya uzantılarını (.jpg, .mp3, .mp4, .docx, .pptx, .xlsx, .zip, .exe) zamana ve canlara karşı avlayın!',
     icon: '🔎',
     accentColor: 'blue',
-    iframeUrl: '/dosya-uzantisi-avcisi.html',
+    iframeUrl: './dosya-uzantisi-avcisi.html',
     tags: ['Dosya Uzantısı', 'Dosya Yönetimi', '8. Hafta', 'Eğitsel Oyun', 'Akıllı Tahta'],
     features: [
       '8 Farklı Dosya Kategorisi (Görsel, Ses, Video, Belge, Sunum, Tablo, Arşiv, Program)',
@@ -37,7 +37,7 @@ export const GAMES_REGISTRY: GameItem[] = [
     description: 'İç ve dış donanım parçaları, giriş-çıkış birimleri ve temel donanım kavramlarını içeren interaktif çengel bulmaca ve sürükle-bırak boşluk doldurma etkinliği.',
     icon: '🧩',
     accentColor: 'teal',
-    iframeUrl: '/donanim-bulmaca-bosluk-doldurma.html',
+    iframeUrl: './donanim-bulmaca-bosluk-doldurma.html',
     tags: ['Çengel Bulmaca', 'Donanım', 'Boşluk Doldurma', '6. Hafta', 'Akıllı Tahta'],
     features: [
       '1. Bölüm: İnteraktif Çengel Bulmaca (Sanal Klavye, Yatay & Dikey İpuçları, Anında Kontrol)',

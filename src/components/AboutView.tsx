@@ -9,7 +9,7 @@ export const AboutView: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
           <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-pink-300 shadow-md shrink-0 bg-pink-50 p-1">
             <img
-              src="/teacher_logo.png"
+              src="./teacher_logo.png"
               alt="Hilal KURTOĞLU Logo"
               className="w-full h-full object-cover rounded-full"
               referrerPolicy="no-referrer"

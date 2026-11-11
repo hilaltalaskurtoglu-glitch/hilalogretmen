@@ -86,7 +86,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-pink-300 shadow-2xs shrink-0 bg-pink-50">
               <img
-                src="/teacher_logo.png"
+                src="./teacher_logo.png"
                 alt="Logo"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -1128,7 +1128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-pink-300 shadow-2xs shrink-0 bg-pink-50">
               <img
-                src="/teacher_logo.png"
+                src="./teacher_logo.png"
                 alt="Hilal KURTOĞLU Logo"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

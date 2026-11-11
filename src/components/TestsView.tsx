@@ -47,7 +47,7 @@ export const TESTS_LIST: TestItem[] = [
     description: 'Klavye, fare tuşları, dokunmatik ekran, monitör, yazıcı, tarayıcı, mikrofon, modem ve klavye özel tuşları (Shift, Caps Lock, Backspace, Space) üzerine 16 sorudan oluşan resimli değerlendirme testi.',
     icon: '⌨️',
     color: 'teal',
-    htmlUrl: '/giris-cikis-klavye-fare-testi.html',
+    htmlUrl: './giris-cikis-klavye-fare-testi.html',
     features: [
       '16 Özgün Resimli Soru ve Her Soru İçin Anında Açıklamalı Dönüt',
       'Klavye (Shift, Caps Lock, Backspace, Space) ve Fare Tuşları Analizi',
@@ -67,7 +67,7 @@ export const TESTS_LIST: TestItem[] = [
     description: 'Yapay zekânın tanımı, makine öğrenmesi, verinin önemi, sesli asistanlar, yüz tanıma, robotlar ve güvenli kullanım üzerine 16 sorudan oluşan kapsamlı online test.',
     icon: '🤖',
     color: 'indigo',
-    htmlUrl: '/oyun-4-hafta-yapay-zeka.html',
+    htmlUrl: './oyun-4-hafta-yapay-zeka.html',
     features: [
       '16 Özgün Soru ve Her Soru İçin Anında Eğitsel Açıklama',
       'Akıllı Tekrar Modu: Sadece Yanlış Yapılan Soruları Yeniden Çözme',
@@ -87,7 +87,7 @@ export const TESTS_LIST: TestItem[] = [
     description: 'Dijital kimlik, arama motorlarındaki kalıcılık, kişisel verilerin korunması ve e-Devlet/EBA uygulamalarının güvenli kullanımı üzerine 10 soruluk test.',
     icon: '🆔',
     color: 'teal',
-    htmlUrl: '/test-3-hafta-dijital-kimlik.html',
+    htmlUrl: './test-3-hafta-dijital-kimlik.html',
     features: [
       'Dijital Kimlik ve Sosyal Medya Paylaşımları',
       'Arama Motorlarında İz Silinmezliği Analizi',
