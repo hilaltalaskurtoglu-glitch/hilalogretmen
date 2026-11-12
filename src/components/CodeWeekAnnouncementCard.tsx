@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ExternalLink, Download, ZoomIn, X, Code2, Sparkles, Key, FileCode, ChevronDown, ChevronUp, Bot, Brain, ShieldAlert, Smartphone, CheckCircle2 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetUrl';
+import { downloadBinaryBlob } from '../utils/downloadHelper';
 
 export const CodeWeekAnnouncementCard: React.FC = () => {
   const [activeImageZoom, setActiveImageZoom] = useState<{ src: string; title: string } | null>(null);
@@ -9,33 +11,23 @@ export const CodeWeekAnnouncementCard: React.FC = () => {
   const [img3Error, setImg3Error] = useState(false);
 
   const poster1Src = img1Error
-    ? '/src/assets/images/codeweek_poster_1791106855697.jpg'
-    : '/codeweek_2026_poster.jpg?v=2026';
+    ? getAssetUrl('poster_6_hafta_bilgisayar_sistemleri.png')
+    : getAssetUrl('codeweek_2026_poster.jpg');
 
   const poster2Src = img2Error
-    ? '/src/assets/images/kodlabuyu_ai_poster_1791106865308.jpg'
-    : '/kodlabuyu_ai_poster.jpg?v=2026';
+    ? getAssetUrl('milli_teknoloji_panosu.jpg')
+    : getAssetUrl('kodlabuyu_ai_poster.jpg');
 
   const poster3Src = img3Error
-    ? '/milli_teknoloji_panosu.jpg'
-    : '/codeweek2026.jpg';
+    ? getAssetUrl('milli_teknoloji_panosu.jpg')
+    : getAssetUrl('codeweek2026.jpg');
 
   const handleDownloadHtml = () => {
-    const a = document.createElement('a');
-    a.href = '/duyuru-avrupa-kod-haftasi-2026.html';
-    a.download = 'duyuru-avrupa-kod-haftasi-2026.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    downloadBinaryBlob('/duyuru-avrupa-kod-haftasi-2026.html', 'duyuru-avrupa-kod-haftasi-2026.html');
   };
 
   const handleDownloadImage = (src: string, filename: string) => {
-    const a = document.createElement('a');
-    a.href = src;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    downloadBinaryBlob(src, filename);
   };
 
   return (
@@ -58,7 +50,7 @@ export const CodeWeekAnnouncementCard: React.FC = () => {
         {/* Quick HTML File & Download Actions */}
         <div className="flex items-center gap-2 flex-wrap">
           <a
-            href="/duyuru-avrupa-kod-haftasi-2026.html"
+            href={getAssetUrl('/duyuru-avrupa-kod-haftasi-2026.html')}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs border border-purple-200 transition shadow-2xs"

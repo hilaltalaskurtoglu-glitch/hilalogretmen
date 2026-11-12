@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LECTURE_NOTES } from '../data/lectureNotesData';
 import { FileText, Printer, Search, Sparkles, BookOpen, CheckCircle2, Lightbulb, ClipboardCheck, ArrowRight, Gamepad2, ExternalLink, Download, Eye, Maximize2, X } from 'lucide-react';
 import { ComputerSystemHierarchy } from './ComputerSystemHierarchy';
+import { getAssetUrl } from '../utils/assetUrl';
 
 interface LectureNotesViewProps {
   onSelectTab?: (tab: string) => void;
@@ -15,8 +16,9 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
 
   // Reliable Binary Blob Download to prevent SPA HTML fallback corruption
   const handleDownloadBlob = async (url: string, filename: string) => {
+    const resolvedUrl = getAssetUrl(url);
     try {
-      const res = await fetch(url);
+      const res = await fetch(resolvedUrl);
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       const blob = await res.blob();
       const blobUrl = window.URL.createObjectURL(blob);
@@ -29,7 +31,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
       setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
     } catch (err) {
       console.error('Download error, falling back:', err);
-      window.open(url, '_blank');
+      window.open(resolvedUrl, '_blank');
     }
   };
 
@@ -418,7 +420,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       </button>
                     )}
                     <a
-                      href="/oyun-4-hafta-yapay-zeka.html"
+                      href={getAssetUrl('/oyun-4-hafta-yapay-zeka.html')}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
@@ -428,7 +430,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       <span>Web Sitesinde Oyna</span>
                     </a>
                     <a
-                      href="/ders-notu-4-hafta-yapay-zeka.html"
+                      href={getAssetUrl('/ders-notu-4-hafta-yapay-zeka.html')}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
@@ -472,7 +474,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       </button>
                     )}
                     <a
-                      href="/oyun-6-hafta-donanim-avcisi.html"
+                      href={getAssetUrl('/oyun-6-hafta-donanim-avcisi.html')}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
@@ -482,7 +484,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       <span>Web Sitesinde Oyna</span>
                     </a>
                     <a
-                      href="/ders-notu-6-hafta-bilgisayar-sistemleri.html"
+                      href={getAssetUrl('/ders-notu-6-hafta-bilgisayar-sistemleri.html')}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
@@ -491,15 +493,15 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       <FileText className="w-3.5 h-3.5 text-pink-300" />
                       <span>HTML Notu Aç / Yazdır</span>
                     </a>
-                    <a
-                      href="/assets/aistudio/6.Hafta_Ders_Notu__1__107d93b2.pdf"
-                      download="6.Hafta_Ders_Notu_BTY_5_1_5.pdf"
-                      className="px-3.5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-bold text-xs transition flex items-center gap-1.5"
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadBlob('/assets/aistudio/6.Hafta_Ders_Notu__1__107d93b2.pdf', '6.Hafta_Ders_Notu_BTY_5_1_5.pdf')}
+                      className="px-3.5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
                       title="Orijinal PDF Belgesini İndir"
                     >
                       <Download className="w-3.5 h-3.5 text-emerald-300" />
                       <span>PDF İndir</span>
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -527,7 +529,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
                     <button
                       type="button"
-                      onClick={() => setPreviewImage({ src: note.imageSrc!, title: note.title })}
+                      onClick={() => setPreviewImage({ src: getAssetUrl(note.imageSrc!), title: note.title })}
                       className="px-3.5 py-2.5 rounded-xl bg-purple-500/30 hover:bg-purple-500/50 border border-purple-300/40 text-purple-100 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
                     >
                       <Eye className="w-4 h-4 text-pink-300" />
@@ -543,7 +545,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       <span>Görsel Notu İndir (JPG)</span>
                     </button>
                     <a
-                      href={note.imageSrc}
+                      href={getAssetUrl(note.imageSrc)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5"
@@ -555,11 +557,11 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                 </div>
 
                 <div
-                  onClick={() => setPreviewImage({ src: note.imageSrc!, title: note.title })}
+                  onClick={() => setPreviewImage({ src: getAssetUrl(note.imageSrc!), title: note.title })}
                   className="relative group rounded-xl overflow-hidden border border-white/20 bg-slate-900/60 cursor-pointer max-h-96 flex items-center justify-center p-2"
                 >
                   <img
-                    src={note.imageSrc}
+                    src={getAssetUrl(note.imageSrc)}
                     alt={note.title}
                     className="w-full h-auto object-contain max-h-96 transition duration-300 group-hover:scale-102"
                     loading="lazy"
@@ -605,7 +607,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                     </button>
                     <button
                       type="button"
-                      onClick={() => window.open(note.pdfSrc, '_blank')}
+                      onClick={() => window.open(getAssetUrl(note.pdfSrc), '_blank')}
                       className="px-3.5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-white font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
                       title="PDF belgesini yeni sekmede tam ekran görüntüle"
                     >
@@ -630,7 +632,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                       {note.previewPages.map((pageSrc, pageIdx) => (
                         <div
                           key={pageIdx}
-                          onClick={() => setPreviewImage({ src: pageSrc, title: `${note.title} - Sayfa ${pageIdx + 1}` })}
+                          onClick={() => setPreviewImage({ src: getAssetUrl(pageSrc), title: `${note.title} - Sayfa ${pageIdx + 1}` })}
                           className="relative group rounded-xl overflow-hidden border border-white/20 bg-slate-900/80 cursor-pointer flex flex-col items-center justify-center p-2.5 hover:border-pink-400/60 transition shadow-md"
                         >
                           <div className="w-full flex items-center justify-between text-[11px] font-bold text-pink-300 mb-2 px-1">
@@ -642,7 +644,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
                             </span>
                           </div>
                           <img
-                            src={pageSrc}
+                            src={getAssetUrl(pageSrc)}
                             alt={`${note.title} Sayfa ${pageIdx + 1}`}
                             className="w-full h-auto object-contain max-h-[550px] rounded-lg transition duration-300 group-hover:scale-102 bg-white"
                             loading="lazy"
@@ -725,7 +727,7 @@ export const LectureNotesView: React.FC<LectureNotesViewProps> = ({ onSelectTab,
 
             <div className="flex-1 overflow-auto p-2 flex items-center justify-center">
               <img
-                src={previewImage.src}
+                src={getAssetUrl(previewImage.src)}
                 alt={previewImage.title}
                 className="max-h-[75vh] w-auto object-contain rounded-xl shadow-lg"
               />

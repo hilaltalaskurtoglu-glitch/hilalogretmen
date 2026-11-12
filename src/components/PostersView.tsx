@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getAssetUrl } from '../utils/assetUrl';
 import { 
   Download, 
   Maximize2, 
@@ -138,8 +139,9 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
 
   // Robust Blob Download helper
   const handleDownloadFile = async (url: string, filename: string) => {
+    const resolvedUrl = getAssetUrl(url);
     try {
-      const response = await fetch(url);
+      const response = await fetch(resolvedUrl);
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -150,12 +152,13 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
     } catch (err) {
-      window.open(url, '_blank');
+      window.open(resolvedUrl, '_blank');
     }
   };
 
   // Robust Print helper
   const handlePrintPoster = (url: string, title: string) => {
+    const resolvedUrl = getAssetUrl(url);
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(`
@@ -174,7 +177,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
           </head>
           <body>
             <h2>${title}</h2>
-            <img src="${url}" alt="${title}" onload="window.print(); window.close();" />
+            <img src="${resolvedUrl}" alt="${title}" onload="window.print(); window.close();" />
           </body>
         </html>
       `);
@@ -288,7 +291,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
                 className="relative bg-slate-50 aspect-4/3 overflow-hidden cursor-pointer flex items-center justify-center p-3 border-b border-slate-100"
               >
                 <img
-                  src={poster.imageSrc}
+                  src={getAssetUrl(poster.imageSrc)}
                   alt={poster.title}
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                 />
@@ -461,7 +464,7 @@ export const PostersView: React.FC<PostersViewProps> = ({ onSelectTab }) => {
               }}
             >
               <img
-                src={selectedPoster.imageSrc}
+                src={getAssetUrl(selectedPoster.imageSrc)}
                 alt={selectedPoster.title}
                 className="max-w-full max-h-[82vh] object-contain rounded-lg shadow-2xl bg-white"
               />

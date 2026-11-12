@@ -249,7 +249,22 @@ export function loadStoredMaterials(): Material[] {
       if (Array.isArray(parsed)) {
         // Strip out any removed defter notu items
         parsed = parsed.filter((m: Material) => !REMOVED_MATERIAL_IDS.has(m.id));
-        // Ensure standard items from INITIAL_MATERIALS are present
+        // Always sync defaults from INITIAL_MATERIALS so previewUrl and downloadUrl updates are applied
+        const initialMap = new Map(INITIAL_MATERIALS.map(m => [m.id, m]));
+        parsed = parsed.map((m: Material) => {
+          if (initialMap.has(m.id)) {
+            const def = initialMap.get(m.id)!;
+            return {
+              ...m,
+              previewUrl: def.previewUrl,
+              downloadUrl: def.downloadUrl,
+              fileName: def.fileName,
+              fileFormat: def.fileFormat,
+              title: def.title
+            };
+          }
+          return m;
+        });
         const existingIds = new Set(parsed.map((m: Material) => m.id));
         const missingDefaults = INITIAL_MATERIALS.filter(m => !existingIds.has(m.id));
         const combined = [...missingDefaults, ...parsed];

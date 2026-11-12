@@ -20,6 +20,8 @@ import { DigitalIdentityGame } from './DigitalIdentityGame';
 import { BilisimKahramaniGame } from './BilisimKahramaniGame';
 import { YapayZekaKasifleriGame } from './YapayZekaKasifleriGame';
 import { DonanimAvcisiGame } from './DonanimAvcisiGame';
+import { getAssetUrl } from '../utils/assetUrl';
+import { downloadBinaryBlob } from '../utils/downloadHelper';
 
 interface GamesViewProps {
   onBackToHome?: () => void;
@@ -191,7 +193,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
                   {game.iframeUrl && (
                     <div className="flex items-center gap-1.5">
                       <a
-                        href={game.iframeUrl}
+                        href={getAssetUrl(game.iframeUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
@@ -200,22 +202,22 @@ export const GamesView: React.FC<GamesViewProps> = ({
                         <ExternalLink className="w-3 h-3 text-cyan-300" />
                         <span>Web Sitesinde Aç</span>
                       </a>
-                      <a
-                        href={game.iframeUrl}
-                        download={`${game.id}.html`}
+                      <button
+                        type="button"
+                        onClick={() => downloadBinaryBlob(game.iframeUrl!, `${game.id}.html`)}
                         className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
                         title="HTML dosyasını bilgisayara indir"
                       >
                         <Download className="w-3 h-3 text-cyan-300" />
                         <span>İndir</span>
-                      </a>
+                      </button>
                     </div>
                   )}
 
                   {game.id === 'donanim-avcisi' && (
                     <div className="flex items-center gap-1.5">
                       <a
-                        href="/oyun-6-hafta-donanim-avcisi.html"
+                        href={getAssetUrl('/oyun-6-hafta-donanim-avcisi.html')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
@@ -224,22 +226,22 @@ export const GamesView: React.FC<GamesViewProps> = ({
                         <ExternalLink className="w-3 h-3 text-cyan-300" />
                         <span>Web Sitesinde Aç</span>
                       </a>
-                      <a
-                        href="/oyun-6-hafta-donanim-avcisi.html"
-                        download="6_Hafta_Donanim_Avcisi_Oyunu.html"
+                      <button
+                        type="button"
+                        onClick={() => downloadBinaryBlob('/oyun-6-hafta-donanim-avcisi.html', '6_Hafta_Donanim_Avcisi_Oyunu.html')}
                         className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition cursor-pointer"
                         title="HTML dosyasını bilgisayara indir"
                       >
                         <Download className="w-3 h-3 text-cyan-300" />
                         <span>İndir</span>
-                      </a>
+                      </button>
                     </div>
                   )}
 
                   {game.id === 'yapay-zeka-kasifleri' && (
                     <div className="flex items-center gap-1.5">
                       <a
-                        href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
+                        href={getAssetUrl('/oyun-4-hafta-yapay-zeka-kasifleri.html')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition"
@@ -248,15 +250,15 @@ export const GamesView: React.FC<GamesViewProps> = ({
                         <ExternalLink className="w-3 h-3 text-cyan-300" />
                         <span>Web Sitesinde Aç</span>
                       </a>
-                      <a
-                        href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
-                        download="Yapay_Zeka_Kasifleri_5Sinif_4Hafta.html"
+                      <button
+                        type="button"
+                        onClick={() => downloadBinaryBlob('/oyun-4-hafta-yapay-zeka-kasifleri.html', 'Yapay_Zeka_Kasifleri_5Sinif_4Hafta.html')}
                         className="py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[11px] font-bold text-center flex items-center justify-center gap-1 transition"
                         title="HTML dosyasını bilgisayara indir"
                       >
                         <Download className="w-3 h-3 text-cyan-300" />
                         <span>İndir</span>
-                      </a>
+                      </button>
                     </div>
                   )}
 
@@ -302,7 +304,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
               {activeGameItem.iframeUrl && (
                 <div className="hidden sm:flex items-center gap-1.5">
                   <a
-                    href={activeGameItem.iframeUrl}
+                    href={getAssetUrl(activeGameItem.iframeUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/30 text-cyan-200 text-xs font-bold transition"
@@ -311,15 +313,15 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Ayrı Sekmede Aç</span>
                   </a>
-                  <a
-                    href={activeGameItem.iframeUrl}
-                    download={`${activeGameItem.id}.html`}
-                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
+                  <button
+                    type="button"
+                    onClick={() => downloadBinaryBlob(activeGameItem.iframeUrl!, `${activeGameItem.id}.html`)}
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition cursor-pointer"
                     title="HTML Dosyasını İndir"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>İndir</span>
-                  </a>
+                  </button>
                 </div>
               )}
 
@@ -327,7 +329,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
               {activeFullscreenGameId === 'donanim-avcisi' && (
                 <div className="hidden sm:flex items-center gap-1.5">
                   <a
-                    href="/oyun-6-hafta-donanim-avcisi.html"
+                    href={getAssetUrl('/oyun-6-hafta-donanim-avcisi.html')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/30 text-cyan-200 text-xs font-bold transition"
@@ -336,22 +338,22 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Ayrı Sekmede Aç</span>
                   </a>
-                  <a
-                    href="/oyun-6-hafta-donanim-avcisi.html"
-                    download="6_Hafta_Donanim_Avcisi_Oyunu.html"
-                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
+                  <button
+                    type="button"
+                    onClick={() => downloadBinaryBlob('/oyun-6-hafta-donanim-avcisi.html', '6_Hafta_Donanim_Avcisi_Oyunu.html')}
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition cursor-pointer"
                     title="HTML Dosyasını İndir"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>İndir</span>
-                  </a>
+                  </button>
                 </div>
               )}
 
               {activeFullscreenGameId === 'yapay-zeka-kasifleri' && (
                 <div className="hidden sm:flex items-center gap-1.5">
                   <a
-                    href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
+                    href={getAssetUrl('/oyun-4-hafta-yapay-zeka-kasifleri.html')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-400/30 text-sky-200 text-xs font-bold transition"
@@ -360,15 +362,15 @@ export const GamesView: React.FC<GamesViewProps> = ({
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>Ayrı Sekmede Aç</span>
                   </a>
-                  <a
-                    href="/oyun-4-hafta-yapay-zeka-kasifleri.html"
-                    download="Yapay_Zeka_Kasifleri_5Sinif_4Hafta.html"
-                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition"
+                  <button
+                    type="button"
+                    onClick={() => downloadBinaryBlob('/oyun-4-hafta-yapay-zeka-kasifleri.html', 'Yapay_Zeka_Kasifleri_5Sinif_4Hafta.html')}
+                    className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition cursor-pointer"
                     title="HTML Dosyasını İndir"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>İndir</span>
-                  </a>
+                  </button>
                 </div>
               )}
 
@@ -408,7 +410,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
             {activeGameItem.iframeUrl ? (
               <div className="w-full h-[85vh] max-w-6xl bg-white rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-700 flex flex-col">
                 <iframe
-                  src={activeGameItem.iframeUrl}
+                  src={getAssetUrl(activeGameItem.iframeUrl)}
                   title={activeGameItem.title}
                   className="w-full h-full border-0"
                 />

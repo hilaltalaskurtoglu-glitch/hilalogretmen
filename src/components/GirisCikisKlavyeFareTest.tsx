@@ -19,6 +19,8 @@ import {
   QUIZ_GIRIS_CIKIS_QUESTIONS, 
   QuizQuestion 
 } from '../data/quizGirisCikisData';
+import { getAssetUrl } from '../utils/assetUrl';
+import { downloadBinaryBlob } from '../utils/downloadHelper';
 
 interface GirisCikisKlavyeFareTestProps {
   onBackToTests?: () => void;
@@ -130,7 +132,7 @@ export const GirisCikisKlavyeFareTest: React.FC<GirisCikisKlavyeFareTestProps> =
 
         <div className="flex items-center gap-2">
           <a
-            href="/giris-cikis-klavye-fare-testi.html"
+            href={getAssetUrl('/giris-cikis-klavye-fare-testi.html')}
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-1.5 rounded-xl bg-white hover:bg-teal-50 text-teal-900 border border-teal-300 font-bold text-xs transition flex items-center gap-1.5 shadow-2xs"
@@ -140,15 +142,15 @@ export const GirisCikisKlavyeFareTest: React.FC<GirisCikisKlavyeFareTestProps> =
             <span className="hidden sm:inline">Yeni Sekmede Aç</span>
           </a>
 
-          <a
-            href="/giris-cikis-klavye-fare-testi.html"
-            download="Giris_Cikis_Klavye_Fare_Testi.html"
-            className="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-2xs"
+          <button
+            type="button"
+            onClick={() => downloadBinaryBlob('/giris-cikis-klavye-fare-testi.html', 'Giris_Cikis_Klavye_Fare_Testi.html')}
+            className="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-2xs cursor-pointer"
             title="HTML dosyasını bilgisayara indir"
           >
             <Download className="w-3.5 h-3.5" />
             <span>İndir</span>
-          </a>
+          </button>
         </div>
       </div>
 

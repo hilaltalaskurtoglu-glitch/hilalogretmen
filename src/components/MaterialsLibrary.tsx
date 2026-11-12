@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Material, MaterialType } from '../types';
 import { downloadMaterialFile } from '../utils/downloadHelper';
+import { getAssetUrl } from '../utils/assetUrl';
 import { Search, Filter, Play, Download, ExternalLink, Sparkles, Tag, PlusCircle, Layers, Calendar, User, CheckCircle2, Brain, Image as ImageIcon, Eye } from 'lucide-react';
 import { YapayZekaGame } from './YapayZekaGame';
 import { DigitalIdentityTest } from './DigitalIdentityTest';
@@ -380,7 +381,7 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
               </span>
               <div className="flex items-center gap-2">
                 <a
-                  href="/oyun-4-hafta-yapay-zeka.html"
+                  href={getAssetUrl('oyun-4-hafta-yapay-zeka.html')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 rounded-xl bg-blue-500/30 hover:bg-blue-500/40 border border-blue-400/40 text-blue-200 font-bold transition flex items-center gap-1.5"
@@ -390,7 +391,7 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                   <span>Ayrı Sekmede Aç</span>
                 </a>
                 <a
-                  href="/oyun-4-hafta-yapay-zeka.html"
+                  href={getAssetUrl('oyun-4-hafta-yapay-zeka.html')}
                   download="4_Hafta_Yapay_Zeka_Testi.html"
                   className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold transition flex items-center gap-1.5"
                   title="Test dosyasını bilgisayara indir"
@@ -409,7 +410,7 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
               </span>
               <div className="flex items-center gap-2">
                 <a
-                  href="/test-3-hafta-dijital-kimlik.html"
+                  href={getAssetUrl('test-3-hafta-dijital-kimlik.html')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 rounded-xl bg-teal-500/30 hover:bg-teal-500/40 border border-teal-400/40 text-teal-200 font-bold transition flex items-center gap-1.5"
@@ -419,7 +420,7 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                   <span>Ayrı Sekmede Aç</span>
                 </a>
                 <a
-                  href="/test-3-hafta-dijital-kimlik.html"
+                  href={getAssetUrl('test-3-hafta-dijital-kimlik.html')}
                   download="3_Hafta_Dijital_Kimlik_Testi.html"
                   className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold transition flex items-center gap-1.5"
                   title="Test dosyasını bilgisayara indir"
@@ -478,13 +479,13 @@ export const MaterialsLibrary: React.FC<MaterialsLibraryProps> = ({
                 </div>
 
                 {/* Image Preview Thumbnail (for Posters & Visual Documents) */}
-                {mat.previewUrl && (mat.previewUrl.endsWith('.jpg') || mat.previewUrl.endsWith('.png')) && (
+                {mat.previewUrl && /\.(jpg|jpeg|png|webp)/i.test(mat.previewUrl) && (
                   <div
                     onClick={() => onOpenMaterial(mat)}
                     className="relative my-2.5 rounded-2xl overflow-hidden bg-slate-50 border border-pink-100 aspect-16/10 flex items-center justify-center cursor-pointer group/img"
                   >
                     <img
-                      src={mat.previewUrl}
+                      src={getAssetUrl(mat.previewUrl)}
                       alt={mat.title}
                       className="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-300"
                       loading="lazy"

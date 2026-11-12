@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAssetUrl } from '../utils/assetUrl';
 import { 
   ClipboardCheck, 
   Sparkles, 
@@ -225,7 +226,7 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
     } catch (e) {
       console.error('Yazdırma hatası:', e);
       // Alternatif olarak bağımsız sayfayı yeni pencerede aç
-      window.open('/odev-4-hafta-yapay-zeka.html', '_blank');
+      window.open(getAssetUrl('/odev-4-hafta-yapay-zeka.html'), '_blank');
     }
   };
 
@@ -721,7 +722,7 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
               </button>
 
               <a
-                href="/odev-4-hafta-yapay-zeka.html"
+                href={getAssetUrl('/odev-4-hafta-yapay-zeka.html')}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => {
@@ -1017,7 +1018,7 @@ export const HomeworkView: React.FC<HomeworkViewProps> = ({ onSelectTab }) => {
                 </button>
 
                 <a
-                  href="/odev-4-hafta-yapay-zeka.html"
+                  href={getAssetUrl('/odev-4-hafta-yapay-zeka.html')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => {

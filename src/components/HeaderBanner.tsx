@@ -1,5 +1,6 @@
 import React from 'react';
 import { PlusCircle, Monitor, BookOpen, Gamepad2, Layers, Info, Menu, Sparkles, GraduationCap, Users, Megaphone, ClipboardList } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetUrl';
 
 interface HeaderBannerProps {
   activeTab: string;
@@ -74,7 +75,7 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({
             >
               <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-full overflow-hidden shadow-sm border-2 border-pink-300 group-hover:scale-105 transition shrink-0 bg-pink-50 flex items-center justify-center">
                 <img
-                  src="./teacher_logo.png"
+                  src={getAssetUrl('teacher_logo.png')}
                   alt="Hilal KURTOĞLU Logo"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"

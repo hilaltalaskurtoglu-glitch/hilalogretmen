@@ -1,11 +1,13 @@
 import { Material } from '../types';
+import { getAssetUrl } from './assetUrl';
 
 /**
  * Downloads a file via binary fetch to Blob to prevent SPA html routing corruption
  */
 export async function downloadBinaryBlob(url: string, filename: string): Promise<{ success: boolean; message: string }> {
+  const resolvedUrl = getAssetUrl(url);
   try {
-    const res = await fetch(url);
+    const res = await fetch(resolvedUrl);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const blob = await res.blob();
     const blobUrl = window.URL.createObjectURL(blob);
@@ -19,7 +21,7 @@ export async function downloadBinaryBlob(url: string, filename: string): Promise
     return { success: true, message: `"${filename}" başarıyla bilgisayarınıza indirildi!` };
   } catch (err) {
     console.error('Blob download error:', err);
-    window.open(url, '_blank');
+    window.open(resolvedUrl, '_blank');
     return { success: true, message: 'Dosya yeni sekmede açıldı!' };
   }
 }
@@ -48,22 +50,17 @@ export function downloadMaterialFile(material: Material): { success: boolean; me
       return { success: true, message: 'İndirme bağlantısı açıldı!' };
     }
 
-    // 1.5. If it's a direct local asset or document file in the portal (/assets, /dosya.html, /dosya.jpg, /dosya.pdf)
-    const localAssetUrl = (material.downloadUrl && (material.downloadUrl.startsWith('/') || material.downloadUrl.startsWith('./')))
-      ? material.downloadUrl
-      : (material.previewUrl && (material.previewUrl.startsWith('/') || material.previewUrl.startsWith('./')))
-        ? material.previewUrl
-        : null;
-
-    if (localAssetUrl) {
-      downloadBinaryBlob(localAssetUrl, fileName || material.fileName || 'materyal_dosyasi');
+    // 1.5. If it's a direct local asset or document file in the portal
+    const rawAssetUrl = material.downloadUrl || material.previewUrl;
+    if (rawAssetUrl && !rawAssetUrl.startsWith('data:')) {
+      downloadBinaryBlob(rawAssetUrl, fileName || material.fileName || 'materyal_dosyasi');
       return { success: true, message: `"${fileName}" başarıyla bilgisayarınıza indirildi!` };
     }
 
     // Special: 4. Hafta Defter Notu HTML Dosyası
     if (material.id === 'mat-not-4-hafta-yapay-zeka') {
       const a = document.createElement('a');
-      a.href = '/ders-notu-4-hafta-yapay-zeka.html';
+      a.href = getAssetUrl('ders-notu-4-hafta-yapay-zeka.html');
       a.download = '4_Hafta_Yapay_Zeka_Ders_Notu.html';
       document.body.appendChild(a);
       a.click();
@@ -74,7 +71,7 @@ export function downloadMaterialFile(material: Material): { success: boolean; me
     // Special: 4. Hafta Yapay Zekâ Web Oyunu HTML Dosyası
     if (material.id === 'mat-game-3' || material.interactiveGameKey === 'yapay-zeka') {
       const a = document.createElement('a');
-      a.href = '/oyun-4-hafta-yapay-zeka.html';
+      a.href = getAssetUrl('oyun-4-hafta-yapay-zeka.html');
       a.download = '4_Hafta_Yapay_Zeka_Oyunu.html';
       document.body.appendChild(a);
       a.click();

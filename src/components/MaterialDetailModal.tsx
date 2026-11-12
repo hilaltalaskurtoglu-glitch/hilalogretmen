@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Material } from '../types';
 import { downloadMaterialFile, copyMaterialShareLink, downloadBinaryBlob } from '../utils/downloadHelper';
+import { getAssetUrl } from '../utils/assetUrl';
 import { 
   X, 
   Download, 
@@ -65,7 +66,8 @@ export const MaterialDetailModal: React.FC<MaterialDetailModalProps> = ({
   const isActivity = material.type === 'etkinlik';
   const hasExternalLink = material.downloadUrl && (material.downloadUrl.startsWith('http://') || material.downloadUrl.startsWith('https://'));
 
-  const mediaSourceUrl = material.previewUrl || material.downloadUrl;
+  const rawSource = material.previewUrl || material.downloadUrl;
+  const mediaSourceUrl = rawSource ? getAssetUrl(rawSource) : '';
 
   const handleDownload = async () => {
     // If it's an image, download via binary blob
